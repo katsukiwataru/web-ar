@@ -42,6 +42,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --config webpack/develop.config.js",
+    "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
     "build": "webpack --config webpack/production.config.js"
   }
 }
