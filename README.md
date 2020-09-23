@@ -16,6 +16,8 @@ assume using `web-ar.test` as custom domain name:
 
 ```sh
 mkcert -cert-file ./certs/cert.pem -key-file ./certs/key.pem web-ar.test localhost 127.0.0.1 0.0.0.0 ::
+mkcert -cert-file ./certs/cert.pem -key-file ./certs/key.pem 192.168.10.5
+mkcert -cert-file ./certs/cert.pem -key-file ./certs/key.pem 172.20.0.163
 ```
 ### edit hosts file
 
