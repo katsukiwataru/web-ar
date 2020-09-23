@@ -6,23 +6,13 @@ module.exports = {
       jsx: true,
     },
   },
-  extends: [
-    'eslint:recommended',
-    'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
-  ],
-  plugins: [
-    'prettier',
-    '@typescript-eslint',
-    'react',
-    'react-hooks',
-  ],
+  extends: ['eslint:recommended', 'prettier', 'prettier/react', 'prettier/@typescript-eslint'],
+  plugins: ['prettier', '@typescript-eslint', 'react', 'react-hooks'],
   settings: {
     react: { version: 'detect' },
   },
   rules: {
-    'no-console': 'error',
+    'no-console': 'off',
     'no-redeclare': 'off',
     'no-dupe-class-members': 'off',
     'no-unused-vars': 'off',
@@ -52,4 +42,4 @@ module.exports = {
     browser: true,
     node: true,
   },
-}
+};

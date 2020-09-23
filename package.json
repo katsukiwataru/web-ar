@@ -11,6 +11,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@types/ip": "^1.1.0",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/webpack": "^4.41.22",
@@ -43,6 +44,7 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack/develop.config.js",
     "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
-    "build": "webpack --config webpack/production.config.js"
+    "build": "webpack --config webpack/production.config.js",
+    "auto:cert": "node shell/ipAddress.js"
   }
 }
