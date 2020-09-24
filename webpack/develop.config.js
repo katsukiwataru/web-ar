@@ -25,7 +25,6 @@ module.exports = merge(base, {
     port: 3000,
     historyApiFallback: true,
     // see https://stackoverflow.com/a/43647767/11628801
-    disableHostCheck: true,
   },
   optimization: {
     minimize: true,
