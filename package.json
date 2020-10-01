@@ -7,10 +7,12 @@
     "url": "https://github.com/katsukiwataru/web-ar/issues"
   },
   "dependencies": {
+    "aframe": "^1.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@types/aframe": "^1.0.1",
     "@types/ip": "^1.1.0",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
