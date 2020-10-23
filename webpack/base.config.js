@@ -1,20 +1,14 @@
 const path = require('path');
-// const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 // const styledComponentsTransformer = createStyledComponentsTransformer();
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const root = path.resolve(__dirname, '../');
 
-// const copyRules = [
-//   {
-//     from: path.resolve(root, 'src/assets'),
-//     to: path.resolve(root, 'dist/'),
-//   },
-// ];
+const copyRules = [{ from: path.resolve(root, 'data'), to: path.resolve(root, 'dist/data') }];
 
 module.exports = {
   entry: path.resolve(root, 'src/index.tsx'),
@@ -46,7 +40,7 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',
     }),
-    // new CopyWebpackPlugin(copyRules),
+    new CopyPlugin({ patterns: copyRules }),
     new CleanWebpackPlugin(),
   ],
   module: {
