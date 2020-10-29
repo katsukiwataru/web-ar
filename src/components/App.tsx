@@ -1,19 +1,9 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
+import { ThreeAR } from './ThreeAR/ThreeAR';
 import * as THREE from 'three';
 
-const Script = lazy(() => import('../components/Helmet/ARScript').then((module) => ({ default: module.Script })));
+window.THREE = THREE;
 
 export const App = () => {
-  window.THREE = THREE;
-  return (
-    <Suspense
-      fallback={
-        <div>
-          <p>loading</p>
-        </div>
-      }
-    >
-      <Script />
-    </Suspense>
-  );
+  return <ThreeAR />;
 };
