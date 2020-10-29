@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>web ar</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>web ar</title>
+</head>
+
+<body>
+  <div id="root">
+    <!-- loading placeholder -->
+    <h1>loading</h1>
+  </div>
+  <!-- async script loading but keep order -->
+  <!--
+    Using the cdn version for code and npm package is only for types.
+    Need to keep the type definnation sync with cdn version manually
+    or modify webpack entries to handle this.
+  -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/105/three.min.js"></script>
+  <script defer src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-nft.js"></script>
+</body>
+
 </html>

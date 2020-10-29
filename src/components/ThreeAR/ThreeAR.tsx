@@ -1,17 +1,12 @@
-import React, { lazy, Suspense } from 'react';
-
-const Script = lazy(() => import('../../components/Helmet/ARScript').then((module) => ({ default: module.ARScript })));
+import React, { useEffect, useRef } from 'react';
+import { renderSample } from './sample';
 
 export const ThreeAR = () => {
-  return (
-    <Suspense
-      fallback={
-        <div>
-          <p>loading</p>
-        </div>
-      }
-    >
-      <Script />
-    </Suspense>
-  );
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    renderSample(ref.current);
+  }, [ref.current]);
+
+  return <div ref={ref} />;
 };
