@@ -4,3 +4,5 @@ node_modules/
 
 # certs for ssl
 certs/*.pem
+
+dist/
