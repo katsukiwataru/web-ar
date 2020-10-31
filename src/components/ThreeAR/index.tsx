@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { renderSample } from './renderer';
+import { renderSample } from './render';
 
 export const ThreeAR = () => {
   const ref = useRef<HTMLDivElement | null>(null);

@@ -1,15 +1,8 @@
-export function renderSample(el: HTMLElement) {
-  const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    alpha: true,
-  });
-  renderer.setClearColor(new THREE.Color(), 0);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.domElement.style.position = 'absolute';
-  renderer.domElement.style.top = '0px';
-  renderer.domElement.style.left = '0px';
-  el.appendChild(renderer.domElement);
+import { renderer } from './webGLRenderer';
 
+export function renderSample(el: HTMLElement) {
+  const { webGLRenderer } = renderer();
+  el.appendChild(webGLRenderer.domElement);
   const scene = new THREE.Scene();
   scene.visible = false;
   const camera = new THREE.Camera();
@@ -31,7 +24,7 @@ export function renderSample(el: HTMLElement) {
 
   function onResize() {
     arToolkitSource.onResizeElement();
-    arToolkitSource.copyElementSizeTo(renderer.domElement);
+    arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
     if (arToolkitContext.arController !== null) {
       arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
     }
@@ -68,7 +61,7 @@ export function renderSample(el: HTMLElement) {
     const delta = clock.getDelta();
     mesh.rotation.x += delta * 1.0;
     mesh.rotation.y += delta * 1.5;
-    renderer.render(scene, camera);
+    webGLRenderer.render(scene, camera);
   };
   requestAnimationFrame(animate);
 }
