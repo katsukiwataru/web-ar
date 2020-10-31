@@ -4,7 +4,7 @@ export function renderSample(el: HTMLElement) {
     alpha: true,
   });
   renderer.setClearColor(new THREE.Color(), 0);
-  renderer.setSize(640, 480);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.domElement.style.position = 'absolute';
   renderer.domElement.style.top = '0px';
   renderer.domElement.style.left = '0px';
@@ -22,7 +22,7 @@ export function renderSample(el: HTMLElement) {
   arToolkitSource.init(() => {
     setTimeout(() => {
       onResize();
-    }, 2000);
+    }, 1000);
   });
 
   addEventListener('resize', () => {
@@ -53,12 +53,13 @@ export function renderSample(el: HTMLElement) {
   });
   // need to declare CubeGeometry type
   // @ts-ignore
-  const mesh = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshNormalMaterial());
+  const cube = new THREE.CubeGeometry(1, 1, 1);
+  const mesh = new THREE.Mesh(cube, new THREE.MeshNormalMaterial());
   mesh.position.y = 1.0;
   scene.add(mesh);
 
   const clock = new THREE.Clock();
-  requestAnimationFrame(function animate() {
+  const animate = () => {
     requestAnimationFrame(animate);
     if (arToolkitSource.ready) {
       arToolkitContext.update(arToolkitSource.domElement);
@@ -68,5 +69,6 @@ export function renderSample(el: HTMLElement) {
     mesh.rotation.x += delta * 1.0;
     mesh.rotation.y += delta * 1.5;
     renderer.render(scene, camera);
-  });
+  };
+  requestAnimationFrame(animate);
 }
