@@ -6,6 +6,6 @@ export const ThreeAR = () => {
   useEffect(() => {
     if (!ref.current) return;
     renderSample(ref.current);
-  }, []);
+  }, [ref.current]);
   return <div ref={ref}></div>;
 };
