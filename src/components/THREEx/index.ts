@@ -1,10 +1,10 @@
 import { camera } from '../camera';
-import { webGLRenderer } from '../renderer/webGLRenderer';
+import { height, webGLRenderer, width } from '../renderer/webGLRenderer';
 
 const arToolkitSource = new THREEx.ArToolkitSource({
   sourceType: 'webcam',
-  displayWidth: window.innerWidth,
-  displayHeight: window.innerHeight,
+  displayWidth: width,
+  displayHeight: height,
 });
 
 const arToolkitContext = new THREEx.ArToolkitContext({
