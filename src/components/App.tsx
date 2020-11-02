@@ -1,6 +1,6 @@
 import React from 'react';
-import { ThreeAR } from './ThreeAR';
+import { Three } from './Three';
 
 export const App = () => {
-  return <ThreeAR />;
+  return <Three />;
 };
