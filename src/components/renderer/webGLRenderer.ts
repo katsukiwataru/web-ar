@@ -1,4 +1,4 @@
-export const renderer = () => {
+const renderer = () => {
   const webGLRenderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -10,3 +10,5 @@ export const renderer = () => {
   webGLRenderer.domElement.style.left = '0px';
   return { webGLRenderer };
 };
+
+export const { webGLRenderer } = renderer();
