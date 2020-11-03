@@ -7,18 +7,14 @@
     "url": "https://github.com/katsukiwataru/web-ar/issues"
   },
   "dependencies": {
-    "aframe": "^1.0.4",
-    "aframe-react": "^4.4.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-helmet": "^6.1.0",
     "three": "^0.121.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
-    "@types/aframe": "^1.0.1",
     "@types/ip": "^1.1.0",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
