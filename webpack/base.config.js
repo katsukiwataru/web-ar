@@ -8,7 +8,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const root = path.resolve(__dirname, '../');
 
-const copyRules = [{ from: path.resolve(root, 'data'), to: path.resolve(root, 'dist/data') }];
+const copyRules = [
+  { from: path.resolve(root, 'data'), to: path.resolve(root, 'dist/data') },
+  { from: path.resolve(root, 'fonts'), to: path.resolve(root, 'dist/fonts') },
+];
 
 module.exports = {
   entry: path.resolve(root, 'src/index.tsx'),
@@ -31,7 +34,7 @@ module.exports = {
     },
   },
   resolve: {
-    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
