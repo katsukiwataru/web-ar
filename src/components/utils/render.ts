@@ -1,4 +1,7 @@
+import { perspectiveCamera } from '../camera';
+import { group } from '../group';
 import { webGLRenderer } from '../renderer/webGLRenderer';
+import { scene } from '../scene';
 import { arToolkitContext, arToolkitSource, onResize } from '../THREEx';
 
 export function render(el: HTMLElement) {
@@ -15,15 +18,8 @@ export function render(el: HTMLElement) {
   });
 
   arToolkitContext.init(() => {
-    camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+    perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
   });
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera();
-  scene.add(camera);
-
-  const group = new THREE.Group();
-  scene.add(group);
 
   new THREEx.ArMarkerControls(arToolkitContext, group, {
     type: 'pattern',
@@ -38,6 +34,7 @@ export function render(el: HTMLElement) {
       depthWrite: false,
     }),
   );
+
   markerPlane.rotation.x = -0.5 * Math.PI;
   group.add(markerPlane);
 
@@ -58,9 +55,9 @@ export function render(el: HTMLElement) {
     requestAnimationFrame(animate);
     if (arToolkitSource.ready) {
       arToolkitContext.update(arToolkitSource.domElement);
-      scene.visible = camera.visible;
+      scene.visible = perspectiveCamera.visible;
     }
-    webGLRenderer.render(scene, camera);
+    webGLRenderer.render(scene, perspectiveCamera);
   };
   requestAnimationFrame(animate);
 }

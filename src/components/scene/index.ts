@@ -1,7 +1,8 @@
-import { camera } from '../camera';
+import { perspectiveCamera } from '../camera';
+import { group } from '../group';
 
 const scene = new THREE.Scene();
-scene.visible = false;
-scene.add(camera);
+scene.add(perspectiveCamera);
+scene.add(group);
 
 export { scene };
