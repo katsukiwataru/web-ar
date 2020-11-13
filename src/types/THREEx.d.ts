@@ -1,3 +1,14 @@
+/**
+ * This file is ported from  origin source code.
+ * only has minimum declarations and maybe wrong
+ * @see https://github.com/AR-js-org/AR.js/blob/master/three.js/src/threex
+ */
+export default interface THREEx {
+  ArToolkitSource: typeof ArToolkitSource;
+  ArToolkitContext: typeof ArToolkitContext;
+  ArMarkerControls: typeof ArMarkerControls;
+}
+
 declare class ArToolkitSource {
   constructor(
     parameters: Partial<{
@@ -89,10 +100,4 @@ declare class ArMarkerControls {
       smoothThreshold: number;
     }>,
   );
-}
-
-export default interface THREEx {
-  ArToolkitSource: typeof ArToolkitSource;
-  ArToolkitContext: typeof ArToolkitContext;
-  ArMarkerControls: typeof ArMarkerControls;
 }
