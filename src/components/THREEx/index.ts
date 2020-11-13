@@ -1,46 +1,27 @@
-import { camera } from '../camera';
-import { height, webGLRenderer, width } from '../renderer/webGLRenderer';
+import { height, width } from '../consts';
+import { webGLRenderer } from '../renderer/webGLRenderer';
 
-const arToolkitSource = new THREEx.ArToolkitSource({
-  sourceType: 'webcam',
-  displayWidth: width,
-  displayHeight: height,
-});
-
-const arToolkitContext = new THREEx.ArToolkitContext({
-  cameraParametersUrl: 'data/camera_para.dat',
-  detectionMode: 'mono',
-});
-
-const arMarkerControls = () => {
-  new THREEx.ArMarkerControls(arToolkitContext, camera, {
-    type: 'pattern',
-    patternUrl: 'data/patt.hiro',
-    changeMatrixMode: 'cameraTransformMatrix',
+const arToolkitSetting = () => {
+  const arToolkitSource = new THREEx.ArToolkitSource({
+    sourceType: 'webcam',
+    displayWidth: width,
+    displayHeight: height,
   });
+
+  const arToolkitContext = new THREEx.ArToolkitContext({
+    cameraParametersUrl: 'data/camera_para.dat',
+    detectionMode: 'mono',
+  });
+
+  const onResize = () => {
+    arToolkitSource.onResizeElement();
+    arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
+    if (arToolkitContext.arController !== null) {
+      arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
+    }
+  };
+
+  return { arToolkitSource, arToolkitContext, onResize };
 };
 
-const onResize = () => {
-  arToolkitSource.onResizeElement();
-  arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
-  if (arToolkitContext.arController !== null) {
-    arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
-  }
-};
-
-arToolkitSource.init(() => {
-  arMarkerControls();
-  setTimeout(() => {
-    onResize();
-  }, 1000);
-});
-
-window.addEventListener('resize', () => {
-  onResize();
-});
-
-arToolkitContext.init(() => {
-  camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
-});
-
-export { arToolkitSource, arToolkitContext };
+export const { arToolkitSource, arToolkitContext, onResize } = arToolkitSetting();
