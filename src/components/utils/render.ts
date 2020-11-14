@@ -2,30 +2,10 @@ import { perspectiveCamera } from '../camera';
 import { group } from '../group';
 import { webGLRenderer } from '../renderer/webGLRenderer';
 import { scene } from '../scene';
-import { arToolkitContext, arToolkitSource, onResize } from '../THREEx';
+import { arToolkitContext, arToolkitSource } from '../THREEx';
 
 export function render(el: HTMLElement) {
   el.appendChild(webGLRenderer.domElement);
-
-  window.addEventListener('resize', () => {
-    onResize();
-  });
-
-  arToolkitSource.init(() => {
-    setTimeout(() => {
-      onResize();
-    }, 1000);
-  });
-
-  arToolkitContext.init(() => {
-    perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
-  });
-
-  new THREEx.ArMarkerControls(arToolkitContext, group, {
-    type: 'pattern',
-    patternUrl: 'data/orca.patt',
-    changeMatrixMode: 'modelViewMatrix',
-  });
 
   const markerPlane = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(1, 1),
