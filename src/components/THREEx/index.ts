@@ -1,4 +1,4 @@
-import { height, width } from '../consts';
+import { height, width } from '../../consts';
 import { webGLRenderer } from '../renderer/webGLRenderer';
 
 const arToolkitSetting = () => {
