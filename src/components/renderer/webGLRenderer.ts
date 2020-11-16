@@ -1,6 +1,6 @@
 import { height, width } from '../../consts';
 
-export const createRenderer = () => {
+const createRenderer = () => {
   const webGLRenderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
