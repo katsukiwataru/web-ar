@@ -8,7 +8,7 @@ import { ThreexInit } from '../utils/useTHEExInit';
 
 export const Three = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [webGLRenderer] = useWebGLRenderer(canvasRef);
+  const webGLRenderer = useWebGLRenderer(canvasRef);
 
   ThreexInit();
 

@@ -22,5 +22,5 @@ export const useWebGLRenderer = (canvas: React.MutableRefObject<HTMLCanvasElemen
     setWebGLRenderer(webGLRenderer);
   }, [canvas]);
 
-  return [webGLRenderer] as const;
+  return webGLRenderer;
 };
