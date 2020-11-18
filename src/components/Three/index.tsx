@@ -1,46 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { arToolkitContext, arToolkitSource, onResize } from '../THREEx';
+import { arToolkitContext, arToolkitSource } from '../THREEx';
 import { perspectiveCamera } from '../camera';
 import { group } from '../group';
-import { height, width } from '../../consts';
 import { scene } from '../scene';
+import { useWebGLRenderer } from '../utils/useWebGLRenderer';
+import { ThreexInit } from '../utils/useTHEExInit';
 
 export const Three = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [webGLRenderer] = useWebGLRenderer(canvasRef);
 
-  new THREEx.ArMarkerControls(arToolkitContext, group, {
-    type: 'pattern',
-    patternUrl: 'data/orca.patt',
-    changeMatrixMode: 'modelViewMatrix',
-  });
+  ThreexInit();
 
   useEffect(() => {
-    arToolkitContext.init(() => {
-      perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
-    });
-
-    arToolkitSource.init(() => {
-      setTimeout(() => {
-        onResize();
-      }, 1000);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-    const webGLRenderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-      antialias: true,
-      alpha: true,
-    });
-    webGLRenderer.setPixelRatio(window.devicePixelRatio);
-    webGLRenderer.setClearColor(new THREE.Color(), 0);
-    // webGLRenderer.setSize(640, 480);
-    webGLRenderer.setSize(width, height);
-    webGLRenderer.domElement.style.position = 'absolute';
-    webGLRenderer.domElement.style.top = '0px';
-    webGLRenderer.domElement.style.left = '0px';
-
+    if (!webGLRenderer) return;
     const loader = new THREE.FontLoader();
     loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
       const textGeom = new THREE.TextBufferGeometry('Tap Marker!', {
@@ -62,7 +35,7 @@ export const Three = () => {
       webGLRenderer.render(scene, perspectiveCamera);
     };
     requestAnimationFrame(animate);
-  }, [canvasRef.current]);
+  }, [webGLRenderer]);
 
   return <canvas ref={canvasRef}></canvas>;
 };
