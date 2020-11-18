@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { arToolkitContext, arToolkitSource } from '../THREEx';
-import { perspectiveCamera } from '../camera';
 import { group } from '../group';
-import { scene } from '../scene';
 import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { ThreexInit } from '../utils/useTHEExInit';
+import { useAnimationFrame } from '../utils/useAnimation';
 
 export const Three = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -26,16 +24,9 @@ export const Three = () => {
       text.position.set(0, 0.75, 0);
       group.add(text);
     });
-    const animate = () => {
-      requestAnimationFrame(animate);
-      if (arToolkitSource.ready) {
-        arToolkitContext.update(arToolkitSource.domElement);
-        scene.visible = perspectiveCamera.visible;
-      }
-      webGLRenderer.render(scene, perspectiveCamera);
-    };
-    requestAnimationFrame(animate);
   }, [webGLRenderer]);
+
+  useAnimationFrame(webGLRenderer);
 
   return <canvas ref={canvasRef}></canvas>;
 };
