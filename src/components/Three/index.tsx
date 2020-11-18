@@ -9,6 +9,7 @@ export const Three = () => {
   const webGLRenderer = useWebGLRenderer(canvasRef);
 
   ThreexInit();
+  useAnimationFrame(webGLRenderer);
 
   useEffect(() => {
     if (!webGLRenderer) return;
@@ -25,8 +26,6 @@ export const Three = () => {
       group.add(text);
     });
   }, [webGLRenderer]);
-
-  useAnimationFrame(webGLRenderer);
 
   return <canvas ref={canvasRef}></canvas>;
 };
