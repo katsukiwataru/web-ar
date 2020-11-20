@@ -13,11 +13,6 @@ export const useAnimationFrame = (webGLRenderer: WebGLRenderer | null) => {
         arToolkitContext.update(arToolkitSource.domElement);
         scene.visible = perspectiveCamera.visible;
       }
-
-      // const intersects = raycaster.intersectObjects(scene.children);
-      // for (let i = 0; i < intersects.length; i++) {
-      //   console.log(intersects[i].object);
-      // }
       if (!webGLRenderer) return;
       webGLRenderer.render(scene, perspectiveCamera);
       requestRef.current = requestAnimationFrame(animate);

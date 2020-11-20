@@ -33,20 +33,15 @@ export const Three = () => {
 
     const raycaster = new THREE.Raycaster();
 
-    webGLRenderer.domElement.addEventListener('click', (event: any) => {
-      // const x = (event.clientX / width) * 2 - 1;
-      // const y = -(event.clientX / height) * 2 + 1;
-      // mouse.x = x;
-      // mouse.y = y;
-      const element = event.currentTarget;
+    webGLRenderer.domElement.addEventListener('click', (event: MouseEvent) => {
+      const element = event.target;
+      if (!(element instanceof HTMLCanvasElement)) return;
       const x = event.clientX - element.offsetLeft;
       const y = event.clientY - element.offsetTop;
       const w = element.offsetWidth;
       const h = element.offsetHeight;
+      console.log(event.target, element.offsetLeft, element.offsetTop, element.offsetWidth, element.offsetHeight);
       const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
-      // console.log({ x, y, w, h });
-      // console.log({ element, mouse });
-
       const markerPlane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(1, 1),
         new THREE.MeshBasicMaterial({
