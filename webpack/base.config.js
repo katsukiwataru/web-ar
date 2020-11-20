@@ -17,9 +17,9 @@ module.exports = {
   entry: path.resolve(root, 'src/index.tsx'),
   output: {
     path: path.resolve(root, 'dist'),
-    filename: 'js/[name].bundle.js',
-    chunkFilename: 'js/[name].[hash].bundle.js',
-    publicPath: '/',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].[hash].bundle.js',
+    // publicPath: '/',
   },
   optimization: {
     splitChunks: {
