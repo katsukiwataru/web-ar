@@ -42,10 +42,6 @@
 
 /***/
 
-//   colorWrite: false,
-
-//   depthWrite: false,
-
 // Check if module is in cache
 
 // Create a new module (and put it into the cache)
@@ -70,8 +66,6 @@
 
 // add entry modules from loaded chunk to deferred list
 
-// const history = createBrowserHistory();
-
 // create a fake namespace object
 
 // define __esModule on exports
@@ -83,12 +77,6 @@
 // expose the modules object (__webpack_modules__)
 
 // getDefaultExport function for compatibility with non-harmony modules
-
-// import { Router, Route, Switch } from 'react-router';
-
-// import { Sample } from './Three/sample';
-
-// import { createBrowserHistory } from 'history';
 
 // install a JSONP callback for chunk loading
 
