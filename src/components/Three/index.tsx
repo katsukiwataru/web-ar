@@ -4,12 +4,10 @@ import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { ThreexInit } from '../utils/useTHEExInit';
 import { useAnimationFrame } from '../utils/useAnimation';
 import { perspectiveCamera } from '../camera';
-// import { height, width } from '../../consts';
 
 export const Three = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
-  // const mouse = new THREE.Vector2();
 
   ThreexInit();
 
