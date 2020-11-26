@@ -21,9 +21,6 @@ export const Three = () => {
         height: 0.04,
       });
       textGeom.center();
-      textGeom.addEventListener('click', (event) => {
-        console.log('click', { event });
-      });
       const text = new THREE.Mesh(textGeom, new THREE.MeshNormalMaterial());
       text.position.set(0, 0.75, 0);
       group.add(text);
@@ -38,7 +35,6 @@ export const Three = () => {
       const y = event.clientY - element.offsetTop;
       const w = element.offsetWidth;
       const h = element.offsetHeight;
-      console.log(event.target, element.offsetLeft, element.offsetTop, element.offsetWidth, element.offsetHeight);
       const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
       const markerPlane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry(1, 1),
@@ -52,7 +48,6 @@ export const Three = () => {
 
       raycaster.setFromCamera(mouse, perspectiveCamera);
       const intersects = raycaster.intersectObject(markerPlane);
-      console.log({ intersects });
       if (intersects.length !== 0) {
         const intersect = intersects[0];
         const height = 0.1 + Math.random() * 0.4;
