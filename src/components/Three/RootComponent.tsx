@@ -1,13 +1,24 @@
 import React, { useEffect, useRef } from 'react';
-import { group } from '../group';
-import { useWebGLRenderer } from '../utils/useWebGLRenderer';
+import { useHistory } from 'react-router';
+import { arToolkitContext } from '../THREEx';
 import { ThreexInit } from '../utils/useTHEExInit';
+import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../utils/useAnimation';
 import { perspectiveCamera } from '../camera';
+import { group } from '../group';
 
-export const Three = () => {
+export const RootComponent = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
+  const history = useHistory();
+
+  useEffect(() => {
+    new THREEx.ArMarkerControls(arToolkitContext, group, {
+      type: 'pattern',
+      patternUrl: 'data/orca.patt',
+      changeMatrixMode: 'modelViewMatrix',
+    });
+  }, []);
 
   ThreexInit();
 
@@ -15,7 +26,7 @@ export const Three = () => {
     if (!webGLRenderer) return;
     const loader = new THREE.FontLoader();
     loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
-      const textGeom = new THREE.TextBufferGeometry('Tap Marker!', {
+      const textGeom = new THREE.TextBufferGeometry('path is root', {
         font: font,
         size: 0.2,
         height: 0.04,
@@ -26,9 +37,7 @@ export const Three = () => {
       group.add(text);
     });
 
-    const raycaster = new THREE.Raycaster();
-
-    webGLRenderer.domElement.addEventListener('click', (event: MouseEvent) => {
+    const clickHandle = (event: MouseEvent) => {
       const element = event.target;
       if (!(element instanceof HTMLCanvasElement)) return;
       const x = event.clientX - element.offsetLeft;
@@ -46,6 +55,7 @@ export const Three = () => {
       markerPlane.rotation.x = -0.5 * Math.PI;
       group.add(markerPlane);
 
+      const raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(mouse, perspectiveCamera);
       const intersects = raycaster.intersectObject(markerPlane);
       if (intersects.length !== 0) {
@@ -56,8 +66,14 @@ export const Three = () => {
         cube.position.y += 0.5 * height;
         group.add(cube);
       }
-    });
-  }, [webGLRenderer]);
+      history.push('/three');
+    };
+
+    webGLRenderer.domElement.addEventListener('click', clickHandle);
+    return () => {
+      <div></div>;
+    };
+  }, [canvasRef.current, history]);
 
   useAnimationFrame(webGLRenderer);
 
