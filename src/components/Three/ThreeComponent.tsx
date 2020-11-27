@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { arToolkitContext } from '../THREEx';
-import { ThreexInit } from '../utils/useTHEExInit';
+import { useThreexInit } from '../utils/useTHEExInit';
 import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../utils/useAnimation';
 // import { perspectiveCamera } from '../camera';
@@ -24,7 +24,7 @@ export const ThreeComponent = () => {
     });
   }, []);
 
-  ThreexInit({ perspectiveCamera });
+  useThreexInit({ perspectiveCamera });
 
   const clickHandle = (event: MouseEvent) => {
     const element = event.target;

@@ -7,7 +7,7 @@ interface Props {
   perspectiveCamera: PerspectiveCamera;
 }
 
-export const ThreexInit = ({ perspectiveCamera }: Props) => {
+export const useThreexInit = ({ perspectiveCamera }: Props) => {
   useEffect(() => {
     arToolkitContext.init(() => {
       perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
