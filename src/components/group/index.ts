@@ -1,1 +1,1 @@
-export const group = new THREE.Group();
+// export const group = new THREE.Group();

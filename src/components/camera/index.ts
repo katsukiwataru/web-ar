@@ -1,1 +1,1 @@
-export const perspectiveCamera = new THREE.PerspectiveCamera();
+// export const perspectiveCamera = new THREE.PerspectiveCamera();
