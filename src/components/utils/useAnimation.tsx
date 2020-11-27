@@ -1,10 +1,16 @@
 import { useEffect, useRef } from 'react';
-import { WebGLRenderer } from 'three';
-import { perspectiveCamera } from '../camera';
-import { scene } from '../scene';
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { arToolkitContext, arToolkitSource } from '../THREEx';
+// import { perspectiveCamera, scene } from '../Three/RootComponent';
+// import { perspectiveCamera } from '../camera';
+// import { scene } from '../scene';
+interface Props {
+  webGLRenderer: WebGLRenderer | null;
+  scene: Scene;
+  perspectiveCamera: PerspectiveCamera;
+}
 
-export const useAnimationFrame = (webGLRenderer: WebGLRenderer | null) => {
+export const useAnimationFrame = ({ webGLRenderer, scene, perspectiveCamera }: Props) => {
   const requestRef = useRef(0);
 
   useEffect(() => {

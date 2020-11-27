@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Three } from './sample';
 import { RootComponent } from './Three/RootComponent';
+import { ThreeComponent } from './Three/ThreeComponent';
+// import { Three } from './sample';
 
 export const App = () => {
   return (
@@ -12,7 +13,7 @@ export const App = () => {
             <RootComponent />
           </Route>
           <Route exact path="/three">
-            <Three />
+            <ThreeComponent />
           </Route>
         </Switch>
       </BrowserRouter>

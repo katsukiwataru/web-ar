@@ -11,7 +11,7 @@ export const perspectiveCamera = new THREE.PerspectiveCamera();
 export const group = new THREE.Group();
 export const scene = new THREE.Scene();
 
-export const RootComponent = () => {
+export const ThreeComponent = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const history = useHistory();
@@ -19,7 +19,7 @@ export const RootComponent = () => {
   useEffect(() => {
     new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
-      patternUrl: 'data/orca.patt',
+      patternUrl: 'data/zoom.patt',
       changeMatrixMode: 'modelViewMatrix',
     });
   }, []);
@@ -55,7 +55,7 @@ export const RootComponent = () => {
       cube.position.y += 0.5 * height;
       group.add(cube);
     }
-    history.push('/three');
+    history.push('/');
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const RootComponent = () => {
     if (!webGLRenderer) return;
     const loader = new THREE.FontLoader();
     loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
-      const textGeom = new THREE.TextBufferGeometry('path is root', {
+      const textGeom = new THREE.TextBufferGeometry('path is three', {
         font: font,
         size: 0.2,
         height: 0.04,
