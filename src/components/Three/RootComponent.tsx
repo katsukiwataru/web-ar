@@ -1,20 +1,18 @@
-import React, { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { arToolkitContext } from '../THREEx';
 import { useThreexInit } from '../utils/useTHEExInit';
 import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../utils/useAnimation';
-// import { perspectiveCamera } from '../camera';
-// import { group } from '../group';
 
+// export const perspectiveCamera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 export const perspectiveCamera = new THREE.PerspectiveCamera();
 export const group = new THREE.Group();
 export const scene = new THREE.Scene();
 
-export const RootComponent = () => {
+export const RootComponent: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
-  const history = useHistory();
+  // const history = useHistory();
 
   useEffect(() => {
     new THREEx.ArMarkerControls(arToolkitContext, group, {
@@ -26,42 +24,41 @@ export const RootComponent = () => {
 
   useThreexInit({ perspectiveCamera });
 
-  const clickHandle = (event: MouseEvent) => {
+  const geometry = useMemo(() => {
+    return new THREE.PlaneBufferGeometry(1, 1);
+  }, []);
+
+  const material = useMemo(() => {
+    return new THREE.MeshBasicMaterial({
+      color: 0xff0000,
+      // colorWrite: false,
+      // depthWrite: false,
+    });
+  }, []);
+
+  const markerPlane = useMemo(() => {
+    return new THREE.Mesh(geometry, material);
+  }, [geometry, material]);
+
+  useEffect(() => {
+    group.add(markerPlane);
+  }, [markerPlane]);
+
+  const mouse = new THREE.Vector2();
+
+  const handleClick = (event: MouseEvent) => {
     const element = event.target;
     if (!(element instanceof HTMLCanvasElement)) return;
     const x = event.clientX - element.offsetLeft;
     const y = event.clientY - element.offsetTop;
     const w = element.offsetWidth;
     const h = element.offsetHeight;
-    const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
-    const markerPlane = new THREE.Mesh(
-      new THREE.PlaneBufferGeometry(1, 1),
-      new THREE.MeshBasicMaterial({
-        colorWrite: false,
-        depthWrite: false,
-      }),
-    );
-    markerPlane.rotation.x = -0.5 * Math.PI;
-    group.add(markerPlane);
-
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, perspectiveCamera);
-    const intersects = raycaster.intersectObject(markerPlane);
-    if (intersects.length !== 0) {
-      const intersect = intersects[0];
-      const height = 0.1 + Math.random() * 0.4;
-      const cube = new THREE.Mesh(new THREE.BoxBufferGeometry(0.15, height, 0.15), new THREE.MeshNormalMaterial());
-      cube.position.copy(group.worldToLocal(intersect.point));
-      cube.position.y += 0.5 * height;
-      group.add(cube);
-    }
-    history.push('/three');
+    mouse.x = (x / w) * 2 - 1;
+    mouse.y = -(y / h) * 2 + 1;
+    // const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
   };
 
-  useEffect(() => {
-    scene.add(perspectiveCamera);
-    scene.add(group);
-    if (!webGLRenderer) return;
+  const textLoader = () => {
     const loader = new THREE.FontLoader();
     loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
       const textGeom = new THREE.TextBufferGeometry('path is root', {
@@ -74,15 +71,24 @@ export const RootComponent = () => {
       text.position.set(0, 0.75, 0);
       group.add(text);
     });
+  };
 
-    webGLRenderer.domElement.addEventListener('click', clickHandle);
+  useEffect(() => {
+    scene.add(perspectiveCamera);
+    scene.add(group);
+    textLoader();
+  }, []);
+
+  useEffect(() => {
+    if (!webGLRenderer) return;
+    webGLRenderer.domElement.addEventListener('click', handleClick);
     return () => {
-      webGLRenderer.domElement.removeEventListener('click', clickHandle);
-      <div></div>;
+      webGLRenderer.domElement.removeEventListener('click', handleClick);
+      <canvas></canvas>;
     };
-  }, [canvasRef.current, history]);
+  }, [webGLRenderer]);
 
-  useAnimationFrame({ webGLRenderer, scene, perspectiveCamera });
+  useAnimationFrame({ webGLRenderer, scene, perspectiveCamera, mouse, markerPlane });
 
   return <canvas ref={canvasRef}></canvas>;
 };
