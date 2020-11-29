@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { arToolkitContext } from '../THREEx';
-import { useThreexInit } from '../utils/useTHEExInit';
 import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../utils/useAnimation';
+import { useArToolkitInit } from '../utils/useArToolkit';
+// import { useArToolkitContextInit, useArToolkitSourceInit } from '../utils/useArToolkit';
 
 // export const perspectiveCamera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 export const perspectiveCamera = new THREE.PerspectiveCamera();
@@ -13,6 +13,7 @@ export const RootComponent: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   // const history = useHistory();
+  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer);
 
   useEffect(() => {
     new THREEx.ArMarkerControls(arToolkitContext, group, {
@@ -21,8 +22,6 @@ export const RootComponent: React.FC = () => {
       changeMatrixMode: 'modelViewMatrix',
     });
   }, []);
-
-  useThreexInit({ perspectiveCamera });
 
   const geometry = useMemo(() => {
     return new THREE.PlaneBufferGeometry(1, 1);
@@ -88,7 +87,7 @@ export const RootComponent: React.FC = () => {
     };
   }, [webGLRenderer]);
 
-  useAnimationFrame({ webGLRenderer, scene, perspectiveCamera, mouse, markerPlane });
+  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera, mouse, markerPlane });
 
   return <canvas ref={canvasRef}></canvas>;
 };

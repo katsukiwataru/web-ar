@@ -1,8 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { Mesh, MeshBasicMaterial, PerspectiveCamera, PlaneBufferGeometry, Scene, Vector2, WebGLRenderer } from 'three';
-import { arToolkitContext, arToolkitSource } from '../THREEx';
+import { ArToolkitContext, ArToolkitSource } from '../../types/THREEx';
+// import { useArToolkitContextInit } from './useArToolkit';
+// import { arToolkitContext, arToolkitSource } from '../THREEx';
 
 interface Props {
+  arToolkitSource: ArToolkitSource;
+  arToolkitContext: ArToolkitContext;
   webGLRenderer: WebGLRenderer | null;
   scene: Scene;
   perspectiveCamera: PerspectiveCamera;
@@ -10,7 +14,15 @@ interface Props {
   markerPlane: Mesh<PlaneBufferGeometry, MeshBasicMaterial>;
 }
 
-export const useAnimationFrame = ({ webGLRenderer, scene, perspectiveCamera, mouse, markerPlane }: Props) => {
+export const useAnimationFrame = ({
+  arToolkitSource,
+  arToolkitContext,
+  webGLRenderer,
+  scene,
+  perspectiveCamera,
+  mouse,
+  markerPlane,
+}: Props) => {
   const requestRef = useRef(0);
 
   const raycaster = new THREE.Raycaster();
