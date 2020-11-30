@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { WebGLRenderer } from 'three';
 
 export const useWebGLRenderer = (canvas: React.MutableRefObject<HTMLCanvasElement | null>) => {
   const [webGLRenderer, setWebGLRenderer] = useState<WebGLRenderer | null>(null);
+  const mounted = useRef(true);
 
   useEffect(() => {
     if (!canvas.current) return;
+    if (!mounted.current) return;
     const webGLRenderer = new THREE.WebGLRenderer({
       canvas: canvas.current,
       antialias: true,
@@ -19,6 +21,7 @@ export const useWebGLRenderer = (canvas: React.MutableRefObject<HTMLCanvasElemen
     webGLRenderer.domElement.style.top = '0px';
     webGLRenderer.domElement.style.left = '0px';
     setWebGLRenderer(webGLRenderer);
+    mounted.current = false;
   }, [canvas]);
 
   return webGLRenderer;

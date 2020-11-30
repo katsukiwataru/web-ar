@@ -5,7 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 // const styledComponentsTransformer = createStyledComponentsTransformer();
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const root = path.resolve(__dirname, '../');
 
 const copyRules = [
@@ -45,6 +45,7 @@ module.exports = {
     }),
     new CopyPlugin({ patterns: copyRules }),
     new CleanWebpackPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [

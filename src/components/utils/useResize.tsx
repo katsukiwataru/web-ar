@@ -8,7 +8,6 @@ export const useResize = (
   webGLRenderer: WebGLRenderer | null,
 ) => {
   useEffect(() => {
-    arToolkitSource.init();
     arToolkitSource.onResizeElement();
     if (!webGLRenderer) return;
     arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
