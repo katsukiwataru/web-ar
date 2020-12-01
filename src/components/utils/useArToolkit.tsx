@@ -44,6 +44,11 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null) => {
     window.addEventListener('resize', () => {
       onResize();
     });
+    return () => {
+      window.removeEventListener('resize', () => {
+        onResize();
+      });
+    };
   }, []);
 
   return { arToolkitContext, arToolkitSource } as const;
