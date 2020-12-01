@@ -4,14 +4,12 @@ import { RootComponent } from './Three/RootComponent';
 
 export const App = () => {
   return (
-    <>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            <RootComponent />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <RootComponent />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
