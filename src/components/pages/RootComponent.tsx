@@ -3,18 +3,26 @@ import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../utils/useAnimation';
 import { useArToolkitInit } from '../utils/useArToolkit';
 import { useTextLoader } from '../utils/useTextLoader';
-
-// export const perspectiveCamera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
-export const perspectiveCamera = new THREE.PerspectiveCamera();
-export const group = new THREE.Group();
-export const scene = new THREE.Scene();
+import { useLocation } from 'react-router';
 
 export const RootComponent = memo(() => {
+  const scene = useMemo(() => {
+    return new THREE.Scene();
+  }, []);
+  const group = useMemo(() => {
+    return new THREE.Group();
+  }, []);
+  const perspectiveCamera = useMemo(() => {
+    return new THREE.PerspectiveCamera();
+  }, []);
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   // const history = useHistory();
-  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer);
+  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
+
+  const location = useLocation();
 
   useEffect(() => {
     if (!mounted.current) return;
@@ -48,6 +56,8 @@ export const RootComponent = memo(() => {
     group.add(markerPlane);
   }, [markerPlane]);
 
+  useTextLoader(group, location.pathname);
+
   const mouse = new THREE.Vector2();
 
   const handleClick = (event: MouseEvent) => {
@@ -61,8 +71,6 @@ export const RootComponent = memo(() => {
     mouse.y = -(y / h) * 2 + 1;
     // const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
   };
-
-  useTextLoader('aaa');
 
   useEffect(() => {
     if (!webGLRenderer) return;

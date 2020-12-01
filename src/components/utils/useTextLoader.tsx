@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { group } from '../pages/RootComponent';
+import { Group } from 'three';
 
-export const useTextLoader = (oathName: string) => {
+export const useTextLoader = (group: Group, pathName: string) => {
   useEffect(() => {
     const loader = new THREE.FontLoader();
     loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
-      const textGeom = new THREE.TextBufferGeometry(`path is ${oathName}`, {
+      const textGeom = new THREE.TextBufferGeometry(`path is ${pathName}`, {
         font: font,
         size: 0.2,
         height: 0.04,
@@ -15,5 +15,5 @@ export const useTextLoader = (oathName: string) => {
       text.position.set(0, 0.75, 0);
       group.add(text);
     });
-  }, []);
+  }, [group, pathName]);
 };

@@ -1,9 +1,7 @@
 import { useEffect, useMemo } from 'react';
-import { WebGLRenderer } from 'three';
-import { perspectiveCamera } from '../pages/RootComponent';
-// import { useResize } from './useResize';
+import { PerspectiveCamera, WebGLRenderer } from 'three';
 
-export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null) => {
+export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiveCamera: PerspectiveCamera) => {
   const arToolkitSource = useMemo(() => {
     return new THREEx.ArToolkitSource({
       sourceType: 'webcam',
@@ -24,7 +22,6 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null) => {
     if (!webGLRenderer) return;
     arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
     if (arToolkitContext.arController !== null) {
-      console.log(arToolkitContext.arController);
       arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
     }
   };
@@ -49,7 +46,7 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null) => {
         onResize();
       });
     };
-  }, []);
+  }, [perspectiveCamera]);
 
   return { arToolkitContext, arToolkitSource } as const;
 };

@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Mesh, MeshBasicMaterial, PerspectiveCamera, PlaneBufferGeometry, Scene, Vector2, WebGLRenderer } from 'three';
 import { ArToolkitContext, ArToolkitSource } from '../../types/THREEx';
-// import { useArToolkitContextInit } from './useArToolkit';
-// import { arToolkitContext, arToolkitSource } from '../THREEx';
 
 interface Props {
   arToolkitSource: ArToolkitSource;
