@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { WebGLRenderer } from 'three';
-import { perspectiveCamera } from '../Three/RootComponent';
+import { perspectiveCamera } from '../pages/RootComponent';
 // import { useResize } from './useResize';
 
 export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null) => {

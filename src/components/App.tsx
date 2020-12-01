@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { RootComponent } from './Three/RootComponent';
+import { RootComponent } from './pages/RootComponent';
 
 export const App = () => {
   return (
