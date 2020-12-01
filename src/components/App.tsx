@@ -6,9 +6,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
-          <RootComponent />
-        </Route>
+        <Route exact path="/" component={RootComponent} />
       </Switch>
     </BrowserRouter>
   );
