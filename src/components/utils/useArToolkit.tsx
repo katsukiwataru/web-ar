@@ -19,25 +19,32 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null) => {
     });
   }, []);
 
+  const onResize = () => {
+    arToolkitSource.onResizeElement();
+    if (!webGLRenderer) return;
+    arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
+    if (arToolkitContext.arController !== null) {
+      console.log(arToolkitContext.arController);
+      arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
+    }
+  };
+
   useEffect(() => {
-    console.log('useArToolkitInit');
     arToolkitContext.init(() => {
       perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
     });
 
     arToolkitSource.init(() => {
+      onResize();
       setTimeout(() => {
-        arToolkitSource.onResizeElement();
-        if (!webGLRenderer) return;
-        arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
-        if (arToolkitContext.arController !== null) {
-          console.log(arToolkitContext.arController);
-          arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
-        }
+        onResize();
       }, 1000);
     });
-  }, []);
 
+    window.addEventListener('resize', () => {
+      onResize();
+    });
+  }, []);
 
   return { arToolkitContext, arToolkitSource } as const;
 };
