@@ -2,6 +2,7 @@ import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { useWebGLRenderer } from '../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../utils/useAnimation';
 import { useArToolkitInit } from '../utils/useArToolkit';
+import { useTextLoader } from '../utils/useTextLoader';
 
 // export const perspectiveCamera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
 export const perspectiveCamera = new THREE.PerspectiveCamera();
@@ -22,6 +23,8 @@ export const RootComponent = memo(() => {
       patternUrl: 'data/orca.patt',
       changeMatrixMode: 'modelViewMatrix',
     });
+    scene.add(perspectiveCamera);
+    scene.add(group);
     mounted.current = false;
   }, []);
 
@@ -59,26 +62,7 @@ export const RootComponent = memo(() => {
     // const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
   };
 
-  const textLoader = () => {
-    const loader = new THREE.FontLoader();
-    loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
-      const textGeom = new THREE.TextBufferGeometry('path is root', {
-        font: font,
-        size: 0.2,
-        height: 0.04,
-      });
-      textGeom.center();
-      const text = new THREE.Mesh(textGeom, new THREE.MeshNormalMaterial());
-      text.position.set(0, 0.75, 0);
-      group.add(text);
-    });
-  };
-
-  useEffect(() => {
-    scene.add(perspectiveCamera);
-    scene.add(group);
-    textLoader();
-  }, []);
+  useTextLoader('aaa');
 
   useEffect(() => {
     if (!webGLRenderer) return;
