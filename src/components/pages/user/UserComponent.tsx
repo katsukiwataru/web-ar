@@ -1,11 +1,12 @@
 import React, { memo, useEffect, useMemo, useRef } from 'react';
-import { useWebGLRenderer } from '../utils/useWebGLRenderer';
-import { useAnimationFrame } from '../utils/useAnimation';
-import { useArToolkitInit } from '../utils/useArToolkit';
-import { useTextLoader } from '../utils/useTextLoader';
+import { useWebGLRenderer } from '../../utils/useWebGLRenderer';
+import { useAnimationFrame } from '../../utils/useAnimation';
+import { useArToolkitInit } from '../../utils/useArToolkit';
+import { useTextLoader } from '../../utils/useTextLoader';
 import { useLocation } from 'react-router';
 
-export const RootComponent = memo(() => {
+export const UserComponent = memo(() => {
+  const location = useLocation();
   const scene = useMemo(() => {
     return new THREE.Scene();
   }, []);
@@ -22,13 +23,11 @@ export const RootComponent = memo(() => {
   // const history = useHistory();
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
 
-  const location = useLocation();
-
   useEffect(() => {
     if (!mounted.current) return;
     new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
-      patternUrl: 'data/orca.patt',
+      patternUrl: '../data/orca.patt',
       changeMatrixMode: 'modelViewMatrix',
     });
     scene.add(perspectiveCamera);
@@ -77,7 +76,6 @@ export const RootComponent = memo(() => {
     webGLRenderer.domElement.addEventListener('click', handleClick);
     return () => {
       webGLRenderer.domElement.removeEventListener('click', handleClick);
-      <canvas></canvas>;
     };
   }, [webGLRenderer]);
 
