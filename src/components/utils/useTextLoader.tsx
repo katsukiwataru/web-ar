@@ -4,7 +4,7 @@ import { Group } from 'three';
 export const useTextLoader = (group: Group, pathName: string) => {
   useEffect(() => {
     const loader = new THREE.FontLoader();
-    loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
+    loader.load('../fonts/helvetiker_regular.typeface.json', (font) => {
       const textGeom = new THREE.TextBufferGeometry(`path is ${pathName}`, {
         font: font,
         size: 0.2,

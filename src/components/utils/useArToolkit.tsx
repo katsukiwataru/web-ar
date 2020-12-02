@@ -12,7 +12,7 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiv
 
   const arToolkitContext = useMemo(() => {
     return new THREEx.ArToolkitContext({
-      cameraParametersUrl: 'data/camera_para.dat',
+      cameraParametersUrl: '../data/camera_para.dat',
       detectionMode: 'mono',
     });
   }, []);
