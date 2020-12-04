@@ -2,33 +2,36 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const webpack = require('webpack');
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 // const styledComponentsTransformer = createStyledComponentsTransformer();
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const root = path.resolve(__dirname, '../');
+
+const ROOT_PATH = path.resolve(__dirname, '../');
+const ASSET_PATH = process.env.ASSET_PATH || '/';
 
 const copyRules = [
-  { from: path.resolve(root, 'data'), to: path.resolve(root, 'dist/data') },
-  { from: path.resolve(root, 'fonts'), to: path.resolve(root, 'dist/fonts') },
+  { from: path.resolve(ROOT_PATH, 'data'), to: path.resolve(ROOT_PATH, 'dist/data') },
+  { from: path.resolve(ROOT_PATH, 'fonts'), to: path.resolve(ROOT_PATH, 'dist/fonts') },
 ];
 
 module.exports = {
-  entry: path.resolve(root, 'src/index.tsx'),
+  entry: path.resolve(ROOT_PATH, 'src/index.tsx'),
   output: {
-    path: path.resolve(root, 'dist'),
+    path: path.resolve(ROOT_PATH, 'dist'),
     filename: '[name].bundle.js',
     chunkFilename: '[name].[hash].bundle.js',
-    // publicPath: '/',
+    publicPath: ASSET_PATH,
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
       cacheGroups: {
         vendor: {
-          test: /[\\/]node_modules[\\/]/,
+          test: /node_modules/,
           name: 'vendor',
-          chunks: 'all',
+          chunks: 'all', // initial
         },
       },
     },
@@ -38,13 +41,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(root, 'src/index.html'),
+      template: path.resolve(ROOT_PATH, 'src/index.html'),
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',
     }),
     new CopyPlugin({ patterns: copyRules }),
     new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        ASSET_PATH: JSON.stringify(ASSET_PATH),
+      },
+    }),
     // new BundleAnalyzerPlugin(),
   ],
   module: {
