@@ -4,10 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 // const styledComponentsTransformer = createStyledComponentsTransformer();
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const ASSET_PATH = process.env.ASSET_PATH || '/';
@@ -18,7 +17,7 @@ const copyRules = [
 ];
 
 module.exports = {
-  entry: path.resolve(ROOT_PATH, 'src/index.tsx'),
+  entry: path.resolve(ROOT_PATH, 'src', 'index.tsx'),
   output: {
     path: path.resolve(ROOT_PATH, 'dist'),
     filename: '[name].bundle.js',
@@ -42,7 +41,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(ROOT_PATH, 'src/index.html'),
+      template: path.resolve(ROOT_PATH, 'src', 'index.html'),
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',
@@ -54,7 +53,7 @@ module.exports = {
         ASSET_PATH: JSON.stringify(ASSET_PATH),
       },
     }),
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
@@ -76,14 +75,6 @@ module.exports = {
             // options: {
             //   getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
             // },
-          },
-        ],
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'file-loader',
           },
         ],
       },
