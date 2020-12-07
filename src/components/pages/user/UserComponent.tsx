@@ -37,12 +37,12 @@ export const UserComponent = memo(() => {
         const { data }: { data: { user: { profile_image_url_https: string } } } = await res.json();
         const iconURL = await new Promise<string>((resolve) => resolve(data.user.profile_image_url_https));
 
-        const imgDataRes = await fetch(iconURL);
+        const imgDataRes = await fetch(iconURL.replace('_normal', ''));
         const imgData = await imgDataRes.blob();
-
-        console.log({ iconURL });
+        const imgLocalURL = URL.createObjectURL(imgData);
+        console.log({ imgLocalURL });
         await new Promise((resolve) => {
-          THREEx.ArPatternFile.buildFullMarker(URL.createObjectURL(imgData), 0.5, 512, 'blank', (markerUrl) => {
+          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'blank', (markerUrl) => {
             console.log({ markerUrl });
             var domElement = window.document.createElement('a');
             domElement.href = markerUrl;
@@ -54,12 +54,14 @@ export const UserComponent = memo(() => {
           });
         });
 
-        THREEx.ArPatternFile.encodeImageURL(iconURL, (pattern) => {
+        THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
           const patternBlob = new Blob([pattern], { type: 'text/plain' });
           setPatternUrl(window.URL.createObjectURL(patternBlob));
         });
       })();
+      return;
     }
+    console.log({ patternUrl });
     new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
       patternUrl,
