@@ -44,7 +44,7 @@ export const UserComponent = memo(() => {
         await new Promise((resolve) => {
           THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.9, 512, 'black', (markerUrl) => {
             console.log({ markerUrl });
-            var domElement = window.document.createElement('a');
+            const domElement = window.document.createElement('a');
             domElement.href = markerUrl;
             domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
             document.body.appendChild(domElement);
