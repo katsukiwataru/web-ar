@@ -1,12 +1,14 @@
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useWebGLRenderer } from '../../utils/useWebGLRenderer';
 import { useAnimationFrame } from '../../utils/useAnimation';
 import { useArToolkitInit } from '../../utils/useArToolkit';
 import { useTextLoader } from '../../utils/useTextLoader';
-import { useLocation } from 'react-router';
+import { useRouteMatch } from 'react-router';
 
 export const UserComponent = memo(() => {
-  const location = useLocation();
+  const {
+    params: { screenName },
+  } = useRouteMatch<{ screenName: string }>();
   const scene = useMemo(() => {
     return new THREE.Scene();
   }, []);
@@ -20,20 +22,35 @@ export const UserComponent = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
+  const [patternUrl, setPatternUrl] = useState<string | null>(null);
   // const history = useHistory();
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
 
   useEffect(() => {
     if (!mounted.current) return;
+    if (!patternUrl) {
+      (async () => {
+        const apiURL = new URL(`https://api.yue.coffee/api/twitter-user/v1`);
+        apiURL.searchParams.append('screenName', screenName);
+        apiURL.searchParams.append('key', '0f1b85d5-5c6f-4d6e-9231-ca383d5d0313');
+        const res = await fetch(apiURL.href);
+        const data: { user: { profile_image_url_https: string } } = await res.json();
+        const iconURL = await new Promise<string>((resolve) => resolve(data.user.profile_image_url_https));
+        THREEx.ArPatternFile.encodeImageURL(iconURL, (pattern) => {
+          const patternBlob = new Blob([pattern], { type: 'text/plain' });
+          setPatternUrl(window.URL.createObjectURL(patternBlob));
+        });
+      })();
+    }
     new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
-      patternUrl: '../data/orca.patt',
+      patternUrl,
       changeMatrixMode: 'modelViewMatrix',
     });
     scene.add(perspectiveCamera);
     scene.add(group);
     mounted.current = false;
-  }, []);
+  }, [patternUrl]);
 
   const geometry = useMemo(() => {
     return new THREE.PlaneBufferGeometry(1, 1);

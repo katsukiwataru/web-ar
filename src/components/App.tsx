@@ -19,7 +19,7 @@ export const App = () => {
       <Switch>
         <Suspense fallback={<div>loading</div>}>
           <Route exact path="/" component={Top} />
-          <Route exact path="/user/:id" component={User} />
+          <Route exact path="/user/:screenName" component={User} />
         </Suspense>
       </Switch>
     </BrowserRouter>
