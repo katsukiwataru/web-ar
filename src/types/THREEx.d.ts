@@ -105,4 +105,11 @@ declare class ArMarkerControls {
 
 declare interface ArPatternFile {
   encodeImageURL(imageURL: string, onComplete: (src: string) => any): void;
+  buildFullMarker(
+    innerImageURL: string,
+    pattRatio: 0.5,
+    size: 512,
+    color: 'blank',
+    onComplete: (url: string) => void,
+  ): void;
 }

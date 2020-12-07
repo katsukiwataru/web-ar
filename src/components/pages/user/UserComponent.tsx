@@ -36,6 +36,19 @@ export const UserComponent = memo(() => {
         const res = await fetch(apiURL.href);
         const { data }: { data: { user: { profile_image_url_https: string } } } = await res.json();
         const iconURL = await new Promise<string>((resolve) => resolve(data.user.profile_image_url_https));
+
+        await new Promise((resolve) => {
+          THREEx.ArPatternFile.buildFullMarker(iconURL, 0.5, 512, 'blank', (markerUrl) => {
+            var domElement = window.document.createElement('a');
+            domElement.href = markerUrl;
+            domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
+            document.body.appendChild(domElement);
+            domElement.click();
+            document.body.removeChild(domElement);
+            resolve(markerUrl);
+          });
+        });
+
         THREEx.ArPatternFile.encodeImageURL(iconURL, (pattern) => {
           const patternBlob = new Blob([pattern], { type: 'text/plain' });
           setPatternUrl(window.URL.createObjectURL(patternBlob));
