@@ -36,9 +36,25 @@ export const UserComponent = memo(() => {
         const res = await fetch(apiURL.href);
         const { data }: { data: { user: { profile_image_url_https: string } } } = await res.json();
         const iconURL = await new Promise<string>((resolve) => resolve(data.user.profile_image_url_https));
+        
+        const imgDate = await new Promise<HTMLImageElement>((reslove)=>{
 
+function loadImage(src, callback) {
+  var img = new Image();
+
+  img.onload = callback;
+  img.setAttribute('crossorigin', 'anonymous'); // works for me
+
+  img.src = src;
+
+  resolve() C;
+}
+        })
+        
+        console.log({ iconURL });
         await new Promise((resolve) => {
           THREEx.ArPatternFile.buildFullMarker(iconURL, 0.5, 512, 'blank', (markerUrl) => {
+            console.log({ markerUrl });
             var domElement = window.document.createElement('a');
             domElement.href = markerUrl;
             domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
