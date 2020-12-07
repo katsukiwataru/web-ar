@@ -107,9 +107,9 @@ declare interface ArPatternFile {
   encodeImageURL(imageURL: string, onComplete: (src: string) => any): void;
   buildFullMarker(
     innerImageURL: string,
-    pattRatio: 0.5,
+    pattRatio: number,
     size: 512,
-    color: 'blank',
+    color: 'black',
     onComplete: (url: string) => void,
   ): void;
 }
