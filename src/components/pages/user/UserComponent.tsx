@@ -1,9 +1,9 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { useWebGLRenderer } from '../../utils/useWebGLRenderer';
-import { useAnimationFrame } from '../../utils/useAnimation';
-import { useArToolkitInit } from '../../utils/useArToolkit';
-import { useTextLoader } from '../../utils/useTextLoader';
 import { useRouteMatch } from 'react-router';
+import { useAnimationFrame } from '../../../utils/useAnimation';
+import { useArToolkitInit } from '../../../utils/useArToolkit';
+import { useTextLoader } from '../../../utils/useTextLoader';
+import { useWebGLRenderer } from '../../../utils/useWebGLRenderer';
 
 export const UserComponent = memo(() => {
   const {
