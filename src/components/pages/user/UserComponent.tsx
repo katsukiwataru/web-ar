@@ -56,7 +56,7 @@ export const UserComponent = memo(() => {
 
         THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
           const patternBlob = new Blob([pattern], { type: 'text/plain' });
-          setPatternUrl(window.URL.createObjectURL(patternBlob));
+          setPatternUrl(URL.createObjectURL(patternBlob));
         });
       })();
       return;
