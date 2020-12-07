@@ -42,7 +42,7 @@ export const UserComponent = memo(() => {
         const imgLocalURL = URL.createObjectURL(imgData);
         console.log({ imgLocalURL });
         await new Promise((resolve) => {
-          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'blank', (markerUrl) => {
+          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.9, 512, 'black', (markerUrl) => {
             console.log({ markerUrl });
             var domElement = window.document.createElement('a');
             domElement.href = markerUrl;
@@ -62,11 +62,12 @@ export const UserComponent = memo(() => {
       return;
     }
     console.log({ patternUrl });
-    new THREEx.ArMarkerControls(arToolkitContext, group, {
+    const c = new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
       patternUrl,
       changeMatrixMode: 'modelViewMatrix',
     });
+    console.log(c);
     scene.add(perspectiveCamera);
     scene.add(group);
     mounted.current = false;
