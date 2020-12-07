@@ -35,7 +35,7 @@ export const UserComponent = memo(() => {
         apiURL.searchParams.append('key', '0f1b85d5-5c6f-4d6e-9231-ca383d5d0313');
         const res = await fetch(apiURL.href);
         const { data }: { data: { user: { profile_image_url_https: string } } } = await res.json();
-        const iconURL = await new Promise<string>((resolve) => resolve(data.user.profile_image_url_https));
+        const iconURL = data.user.profile_image_url_https;
 
         const imgDataRes = await fetch(iconURL.replace('_normal', ''));
         const imgData = await imgDataRes.blob();
