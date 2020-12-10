@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
-export const RootComponent = memo(() => {
+export const TopComponent = memo(() => {
   const [id, setId] = useState('');
 
   const history = useHistory();
@@ -23,7 +23,7 @@ export const RootComponent = memo(() => {
 
   return (
     <div>
-      <p>ARでSPAを作る</p>
+      <p>twitter id</p>
       <input type="text" value={id} onChange={onChange} onKeyDown={onKeyDown} />
     </div>
   );
