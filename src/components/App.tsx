@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 const Top = lazy(() =>
   import(
     /* webpackChunkName: "top" */
-    './pages/top/RootComponent'
-  ).then((module) => ({ default: module.RootComponent })),
+    './pages/top/TopComponent'
+  ).then((module) => ({ default: module.TopComponent })),
 );
 const User = lazy(() =>
   import(
