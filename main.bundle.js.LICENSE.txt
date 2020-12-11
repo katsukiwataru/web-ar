@@ -62,6 +62,8 @@
 
 /* 37 */
 
+/* 38 */
+
 /* 4 */
 
 /* 5 */
@@ -84,53 +86,9 @@
 
 /***/
 
-//         const domElement = window.document.createElement('a');
+/*return*/
 
-//         document.body.appendChild(domElement);
-
-//         document.body.removeChild(domElement);
-
-//         domElement.click();
-
-//         domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
-
-//         domElement.href = markerUrl;
-
-//         resolve(markerUrl);
-
-//       THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
-
-//       const patternBlob = new Blob([pattern], { type: 'text/plain' });
-
-//       setPatternUrl(URL.createObjectURL(patternBlob));
-
-//       });
-
-//     THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
-
-//     await new Promise((resolve) => {
-
-//     const data: Twitter = await getUser(screenName);
-
-//     const imgData = await imgDataRes.blob();
-
-//     const imgDataRes = await fetch(data.profile_image_url_https.replace('_normal', ''));
-
-//     const imgLocalURL = URL.createObjectURL(imgData);
-
-//     });
-
-//   (async () => {
-
-//   changeMatrixMode: 'modelViewMatrix',
-
-//   patternUrl,
-
-//   return;
-
-//   type: 'pattern',
-
-//   })();
+/*yield*/
 
 // Check if module is in cache
 
@@ -168,8 +126,6 @@
 
 // getDefaultExport function for compatibility with non-harmony modules
 
-// if (!patternUrl) {
-
 // install a JSONP callback for chunk loading
 
 // mode & 1: value is a module id, require it
@@ -179,8 +135,6 @@
 // mode & 4: return value when already ns object
 
 // mode & 8|1: behave like require
-
-// new THREEx.ArMarkerControls(arToolkitContext, group, {
 
 // object to store loaded and loading chunks
 
@@ -193,7 +147,3 @@
 // webGLRenderer.setSize(640, 480);
 
 // webpackBootstrap
-
-// }
-
-// });

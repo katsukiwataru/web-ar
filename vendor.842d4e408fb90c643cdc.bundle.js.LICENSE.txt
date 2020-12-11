@@ -50,21 +50,7 @@ object-assign
 
 /* 27 */
 
-/* 28 */
-
-/* 29 */
-
 /* 3 */
-
-/* 30 */
-
-/* 31 */
-
-/* 32 */
-
-/* 33 */
-
-/* 34 */
 
 /* 4 */
 
@@ -349,10 +335,6 @@ object-assign
 
 /***/
 
-/*.*/
-
-/*/*/
-
 //
 
 // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
@@ -361,17 +343,9 @@ object-assign
 
 // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
 
-// "Software"), to deal in the Software without restriction, including
-
-// (so also no leading and trailing slashes - it does not distinguish
-
-// .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
-
 // A hashchange doesn't always == location change.
 
 // About 1.5x faster than the two-arg version of Array#splice()
-
-// At this point the path should be resolved to a full absolute path, but
 
 // Avoid failures from read-only properties
 
@@ -387,17 +361,11 @@ object-assign
 
 // Compile all the tokens into regexps.
 
-// Copyright Joyent, Inc. and other Node contributors.
-
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-
 // DCE check should happen before ReactDOM bundle executes so that
 
 // Detect buggy property enumeration order in older V8 versions.
 
 // DevTools can report bad minification during injection.
-
-// DevTools shouldn't crash React, no matter what.
 
 // EXPORTS
 
@@ -412,10 +380,6 @@ object-assign
 // IE 11 sometimes throws when accessing window.history.state
 
 // If the path exists, push it onto the end.
-
-// If this is our first dot, mark it as the start of our extension
-
-// If we reached a path separator that was not part of a set of path
 
 // Ignore already escaped sequences.
 
@@ -435,8 +399,6 @@ object-assign
 
 // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
 
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-
 // Match Express-style parameters and un-named parameters with a prefix
 
 // Match any characters still remaining.
@@ -445,19 +407,9 @@ object-assign
 
 // Mimic the behavior of DOM histories by
 
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-
-// Normalize the path
-
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-
 // One-arg form: push(location)
 
 // Otherwise, if either of them == null they are not equal.
-
-// Permission is hereby granted, free of charge, to any person obtaining a
 
 // Preact uses an empty array as children by
 
@@ -479,23 +431,11 @@ object-assign
 
 // See https://github.com/ReactTraining/history/pull/289
 
-// Skip empty and invalid entries
-
-// Some versions of I.E. have different rules for clearTimeout vs setTimeout
-
-// String.prototype.substr - negative index don't work in IE8
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-
 // TODO: If another transition starts while we're still confirming
 
 // TODO: We could probably make this more reliable by
 
 // Test for strict equality first.
-
-// The (right-most) trimmed path component is exactly '..'
-
-// The above copyright notice and this permission notice shall be included
 
 // This allows the user to escape special characters that won't transform.
 
@@ -513,11 +453,7 @@ object-assign
 
 // UNUSED EXPORTS: parsePath
 
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 // Use a negative lookahead to match only capturing groups.
-
-// Uses a mixed approach for backwards-compatibility, as ext behavior changed
 
 // Verify that the code above has been dead code eliminated (DCE'd).
 
@@ -531,33 +467,15 @@ object-assign
 
 // We return undefined, instead of nothing here, so it's
 
-// We saw a non-dot and non-path separator before our dot, so we should
-
-// We saw a non-dot character immediately before the dot
-
-// We saw the first non-path separator
-
-// We saw the first non-path separator, mark this as the end of our
-
-// We should still report in case we break this code.
-
 // We use React.Children.forEach instead of React.Children.toArray().find()
 
 // When rendering in a static context,
 
 // When there is no prior location and pathname is empty, set it to /
 
-// When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-
-// When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-
 // and optional suffixes. Matches appear as:
 
-// backported and transplited with Babel, with backwards-compat fixes
-
 // best way to handle this.
-
-// cached from whatever global is present so that test runners that stub it
 
 // causing a render after a cancelled POP.
 
@@ -567,37 +485,19 @@ object-assign
 
 // consistent across browsers - Firefox will pre-decode it!
 
-// copy of this software and associated documentation files (the
-
 // default, so use null if that's the case.
-
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-
-// don't break things.  But we need to wrap it in a try catch in case it is
 
 // don't hoist over string (html) components
 
 // easier to handle this case. if(!global) { ...}
 
-// empty string to avoid regexp issues
-
 // eslint-disable-line no-alert
 
 // eslint-disable-line no-new-wrappers
 
-// extension
-
-// following conditions:
-
-// function because try/catches deoptimize in certain engines.
-
 // g can still be undefined, but nothing to do about it...
 
 // get a new location before the <Router> is mounted.
-
-// handle relative paths to be safe (might happen when process.cwd() fails)
-
-// have a good chance at having a non-empty extension
 
 // here because toArray adds keys to all child elements and we do not want
 
@@ -607,19 +507,7 @@ object-assign
 
 // https://bugs.chromium.org/p/v8/issues/detail?id=4118
 
-// if clearTimeout wasn't available but was latter defined
-
-// if setTimeout wasn't available but was latter defined
-
-// if the path is allowed to go above the root, restore leading ..s
-
-// if the path tries to go above the root, `up` ends up > 0
-
 // ignore everything but left clicks
-
-// in all copies or substantial portions of the Software.
-
-// in new Node.js versions, so only basename() above is backported here
 
 // in non-ending mode, where "/test/" shouldn't match "/test//route".
 
@@ -633,39 +521,13 @@ object-assign
 
 // match already ends with a slash, we remove it for consistency. The slash
 
-// must be no slashes, empty elements, or device names (c:\) in the array
-
 // on the initial render. If there are, they will replace/push when
 
 // onClick prevented default
 
-// path component
-
-// path.normalize(path)
-
-// path.relative(from, to)
-
-// path.resolve([from ...], to)
-
-// persons to whom the Software is furnished to do so, subject to the
-
-// posix version
-
 // rather setState here and ignore the hashchange. The caveat here
 
-// relative and absolute paths)
-
-// resolves . and .. elements in a path array with directory names there
-
-// same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-
-// same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-
-// separators at the end of the string, stop now
-
 // set the new location immediately.
-
-// shim for using process in browser
 
 // the matched portion of the URL
 
@@ -681,14 +543,4 @@ object-assign
 
 // to trigger an unmount/remount for two <Route>s that render the same
 
-// v8 likes predictible objects
-
-// when when somebody has screwed with setTimeout but no I.E. maddness
-
 // whether or not we matched exactly
-
-// without limitation the rights to use, copy, modify, merge, publish,
-
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-
-//normal enviroments in sane situations
