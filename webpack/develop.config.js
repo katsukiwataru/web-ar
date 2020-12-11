@@ -16,6 +16,11 @@ module.exports = merge(base, {
     host: ip.address(),
     port: 3000,
     historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/api/v1/', // local api server
+      },
+    },
     // see https://stackoverflow.com/a/43647767/11628801
   },
   optimization: {
