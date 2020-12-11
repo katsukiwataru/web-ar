@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
-import { ArToolkitContext, ArToolkitSource } from '../../types/THREEx';
+import { ArToolkitContext, ArToolkitSource } from '../lib/types/THREEx';
 
 export const useResize = (
   arToolkitSource: ArToolkitSource,

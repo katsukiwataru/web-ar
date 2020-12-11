@@ -7,6 +7,7 @@ export default interface THREEx {
   ArToolkitSource: typeof ArToolkitSource;
   ArToolkitContext: typeof ArToolkitContext;
   ArMarkerControls: typeof ArMarkerControls;
+  ArPatternFile: ArPatternFile;
 }
 
 declare class ArToolkitSource {
@@ -100,4 +101,15 @@ declare class ArMarkerControls {
       smoothThreshold: number;
     }>,
   );
+}
+
+declare interface ArPatternFile {
+  encodeImageURL(imageURL: string, onComplete: (src: string) => any): void;
+  buildFullMarker(
+    innerImageURL: string,
+    pattRatio: number,
+    size: 512,
+    color: 'black',
+    onComplete: (url: string) => void,
+  ): void;
 }

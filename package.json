@@ -3,7 +3,6 @@
   "description": "Web AR app for graduation production",
   "version": "1.0.0",
   "author": "wataru katsuki",
-  "private": true,
   "bugs": {
     "url": "https://github.com/katsukiwataru/web-ar/issues"
   },
@@ -11,8 +10,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "three": "^0.121.1"
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
@@ -42,6 +40,7 @@
     "prettier": "^2.1.2",
     "script-ext-html-webpack-plugin": "^2.1.4",
     "terser-webpack-plugin": "^4.2.2",
+    "three": "^0.121.1",
     "ts-loader": "^8.0.4",
     "typescript": "^4.0.3",
     "webpack": "^4.44.2",
@@ -53,16 +52,17 @@
   "homepage": "https://katsukiwataru.github.io/web-ar/",
   "license": "ISC",
   "main": "index.js",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/katsukiwataru/web-ar.git"
   },
   "scripts": {
+    "auto:cert": "node shell/ipAddress.js",
     "dev": "webpack-dev-server --config webpack/develop.config.js",
     "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
     "build:local": "webpack --config webpack/production.config.js",
     "build:gh-pages": "PUBLIC_PATH='https://katsukiwataru.github.io/web-ar/' webpack --config webpack/production.config.js",
-    "auto:cert": "node shell/ipAddress.js",
     "deploy": "npm run build:gh-pages && gh-pages -d dist"
   }
 }

@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 const Top = lazy(() =>
   import(
     /* webpackChunkName: "top" */
-    './pages/top/RootComponent'
-  ).then((module) => ({ default: module.RootComponent })),
+    './pages/top/TopComponent'
+  ).then((module) => ({ default: module.TopComponent })),
 );
 const User = lazy(() =>
   import(
@@ -19,7 +19,7 @@ export const App = () => {
       <Switch>
         <Suspense fallback={<div>loading</div>}>
           <Route exact path="/" component={Top} />
-          <Route exact path="/user/:id" component={User} />
+          <Route exact path="/user/:screenName" component={User} />
         </Suspense>
       </Switch>
     </BrowserRouter>
