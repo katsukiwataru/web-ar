@@ -1,9 +1,7 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
-import { useAnimationFrame } from '../../../utils/useAnimation';
-import { useArToolkitInit } from '../../../utils/useArToolkit';
-import { useTextLoader } from '../../../utils/useTextLoader';
-import { useWebGLRenderer } from '../../../utils/useWebGLRenderer';
+import { getUser } from '../../../lib/api';
+import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
 
 export const UserComponent = memo(() => {
   const {
@@ -30,19 +28,14 @@ export const UserComponent = memo(() => {
     if (!mounted.current) return;
     if (!patternUrl) {
       (async () => {
-        const apiURL = new URL(`https://api.yue.coffee/api/twitter-user/v1`);
-        apiURL.searchParams.append('screenName', screenName);
-        apiURL.searchParams.append('key', '0f1b85d5-5c6f-4d6e-9231-ca383d5d0313');
-        const res = await fetch(apiURL.href);
-        const { data }: { data: { user: { profile_image_url_https: string } } } = await res.json();
-        const iconURL = data.user.profile_image_url_https;
+        const iconURL = await getUser(screenName);
 
         const imgDataRes = await fetch(iconURL.replace('_normal', ''));
         const imgData = await imgDataRes.blob();
         const imgLocalURL = URL.createObjectURL(imgData);
         // console.log({ imgLocalURL });
         await new Promise((resolve) => {
-          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.9, 512, 'black', (markerUrl) => {
+          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
             console.log({ markerUrl });
             const domElement = window.document.createElement('a');
             domElement.href = markerUrl;
