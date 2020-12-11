@@ -21,22 +21,19 @@ export const UserComponent = memo(() => {
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   const [patternUrl, setPatternUrl] = useState<string | null>(null);
-  // const history = useHistory();
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
 
   useEffect(() => {
     if (!mounted.current) return;
     if (!patternUrl) {
       (async () => {
-        const iconURL = await getUser(screenName);
+        const data: Twitter = await getUser(screenName);
 
-        const imgDataRes = await fetch(iconURL.replace('_normal', ''));
+        const imgDataRes = await fetch(data.profile_image_url_https.replace('_normal', ''));
         const imgData = await imgDataRes.blob();
         const imgLocalURL = URL.createObjectURL(imgData);
-        // console.log({ imgLocalURL });
         await new Promise((resolve) => {
           THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
-            console.log({ markerUrl });
             const domElement = window.document.createElement('a');
             domElement.href = markerUrl;
             domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
@@ -54,13 +51,11 @@ export const UserComponent = memo(() => {
       })();
       return;
     }
-    // console.log({ patternUrl });
     new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
       patternUrl,
       changeMatrixMode: 'modelViewMatrix',
     });
-    // console.log(c);
     scene.add(perspectiveCamera);
     scene.add(group);
     mounted.current = false;
