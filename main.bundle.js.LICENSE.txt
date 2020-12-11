@@ -64,7 +64,11 @@
 
 /* 38 */
 
+/* 39 */
+
 /* 4 */
+
+/* 40 */
 
 /* 5 */
 
@@ -75,8 +79,6 @@
 /* 8 */
 
 /* 9 */
-
-/* WEBPACK VAR INJECTION */
 
 /* webpackChunkName: "top" */
 
@@ -115,6 +117,8 @@
 // add entry module to deferred list
 
 // add entry modules from loaded chunk to deferred list
+
+// console.log('aaa', __dirname, process.env, process.env.PUBLIC_PATH);
 
 // create a fake namespace object
 
