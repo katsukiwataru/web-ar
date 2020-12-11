@@ -3,13 +3,13 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 const Top = lazy(() =>
   import(
     /* webpackChunkName: "top" */
-    './pages/top/TopComponent'
+    './components/pages/top/TopComponent'
   ).then((module) => ({ default: module.TopComponent })),
 );
 const User = lazy(() =>
   import(
     /* webpackChunkName: "user" */
-    './pages/user/UserComponent'
+    './components/pages/user/UserComponent'
   ).then((module) => ({ default: module.UserComponent })),
 );
 

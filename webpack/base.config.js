@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -41,6 +42,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(ROOT_PATH, 'src', 'index.html'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        PUBLIC_PATH: JSON.stringify(PUBLIC_PATH),
+      },
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',

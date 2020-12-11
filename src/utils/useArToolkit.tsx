@@ -12,21 +12,21 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiv
 
   const arToolkitContext = useMemo(() => {
     return new THREEx.ArToolkitContext({
-      cameraParametersUrl: '../data/camera_para.dat',
+      cameraParametersUrl: `${process.env.PUBLIC_PATH}data/camera_para.dat`,
       detectionMode: 'mono',
     });
   }, []);
 
-  const onResize = () => {
-    arToolkitSource.onResizeElement();
-    if (!webGLRenderer) return;
-    arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
-    if (arToolkitContext.arController !== null) {
-      arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
-    }
-  };
-
   useEffect(() => {
+    const onResize = () => {
+      arToolkitSource.onResizeElement();
+      if (!webGLRenderer) return;
+      arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
+      if (arToolkitContext.arController !== null) {
+        arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
+      }
+    };
+
     arToolkitContext.init(() => {
       perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
     });
@@ -38,13 +38,9 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiv
       }, 1000);
     });
 
-    window.addEventListener('resize', () => {
-      onResize();
-    });
+    window.addEventListener('resize', onResize);
     return () => {
-      window.removeEventListener('resize', () => {
-        onResize();
-      });
+      window.removeEventListener('resize', onResize);
     };
   }, [perspectiveCamera]);
 
