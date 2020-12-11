@@ -28,13 +28,6 @@ export const UserComponent = memo(() => {
     if (!mounted.current) return;
     if (!patternUrl) {
       (async () => {
-        // const apiURL = new URL(`https://api.yue.coffee/api/twitter-user/v1`);
-        // apiURL.searchParams.append('screenName', screenName);
-        // apiURL.searchParams.append('key', '0f1b85d5-5c6f-4d6e-9231-ca383d5d0313');
-        // const res = await fetch(apiURL.href);
-        // const { data }: { data: { user: {s profile_image_url_https: string } } } = await res.json();
-        // const iconURL = data.user.profile_image_url_https;
-
         const iconURL = await getUser(screenName);
 
         const imgDataRes = await fetch(iconURL.replace('_normal', ''));
