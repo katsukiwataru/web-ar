@@ -81,7 +81,7 @@ export const UserComponent = memo(() => {
     group.add(markerPlane);
   }, [markerPlane]);
 
-  useTextLoader(group, location.pathname);
+  useTextLoader(group, screenName);
 
   const mouse = new THREE.Vector2();
 
