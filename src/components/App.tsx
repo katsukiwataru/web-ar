@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 const Top = lazy(() =>
   import(
     /* webpackChunkName: "top" */
@@ -15,13 +15,13 @@ const User = lazy(() =>
 
 export const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter basename={process.env.PUBLIC_PATH}>
       <Switch>
         <Suspense fallback={<div>loading</div>}>
           <Route exact path="/" component={Top} />
           <Route exact path="/user/:screenName" component={User} />
         </Suspense>
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
