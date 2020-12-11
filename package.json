@@ -59,9 +59,10 @@
   },
   "scripts": {
     "auto:cert": "node shell/ipAddress.js",
-    "build": "webpack --config webpack/production.config.js",
-    "deploy": "npm run build && gh-pages -d dist",
     "dev": "webpack-dev-server --config webpack/develop.config.js",
-    "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js"
+    "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
+    "build:local": "webpack --config webpack/production.config.js",
+    "build:gh-pages": "PUBLIC_PATH='https://katsukiwataru.github.io/web-ar/' webpack --config webpack/production.config.js",
+    "deploy": "npm run build:gh-pages && gh-pages -d dist"
   }
 }

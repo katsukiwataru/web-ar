@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -9,7 +8,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const styledComponentsTransformer = createStyledComponentsTransformer();
 
 const ROOT_PATH = path.resolve(__dirname, '../');
-const ASSET_PATH = process.env.ASSET_PATH || '/';
+const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 
 const copyRules = [
   { from: path.resolve(ROOT_PATH, 'data'), to: path.resolve(ROOT_PATH, 'dist/data') },
@@ -22,7 +21,7 @@ module.exports = {
     path: path.resolve(ROOT_PATH, 'dist'),
     filename: '[name].bundle.js',
     chunkFilename: '[name].[hash].bundle.js',
-    publicPath: ASSET_PATH,
+    publicPath: PUBLIC_PATH,
   },
   optimization: {
     splitChunks: {
@@ -48,17 +47,12 @@ module.exports = {
     }),
     new CopyPlugin({ patterns: copyRules }),
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        ASSET_PATH: JSON.stringify(ASSET_PATH),
-      },
-    }),
     // new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\.js[x]?$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
