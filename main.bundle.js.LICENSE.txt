@@ -114,6 +114,8 @@
 
 // add entry modules from loaded chunk to deferred list
 
+// console.log(process.env.PUBLIC_PATH);
+
 // create a fake namespace object
 
 // define __esModule on exports
