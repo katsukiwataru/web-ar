@@ -14,8 +14,9 @@ const User = lazy(() =>
 );
 
 export const App = () => {
+  // basename={process.env.PUBLIC_PATH}
   return (
-    <HashRouter basename={process.env.PUBLIC_PATH}>
+    <HashRouter>
       <Switch>
         <Suspense fallback={<div>loading</div>}>
           <Route exact path="/" component={Top} />

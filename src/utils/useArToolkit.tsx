@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { PerspectiveCamera, WebGLRenderer } from 'three';
+import dat from '../../data/camera_para.dat';
 
 export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiveCamera: PerspectiveCamera) => {
   const arToolkitSource = useMemo(() => {
@@ -12,7 +13,7 @@ export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiv
 
   const arToolkitContext = useMemo(() => {
     return new THREEx.ArToolkitContext({
-      cameraParametersUrl: `${process.env.PUBLIC_PATH}data/camera_para.dat`,
+      cameraParametersUrl: dat,
       detectionMode: 'mono',
     });
   }, []);

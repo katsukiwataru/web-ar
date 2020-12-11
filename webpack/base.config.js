@@ -2,8 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 // const styledComponentsTransformer = createStyledComponentsTransformer();
@@ -11,10 +11,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ROOT_PATH = path.resolve(__dirname, '../');
 const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 
-const copyRules = [
-  { from: path.resolve(ROOT_PATH, 'data'), to: path.resolve(ROOT_PATH, 'dist/data') },
-  { from: path.resolve(ROOT_PATH, 'fonts'), to: path.resolve(ROOT_PATH, 'dist/fonts') },
-];
+// const copyRules = [
+//   { from: path.resolve(ROOT_PATH, 'data'), to: path.resolve(ROOT_PATH, 'dist/data') },
+//   { from: path.resolve(ROOT_PATH, 'fonts'), to: path.resolve(ROOT_PATH, 'dist/fonts') },
+// ];
 
 module.exports = {
   entry: path.resolve(ROOT_PATH, 'src', 'index.tsx'),
@@ -51,7 +51,7 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer',
     }),
-    new CopyPlugin({ patterns: copyRules }),
+    // new CopyPlugin({ patterns: copyRules }),
     new CleanWebpackPlugin(),
     // new BundleAnalyzerPlugin(),
   ],
@@ -75,6 +75,14 @@ module.exports = {
             // options: {
             //   getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
             // },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif|dat|typeface)$/i,
+        use: [
+          {
+            loader: 'file-loader',
           },
         ],
       },
