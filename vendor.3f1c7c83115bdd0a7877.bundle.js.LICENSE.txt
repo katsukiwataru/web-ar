@@ -367,6 +367,8 @@ object-assign
 
 // DevTools can report bad minification during injection.
 
+// DevTools shouldn't crash React, no matter what.
+
 // EXPORTS
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
@@ -466,6 +468,8 @@ object-assign
 // We don't expect any of the above to throw, but better to be safe.
 
 // We return undefined, instead of nothing here, so it's
+
+// We should still report in case we break this code.
 
 // We use React.Children.forEach instead of React.Children.toArray().find()
 
