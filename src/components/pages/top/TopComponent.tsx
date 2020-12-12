@@ -22,8 +22,15 @@ export const TopComponent = memo(() => {
   };
 
   return (
-    <div>
-      <p>twitter id</p>
+    <div
+      style={{
+        position: 'absolute',
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      <p style={{ textAlign: 'center' }}>twitter id</p>
       <input type="text" value={id} onChange={onChange} onKeyDown={onKeyDown} />
     </div>
   );
