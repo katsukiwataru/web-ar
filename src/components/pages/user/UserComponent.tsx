@@ -1,5 +1,6 @@
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
+import { getUser } from '../../../lib/api';
 import { useUserContext } from '../../../lib/context/userContext';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
 
@@ -33,29 +34,7 @@ export const UserComponent = memo(() => {
 
   useEffect(() => {
     if (!patternUrl) {
-      (async () => {
-        if (!user) return;
-        const iconURL = user.profile_image_url_https;
-        const imgDataRes = await fetch(iconURL.replace('_normal', ''));
-        const imgData = await imgDataRes.blob();
-        const imgLocalURL = URL.createObjectURL(imgData);
-        await new Promise((resolve) => {
-          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
-            const domElement = window.document.createElement('a');
-            domElement.href = markerUrl;
-            domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
-            document.body.appendChild(domElement);
-            domElement.click();
-            document.body.removeChild(domElement);
-            resolve(markerUrl);
-          });
-        });
-
-        THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
-          const patternBlob = new Blob([pattern], { type: 'text/plain' });
-          setPatternUrl(URL.createObjectURL(patternBlob));
-        });
-      })();
+      currentUser();
       return;
     }
     new THREEx.ArMarkerControls(arToolkitContext, group, {
@@ -64,6 +43,33 @@ export const UserComponent = memo(() => {
       changeMatrixMode: 'modelViewMatrix',
     });
   }, [patternUrl]);
+
+  const currentUser = useCallback(() => {
+    (async () => {
+      const currentUser = user ? user : await getUser(screenName);
+      console.log(currentUser, user);
+      const iconURL = currentUser.profile_image_url_https;
+      const imgDataRes = await fetch(iconURL.replace('_normal', ''));
+      const imgData = await imgDataRes.blob();
+      const imgLocalURL = URL.createObjectURL(imgData);
+      await new Promise((resolve) => {
+        THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
+          const domElement = window.document.createElement('a');
+          domElement.href = markerUrl;
+          domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
+          document.body.appendChild(domElement);
+          domElement.click();
+          document.body.removeChild(domElement);
+          resolve(markerUrl);
+        });
+      });
+
+      THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
+        const patternBlob = new Blob([pattern], { type: 'text/plain' });
+        setPatternUrl(URL.createObjectURL(patternBlob));
+      });
+    })();
+  }, [user, screenName]);
 
   useTextLoader(group, screenName);
 
