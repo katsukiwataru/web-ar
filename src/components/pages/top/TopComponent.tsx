@@ -1,9 +1,17 @@
+import type { Dispatch, SetStateAction } from 'react';
 import React, { memo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { getUser } from '../../../lib/api';
+import { useUserContext } from '../../../lib/context/userContext';
+
+export interface UserContext {
+  user: Twitter | null;
+  setUser: Dispatch<SetStateAction<Twitter | null>>;
+}
 
 export const TopComponent = memo(() => {
-  const [id, setId] = useState('');
-
+  const { setUser } = useUserContext();
+  const [screenName, setScreenName] = useState('');
   const history = useHistory();
 
   useEffect(() => {
@@ -12,12 +20,15 @@ export const TopComponent = memo(() => {
   }, []);
 
   const onChange = (event: React.FormEvent<HTMLInputElement>): void => {
-    setId(event.currentTarget.value);
+    setScreenName(event.currentTarget.value);
   };
 
-  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      history.push(`/user/${id}`);
+      const user = await getUser(screenName);
+      console.log(user);
+      setUser(user);
+      history.push(`/user/${screenName}`);
     }
   };
 
@@ -31,7 +42,7 @@ export const TopComponent = memo(() => {
       }}
     >
       <p style={{ textAlign: 'center' }}>twitter id</p>
-      <input type="text" value={id} onChange={onChange} onKeyDown={onKeyDown} />
+      <input type="text" value={screenName} onChange={onChange} onKeyDown={onKeyDown} />
     </div>
   );
 });

@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { AppContextProvider } from './lib/context/userContext';
 const Top = lazy(() =>
   import(
     /* webpackChunkName: "top" */
@@ -14,15 +15,16 @@ const User = lazy(() =>
 );
 
 export const App = () => {
-  // basename={process.env.PUBLIC_PATH}
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Switch>
-        <Suspense fallback={<div>loading</div>}>
-          <Route exact path="/" component={Top} />
-          <Route exact path="/user/:screenName" component={User} />
-        </Suspense>
+        <AppContextProvider>
+          <Suspense fallback={<div>loading</div>}>
+            <Route exact path="/" component={Top} />
+            <Route exact path="/user/:screenName" component={User} />
+          </Suspense>
+        </AppContextProvider>
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
