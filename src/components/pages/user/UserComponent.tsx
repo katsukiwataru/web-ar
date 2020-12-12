@@ -1,9 +1,10 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
-import { getUser } from '../../../lib/api';
+import { useUserContext } from '../../../lib/context/userContext';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
 
 export const UserComponent = memo(() => {
+  const { user } = useUserContext();
   const {
     params: { screenName },
   } = useRouteMatch<{ screenName: string }>();
@@ -33,9 +34,8 @@ export const UserComponent = memo(() => {
   useEffect(() => {
     if (!patternUrl) {
       (async () => {
-        const user = await getUser(screenName);
+        if (!user) return;
         const iconURL = user.profile_image_url_https;
-
         const imgDataRes = await fetch(iconURL.replace('_normal', ''));
         const imgData = await imgDataRes.blob();
         const imgLocalURL = URL.createObjectURL(imgData);
