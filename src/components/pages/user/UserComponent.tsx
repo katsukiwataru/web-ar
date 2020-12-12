@@ -1,7 +1,7 @@
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
-import { getUser } from '../../../lib/api';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
+import { useUserData } from '../../../utils/useUserData';
 
 export const UserComponent = memo(() => {
   const {
@@ -20,7 +20,7 @@ export const UserComponent = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
-  // const [patternUrl, setPatternUrl] = useState<string | null>(null);
+  const [patternUrl, setPatternUrl] = useState<string | null>(null);
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
 
   useEffect(() => {
@@ -30,41 +30,42 @@ export const UserComponent = memo(() => {
     mounted.current = false;
   }, []);
 
+  const user = useUserData(screenName);
+
   useEffect(() => {
-    // if (!patternUrl) {
-    (async () => {
-      console.log(screenName);
-      const data = await getUser();
-      console.log(data);
+    if (!user) return;
+    if (!patternUrl) {
+      (async () => {
+        const iconURL = user.profile_image_url_https;
 
-      // const imgDataRes = await fetch(data.profile_image_url_https.replace('_normal', ''));
-      // const imgData = await imgDataRes.blob();
-      // const imgLocalURL = URL.createObjectURL(imgData);
-      // await new Promise((resolve) => {
-      //   THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
-      //     const domElement = window.document.createElement('a');
-      //     domElement.href = markerUrl;
-      //     domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
-      //     document.body.appendChild(domElement);
-      //     domElement.click();
-      //     document.body.removeChild(domElement);
-      //     resolve(markerUrl);
-      //   });
-      // });
+        const imgDataRes = await fetch(iconURL.replace('_normal', ''));
+        const imgData = await imgDataRes.blob();
+        const imgLocalURL = URL.createObjectURL(imgData);
+        await new Promise((resolve) => {
+          THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
+            const domElement = window.document.createElement('a');
+            domElement.href = markerUrl;
+            domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
+            document.body.appendChild(domElement);
+            domElement.click();
+            document.body.removeChild(domElement);
+            resolve(markerUrl);
+          });
+        });
 
-      // THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
-      //   const patternBlob = new Blob([pattern], { type: 'text/plain' });
-      //   setPatternUrl(URL.createObjectURL(patternBlob));
-      // });
-    })();
-    return;
-    // }
-    // new THREEx.ArMarkerControls(arToolkitContext, group, {
-    //   type: 'pattern',
-    //   patternUrl,
-    //   changeMatrixMode: 'modelViewMatrix',
-    // });
-  }, []);
+        THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
+          const patternBlob = new Blob([pattern], { type: 'text/plain' });
+          setPatternUrl(URL.createObjectURL(patternBlob));
+        });
+      })();
+      return;
+    }
+    new THREEx.ArMarkerControls(arToolkitContext, group, {
+      type: 'pattern',
+      patternUrl,
+      changeMatrixMode: 'modelViewMatrix',
+    });
+  }, [patternUrl]);
 
   const geometry = useMemo(() => {
     return new THREE.PlaneBufferGeometry(1, 1);
