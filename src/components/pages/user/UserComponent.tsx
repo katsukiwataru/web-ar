@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
+import { getUser } from '../../../lib/api';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
-import { useUserData } from '../../../utils/useUserData';
 
 export const UserComponent = memo(() => {
   const {
@@ -30,12 +30,10 @@ export const UserComponent = memo(() => {
     mounted.current = false;
   }, []);
 
-  const user = useUserData(screenName);
-
   useEffect(() => {
-    if (!user) return;
     if (!patternUrl) {
       (async () => {
+        const user = await getUser(screenName);
         const iconURL = user.profile_image_url_https;
 
         const imgDataRes = await fetch(iconURL.replace('_normal', ''));
@@ -67,51 +65,9 @@ export const UserComponent = memo(() => {
     });
   }, [patternUrl]);
 
-  const geometry = useMemo(() => {
-    return new THREE.PlaneBufferGeometry(1, 1);
-  }, []);
-
-  const material = useMemo(() => {
-    return new THREE.MeshBasicMaterial({
-      color: 0xff0000,
-      // colorWrite: false,
-      // depthWrite: false,
-    });
-  }, []);
-
-  const markerPlane = useMemo(() => {
-    return new THREE.Mesh(geometry, material);
-  }, [geometry, material]);
-
-  useEffect(() => {
-    group.add(markerPlane);
-  }, [markerPlane]);
-
   useTextLoader(group, screenName);
 
-  const mouse = new THREE.Vector2();
-
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      const element = event.target;
-      if (!(element instanceof HTMLCanvasElement)) return;
-      const x = event.clientX - element.offsetLeft;
-      const y = event.clientY - element.offsetTop;
-      const w = element.offsetWidth;
-      const h = element.offsetHeight;
-      mouse.x = (x / w) * 2 - 1;
-      mouse.y = -(y / h) * 2 + 1;
-      // const mouse = new THREE.Vector2((x / w) * 2 - 1, -(y / h) * 2 + 1);
-    };
-
-    if (!webGLRenderer) return;
-    webGLRenderer.domElement.addEventListener('click', handleClick);
-    return () => {
-      webGLRenderer.domElement.removeEventListener('click', handleClick);
-    };
-  }, [webGLRenderer]);
-
-  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera, mouse, markerPlane });
+  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
   return <canvas ref={canvasRef}></canvas>;
 });
