@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-// import type { THREE.PerspectiveCamera, THREE.WebGLRenderer } from 'three';
 import dat from '../../data/camera_para.dat';
 
 export const useArToolkitInit = (

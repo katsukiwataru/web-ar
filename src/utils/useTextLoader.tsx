@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import typeface from '../../fonts/helvetiker_regular.typeface';
-// import type { THREE.Group } from 'three';
 
 export const useTextLoader = (group: THREE.Group, pathName: string) => {
   useEffect(() => {

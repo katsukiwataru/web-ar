@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-// import type { WebGLRenderer } from 'three';
 
 export const useWebGLRenderer = (canvas: React.MutableRefObject<HTMLCanvasElement | null>) => {
   const [webGLRenderer, setWebGLRenderer] = useState<THREE.WebGLRenderer | null>(null);

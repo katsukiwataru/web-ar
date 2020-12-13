@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { ArToolkitContext, ArToolkitSource } from '../types/THREEx';
-// import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 
 interface Props {
   arToolkitSource: ArToolkitSource;
