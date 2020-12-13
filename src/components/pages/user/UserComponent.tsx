@@ -3,6 +3,7 @@ import { useRouteMatch } from 'react-router';
 import { getUser } from '../../../lib/api';
 import { useUserContext } from '../../../lib/context/userContext';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
+import styles from './user.css';
 
 export const UserComponent = memo(() => {
   const { user } = useUserContext();
@@ -20,6 +21,7 @@ export const UserComponent = memo(() => {
   }, []);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const textRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   const [patternUrl, setPatternUrl] = useState<string | null>(null);
@@ -47,7 +49,6 @@ export const UserComponent = memo(() => {
   const currentUser = useCallback(() => {
     (async () => {
       const currentUser = user ? user : await getUser(screenName);
-      console.log(currentUser, user);
       const iconURL = currentUser.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
       const imgData = await imgDataRes.blob();
@@ -75,5 +76,10 @@ export const UserComponent = memo(() => {
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
-  return <canvas ref={canvasRef}></canvas>;
+  return (
+    <div className={styles.container}>
+      <canvas id="canvas" ref={canvasRef} />
+      <canvas className={styles.text} ref={textRef} />
+    </div>
+  );
 });

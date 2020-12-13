@@ -26,7 +26,6 @@ export const TopComponent = memo(() => {
   const onKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       const user = await getUser(screenName);
-      console.log(user);
       setUser(user);
       history.push(`/user/${screenName}`);
     }

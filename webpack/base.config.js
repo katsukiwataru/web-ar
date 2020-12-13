@@ -58,6 +58,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        loader: 'css-loader',
+        options: {
+          modules: {
+            compileType: 'icss',
+          },
+        },
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
