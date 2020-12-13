@@ -1,8 +1,11 @@
 import { useEffect, useMemo } from 'react';
-import { PerspectiveCamera, WebGLRenderer } from 'three';
+// import type { THREE.PerspectiveCamera, THREE.WebGLRenderer } from 'three';
 import dat from '../../data/camera_para.dat';
 
-export const useArToolkitInit = (webGLRenderer: WebGLRenderer | null, perspectiveCamera: PerspectiveCamera) => {
+export const useArToolkitInit = (
+  webGLRenderer: THREE.WebGLRenderer | null,
+  perspectiveCamera: THREE.PerspectiveCamera,
+) => {
   const arToolkitSource = useMemo(() => {
     return new THREEx.ArToolkitSource({
       sourceType: 'webcam',

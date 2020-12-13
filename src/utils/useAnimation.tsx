@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { ArToolkitContext, ArToolkitSource } from '../types/THREEx';
+// import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 
 interface Props {
   arToolkitSource: ArToolkitSource;
   arToolkitContext: ArToolkitContext;
-  webGLRenderer: WebGLRenderer | null;
-  scene: Scene;
-  perspectiveCamera: PerspectiveCamera;
+  webGLRenderer: THREE.WebGLRenderer | null;
+  scene: THREE.Scene;
+  perspectiveCamera: THREE.PerspectiveCamera;
 }
 
 export const useAnimationFrame = ({

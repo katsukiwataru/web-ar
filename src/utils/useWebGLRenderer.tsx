@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { WebGLRenderer } from 'three';
+// import type { WebGLRenderer } from 'three';
 
 export const useWebGLRenderer = (canvas: React.MutableRefObject<HTMLCanvasElement | null>) => {
-  const [webGLRenderer, setWebGLRenderer] = useState<WebGLRenderer | null>(null);
+  const [webGLRenderer, setWebGLRenderer] = useState<THREE.WebGLRenderer | null>(null);
   const mounted = useRef(true);
 
   useEffect(() => {

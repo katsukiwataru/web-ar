@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { Group } from 'three';
 import typeface from '../../fonts/helvetiker_regular.typeface';
+// import type { THREE.Group } from 'three';
 
-export const useTextLoader = (group: Group, pathName: string) => {
+export const useTextLoader = (group: THREE.Group, pathName: string) => {
   useEffect(() => {
     const loader = new THREE.FontLoader();
     loader.load(typeface, (font) => {
       const textGeom = new THREE.TextBufferGeometry(`${pathName}`, {
-        font: font,
+        font,
         size: 0.2,
         height: 0.04,
       });
