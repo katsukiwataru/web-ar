@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 // const CopyPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
@@ -54,6 +55,7 @@ module.exports = {
     // new CopyPlugin({ patterns: copyRules }),
     new CleanWebpackPlugin(),
     // new BundleAnalyzerPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
   ],
   module: {
     rules: [
@@ -78,12 +80,14 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'ts-loader',
-            // options: {
-            //   getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
-            // },
+            options: {
+              transpileOnly: true,
+              // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
+            },
           },
         ],
       },
