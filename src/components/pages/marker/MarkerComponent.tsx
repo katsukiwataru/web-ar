@@ -36,7 +36,16 @@ export const MarkerComponent = () => {
   }, [user, screenName]);
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexFlow: 'column',
+        margin: 70,
+      }}
+    >
+      {user && <p>@{user.screen_name}</p>}
       {marker && <img src={marker} alt="marker" />}
       {currentMarker && <img src={currentMarker} alt="marker" />}
     </div>

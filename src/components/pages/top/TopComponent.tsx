@@ -63,10 +63,11 @@ export const TopComponent = memo(() => {
       <input
         style={{
           paddingInlineEnd: 40,
-          paddingInlineStart: 52,
+          paddingInlineStart: 40,
           width: '-webkit-fill-available',
           height: 5 + 'vh',
           marginBottom: 30 + 'px',
+          textAlign: 'center',
         }}
         type="text"
         placeholder="your twitter id"
