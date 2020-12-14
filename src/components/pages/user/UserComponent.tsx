@@ -3,7 +3,6 @@ import { useRouteMatch } from 'react-router';
 import { getUser } from '../../../lib/api';
 import { useMarkerContext, useUserContext } from '../../../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
-// import { usePlaneMesh } from '../../../utils/useTextCanvas';
 import styles from './user.css';
 
 export const UserComponent = memo(() => {
@@ -58,12 +57,6 @@ export const UserComponent = memo(() => {
       const imgLocalURL = URL.createObjectURL(imgData);
       await new Promise((resolve) => {
         THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
-          // const domElement = window.document.createElement('a');
-          // domElement.href = markerUrl;
-          // domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
-          // document.body.appendChild(domElement);
-          // domElement.click();
-          // document.body.removeChild(domElement);
           resolve(markerUrl);
           setMarker(markerUrl);
         });
@@ -75,18 +68,6 @@ export const UserComponent = memo(() => {
       });
     })();
   }, [user, screenName]);
-
-  // const currentUser = useMemo(() => {
-  //   console.log(user);
-  //   if (!user) {
-  //     (async () => {
-  //       const currentUser = await getUser(screenName);
-  //       setUser(currentUser);
-  //       return currentUser;
-  //     })();
-  //   }
-  //   return user;
-  // }, [user]);
 
   const textLoad = useMemo(() => {
     const twitterScreenName = `@${screenName}`;
