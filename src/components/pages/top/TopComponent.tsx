@@ -44,17 +44,54 @@ export const TopComponent = memo(() => {
     <div
       style={{
         position: 'absolute',
-        top: '40%',
-        left: '50%',
+        top: 45 + '%',
+        left: 50 + '%',
         transform: 'translate(-50%, -50%)',
+        width: 50 + '%',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
       }}
     >
-      <p>twitter id</p>
-      <input type="text" value={screenName} onChange={onChange} onKeyDown={onKeyDown} />
-      <button type="button" onClick={markerClick}>
+      <p
+        style={{
+          fontSize: 18 + 'px',
+        }}
+      >
+        twitter id
+      </p>
+      <input
+        style={{
+          paddingInlineEnd: 40,
+          paddingInlineStart: 52,
+          width: '-webkit-fill-available',
+          height: 5 + 'vh',
+          marginBottom: 30 + 'px',
+        }}
+        type="text"
+        placeholder="your twitter id"
+        value={screenName}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+      />
+      <button
+        type="button"
+        style={{
+          width: 30 + '%',
+          height: 5 + 'vh',
+        }}
+        onClick={markerClick}
+      >
         Marker
       </button>
-      <button type="button" onClick={cameraClick}>
+      <button
+        type="button"
+        style={{
+          width: 30 + '%',
+          height: 5 + 'vh',
+        }}
+        onClick={cameraClick}
+      >
         Camera
       </button>
     </div>
