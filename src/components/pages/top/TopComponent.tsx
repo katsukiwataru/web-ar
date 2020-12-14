@@ -31,6 +31,15 @@ export const TopComponent = memo(() => {
     }
   };
 
+  const cameraClick = () => {
+    // setMarkerDisplay(false);
+    history.push(`/user/${screenName}`);
+  };
+  const markerClick = () => {
+    // setMarkerDisplay(true);
+    history.push(`/user/marker/${screenName}`);
+  };
+
   return (
     <div
       style={{
@@ -40,8 +49,14 @@ export const TopComponent = memo(() => {
         transform: 'translate(-50%, -50%)',
       }}
     >
-      <p style={{ textAlign: 'center' }}>twitter id</p>
+      <p>twitter id</p>
       <input type="text" value={screenName} onChange={onChange} onKeyDown={onKeyDown} />
+      <button type="button" onClick={markerClick}>
+        Marker
+      </button>
+      <button type="button" onClick={cameraClick}>
+        Camera
+      </button>
     </div>
   );
 });

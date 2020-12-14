@@ -5,19 +5,19 @@ export interface UserContext {
   setUser: Dispatch<SetStateAction<Twitter | null>>;
 }
 
-export const AppContext = createContext<UserContext>({
+const UserContext = createContext<UserContext>({
   user: null,
   setUser: () => {},
 });
 
-export const useUserContext = (): UserContext => useContext(AppContext);
+export const useUserContext = (): UserContext => useContext(UserContext);
 
-export const AppContextProvider: FC = ({ children }) => {
+export const UserContextProvider: FC = ({ children }) => {
   const [user, setUser] = useState<Twitter | null>(null);
 
   const value = useMemo(() => {
     return { user, setUser };
   }, [user]);
 
-  return <AppContext.Provider value={value} children={children} />;
+  return <UserContext.Provider value={value} children={children} />;
 };

@@ -1,13 +1,14 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { getUser } from '../../../lib/api';
-import { useUserContext } from '../../../lib/context/userContext';
+import { useMarkerContext, useUserContext } from '../../../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
 // import { usePlaneMesh } from '../../../utils/useTextCanvas';
 import styles from './user.css';
 
 export const UserComponent = memo(() => {
   const { user, setUser } = useUserContext();
+  const { setMarker } = useMarkerContext();
   const {
     params: { screenName },
   } = useRouteMatch<{ screenName: string }>();
@@ -57,13 +58,14 @@ export const UserComponent = memo(() => {
       const imgLocalURL = URL.createObjectURL(imgData);
       await new Promise((resolve) => {
         THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
-          const domElement = window.document.createElement('a');
-          domElement.href = markerUrl;
-          domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
-          document.body.appendChild(domElement);
-          domElement.click();
-          document.body.removeChild(domElement);
+          // const domElement = window.document.createElement('a');
+          // domElement.href = markerUrl;
+          // domElement.download = 'pattern-' + (screenName || 'marker') + '.png';
+          // document.body.appendChild(domElement);
+          // domElement.click();
+          // document.body.removeChild(domElement);
           resolve(markerUrl);
+          setMarker(markerUrl);
         });
       });
 
