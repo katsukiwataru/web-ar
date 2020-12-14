@@ -3,10 +3,11 @@ import { useRouteMatch } from 'react-router';
 import { getUser } from '../../../lib/api';
 import { useUserContext } from '../../../lib/context/userContext';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
+// import { usePlaneMesh } from '../../../utils/useTextCanvas';
 import styles from './user.css';
 
 export const UserComponent = memo(() => {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   const {
     params: { screenName },
   } = useRouteMatch<{ screenName: string }>();
@@ -21,7 +22,7 @@ export const UserComponent = memo(() => {
   }, []);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const textRef = useRef<HTMLCanvasElement | null>(null);
+  const textCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   const [patternUrl, setPatternUrl] = useState<string | null>(null);
@@ -36,7 +37,7 @@ export const UserComponent = memo(() => {
 
   useEffect(() => {
     if (!patternUrl) {
-      currentUser();
+      userPattern();
       return;
     }
     new THREEx.ArMarkerControls(arToolkitContext, group, {
@@ -46,9 +47,10 @@ export const UserComponent = memo(() => {
     });
   }, [patternUrl]);
 
-  const currentUser = useCallback(() => {
+  const userPattern = useCallback(() => {
     (async () => {
       const currentUser = user ? user : await getUser(screenName);
+      setUser(currentUser);
       const iconURL = currentUser.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
       const imgData = await imgDataRes.blob();
@@ -72,14 +74,33 @@ export const UserComponent = memo(() => {
     })();
   }, [user, screenName]);
 
-  useTextLoader(group, screenName);
+  // const currentUser = useMemo(() => {
+  //   console.log(user);
+  //   if (!user) {
+  //     (async () => {
+  //       const currentUser = await getUser(screenName);
+  //       setUser(currentUser);
+  //       return currentUser;
+  //     })();
+  //   }
+  //   return user;
+  // }, [user]);
+
+  const textLoad = useMemo(() => {
+    const twitterScreenName = `@${screenName}`;
+    return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
+  }, [user]);
+
+  useTextLoader(group, textLoad[0], 0.75);
+  useTextLoader(group, textLoad[1], 0.5);
+  // usePlaneMesh(group, textCanvasRef);
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
   return (
     <div className={styles.container}>
       <canvas id="canvas" ref={canvasRef} />
-      <canvas className={styles.text} ref={textRef} />
+      <canvas className={styles.text} ref={textCanvasRef} />
     </div>
   );
 });
