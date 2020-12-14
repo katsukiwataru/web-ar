@@ -108,8 +108,8 @@ declare interface ArPatternFile {
   buildFullMarker(
     innerImageURL: string,
     pattRatio: number,
-    size: 512,
-    color: 'black',
+    size: number,
+    color: string | number,
     onComplete: (url: string) => void,
   ): void;
 }
