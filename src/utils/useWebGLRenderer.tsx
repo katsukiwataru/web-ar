@@ -16,7 +16,7 @@ export const useWebGLRenderer = (canvas: React.MutableRefObject<HTMLCanvasElemen
     webGLRenderer.setClearColor(new THREE.Color(), 0);
     // webGLRenderer.setSize(640, 480);
     webGLRenderer.setSize(window.innerWidth, window.innerHeight);
-    webGLRenderer.domElement.style.position = 'absolute';
+    webGLRenderer.domElement.style.position = 'fixed';
     webGLRenderer.domElement.style.top = '0px';
     webGLRenderer.domElement.style.left = '0px';
     setWebGLRenderer(webGLRenderer);
