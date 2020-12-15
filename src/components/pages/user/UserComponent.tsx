@@ -69,13 +69,13 @@ export const UserComponent = memo(() => {
     })();
   }, [user, screenName]);
 
-  const textLoad = useMemo(() => {
+  const textLoader = useMemo(() => {
     const twitterScreenName = `@${screenName}`;
     return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
   }, [user]);
 
-  useTextLoader(group, textLoad[0], 0.75);
-  useTextLoader(group, textLoad[1], 0.5);
+  useTextLoader(group, textLoader[0], 0.75);
+  useTextLoader(group, textLoader[1], 0.5);
   // usePlaneMesh(group, textCanvasRef);
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });

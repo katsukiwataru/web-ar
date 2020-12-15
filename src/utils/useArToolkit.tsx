@@ -35,7 +35,6 @@ export const useArToolkitInit = (
     });
 
     arToolkitSource.init(() => {
-      onResize();
       setTimeout(() => {
         onResize();
       }, 1000);
