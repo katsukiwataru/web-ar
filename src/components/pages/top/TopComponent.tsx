@@ -31,12 +31,16 @@ export const TopComponent = memo(() => {
     }
   };
 
-  const cameraClick = () => {
+  const cameraClick = async () => {
     // setMarkerDisplay(false);
+    const user = await getUser(screenName);
+    setUser(user);
     history.push(`/user/${screenName}`);
   };
-  const markerClick = () => {
+  const markerClick = async () => {
     // setMarkerDisplay(true);
+    const user = await getUser(screenName);
+    setUser(user);
     history.push(`/user/marker/${screenName}`);
   };
 
