@@ -74,7 +74,7 @@ export const UserComponent = memo(() => {
     return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
   }, [user]);
 
-  useTextLoader(group, textLoader, 0.75);
+  useTextLoader(group, textLoader);
   // usePlaneMesh(group, textCanvasRef);
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
