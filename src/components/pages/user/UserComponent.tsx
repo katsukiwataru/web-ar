@@ -70,7 +70,7 @@ export const UserComponent = memo(() => {
   }, [user, screenName]);
 
   const textLoader = useMemo(() => {
-    const twitterScreenName = ` @${screenName} もう Next.js 使えば良くねってなってる`;
+    const twitterScreenName = ` @${screenName} あああ`;
     return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
   }, [user]);
 
