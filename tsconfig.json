@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {"base64-js": ["types/base64-js"]},
+    "paths": {
+      "base64-js": [
+        "types/base64-js"
+      ]
+    },
     "target": "es5",
     "module": "commonjs",
     "lib": [
@@ -10,10 +14,13 @@
       "es2017",
       "es2018",
       "es2019",
-      "dom",
+      "dom"
     ],
-    "jsx": "react",
-    "typeRoots": ["node_modules/@types" ,"types"],
+    "jsx": "preserve",
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
     "sourceMap": true,
     "strict": true,
     "noUnusedLocals": true,
@@ -24,9 +31,14 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules"
   ]
