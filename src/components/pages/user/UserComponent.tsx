@@ -3,7 +3,6 @@ import { useRouteMatch } from 'react-router';
 import { getUser } from '../../../lib/api';
 import { useMarkerContext, useUserContext } from '../../../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
-import styles from './user.css';
 
 export const UserComponent = memo(() => {
   const { user, setUser } = useUserContext();
@@ -22,7 +21,6 @@ export const UserComponent = memo(() => {
   }, []);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const textCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   const [patternUrl, setPatternUrl] = useState<string | null>(null);
@@ -79,10 +77,5 @@ export const UserComponent = memo(() => {
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
-  return (
-    <div className={styles.container}>
-      <canvas id="canvas" ref={canvasRef} />
-      <canvas className={styles.text} ref={textCanvasRef} />
-    </div>
-  );
+  return <canvas id="canvas" ref={canvasRef} />;
 });
