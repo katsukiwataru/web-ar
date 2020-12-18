@@ -7,21 +7,19 @@
     "url": "https://github.com/katsukiwataru/web-ar/issues"
   },
   "dependencies": {
+    "next": "^10.0.3",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@types/ip": "^1.1.0",
+    "@types/node": "^14.14.14",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/react-helmet": "^6.1.0",
-    "@types/react-router": "^5.1.8",
-    "@types/react-router-dom": "^5.1.6",
     "@types/three": "^0.103.2",
     "@types/webpack": "^4.41.22",
     "@types/webpack-merge": "^4.1.5",
@@ -63,10 +61,14 @@
   },
   "scripts": {
     "auto:cert": "node shell/ipAddress.js",
-    "dev": "webpack-dev-server --config webpack/develop.config.js",
-    "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
-    "build:local": "webpack --config webpack/production.config.js",
     "build:gh-pages": "PUBLIC_PATH='/web-ar/' webpack --config webpack/production.config.js",
-    "deploy": "npm run build:gh-pages && gh-pages -d dist"
+    "build:local": "webpack --config webpack/production.config.js",
+    "build:next": "next build",
+    "deploy": "npm run build:gh-pages && gh-pages -d dist",
+    "dev": "webpack-dev-server --config webpack/develop.config.js",
+    "dev:next": "next dev",
+    "dev:next-ssl": "node ./server.js",
+    "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
+    "dev:start": "NODE_ENV=production next start"
   }
 }
