@@ -1,6 +1,6 @@
 import { apiBase } from './base';
 
-export const getUser = async (screenName: string) => {
+export const getUser = async (screenName: string | string[] | undefined) => {
   const query = screenName ? `screenName=${screenName}` : '';
   const res: Twitter = await apiBase('users', query);
   return res;
