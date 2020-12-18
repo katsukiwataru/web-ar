@@ -1,15 +1,17 @@
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
-import { getUser } from '../../../lib/api';
-import { useMarkerContext, useUserContext } from '../../../lib/context';
+import { getUser } from '../../lib/api';
+import { useMarkerContext, useUserContext } from '../../lib/context';
 
-export const MarkerComponent = () => {
+// type Arrayify<T> = {[P in keyof T]: Array<T[P]>}
+
+// type ScreenName = Arrayify<NextRouter>;
+
+const Marker = () => {
+  const { query } = useRouter();
   const { user, setUser } = useUserContext();
   const { marker } = useMarkerContext();
   const [currentMarker, serCurrentMarker] = useState<string | null>(null);
-  const {
-    params: { screenName },
-  } = useRouteMatch<{ screenName: string }>();
 
   useEffect(() => {
     if (!currentMarker) {
@@ -20,8 +22,9 @@ export const MarkerComponent = () => {
 
   const userPattern = useCallback(() => {
     (async () => {
-      const currentUser = user ? user : await getUser(screenName);
+      const currentUser = user ? user : await getUser(query.screenName);
       setUser(currentUser);
+      console.log(currentUser);
       const iconURL = currentUser.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
       const imgData = await imgDataRes.blob();
@@ -33,7 +36,7 @@ export const MarkerComponent = () => {
         });
       });
     })();
-  }, [user, screenName]);
+  }, [user, query]);
 
   return (
     <div
@@ -51,3 +54,5 @@ export const MarkerComponent = () => {
     </div>
   );
 };
+
+export default Marker;

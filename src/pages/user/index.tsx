@@ -1,10 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRouteMatch } from 'react-router';
-import { getUser } from '../../../lib/api';
-import { useMarkerContext, useUserContext } from '../../../lib/context';
-import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../../utils';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getUser } from '../../lib/api';
+import { useMarkerContext, useUserContext } from '../../lib/context';
+import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../utils';
 
-export const UserComponent = memo(() => {
+const User = () => {
   const { user, setUser } = useUserContext();
   const { setMarker } = useMarkerContext();
   const {
@@ -78,4 +77,6 @@ export const UserComponent = memo(() => {
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
   return <canvas id="canvas" ref={canvasRef} />;
-});
+};
+
+export default User;
