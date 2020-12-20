@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+// import { ParsedUrlQuery } from 'querystring';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getUser } from '../../lib/api';
 import { useMarkerContext, useUserContext } from '../../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../utils';
 
 const User = () => {
+  const { query } = useRouter();
   const { user, setUser } = useUserContext();
   const { setMarker } = useMarkerContext();
-  const {
-    params: { screenName },
-  } = useRouteMatch<{ screenName: string }>();
   const scene = useMemo(() => {
     return new THREE.Scene();
   }, []);
@@ -46,7 +46,7 @@ const User = () => {
 
   const userPattern = useCallback(() => {
     (async () => {
-      const currentUser = user ? user : await getUser(screenName);
+      const currentUser = user ? user : await getUser(query.screenName);
       setUser(currentUser);
       const iconURL = currentUser.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
@@ -64,12 +64,12 @@ const User = () => {
         setPatternUrl(URL.createObjectURL(patternBlob));
       });
     })();
-  }, [user, screenName]);
+  }, [user, query]);
 
   const textLoader = useMemo(() => {
-    const twitterScreenName = ` @${screenName} あああ`;
+    const twitterScreenName = ` @${query.screenName} あああ`;
     return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
-  }, [user]);
+  }, [user, query]);
 
   useTextLoader(group, textLoader);
   // usePlaneMesh(group, textCanvasRef);
