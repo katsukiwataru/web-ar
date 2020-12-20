@@ -30,8 +30,6 @@
     "gh-pages": "^3.1.0",
     "ip": "^1.1.5",
     "prettier": "^2.1.2",
-    "script-ext-html-webpack-plugin": "^2.1.4",
-    "terser-webpack-plugin": "^4.2.2",
     "three": "^0.121.1",
     "typescript": "^4.0.3"
   },
@@ -45,14 +43,10 @@
   },
   "scripts": {
     "auto:cert": "node shell/ipAddress.js",
-    "build:gh-pages": "PUBLIC_PATH='/web-ar/' webpack --config webpack/production.config.js",
-    "build:local": "webpack --config webpack/production.config.js",
     "build:next": "next build",
     "deploy": "npm run build:gh-pages && gh-pages -d dist",
-    "dev": "webpack-dev-server --config webpack/develop.config.js",
     "dev:next": "next dev",
     "dev:next-ssl": "node ./server.js",
-    "dev:ssl": "webpack-dev-server --https --cert ./certs/cert.pem --key ./certs/key.pem --config webpack/develop.config.js",
     "dev:start": "NODE_ENV=production next start"
   }
 }
