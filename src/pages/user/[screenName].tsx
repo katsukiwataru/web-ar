@@ -1,9 +1,9 @@
+import HEAD from 'next/head';
 import { useRouter } from 'next/router';
-// import { ParsedUrlQuery } from 'querystring';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getUser } from '../../lib/api';
 import { useMarkerContext, useUserContext } from '../../lib/context';
-import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../utils';
+import { useAnimationFrame, useTextLoader, useWebGLRenderer } from '../../utils';
 
 const User = () => {
   const { query } = useRouter();
@@ -23,7 +23,48 @@ const User = () => {
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   const [patternUrl, setPatternUrl] = useState<string | null>(null);
-  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
+  // const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
+
+  const arToolkitSource = useMemo(() => {
+    return new THREEx.ArToolkitSource({
+      sourceType: 'webcam',
+      displayWidth: window.innerWidth,
+      displayHeight: window.innerHeight,
+    });
+  }, []);
+
+  const arToolkitContext = useMemo(() => {
+    return new THREEx.ArToolkitContext({
+      cameraParametersUrl: '/camera_para.dat',
+      detectionMode: 'mono',
+    });
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => {
+      arToolkitSource.onResizeElement();
+      if (!webGLRenderer) return;
+      arToolkitSource.copyElementSizeTo(webGLRenderer.domElement);
+      if (arToolkitContext.arController !== null) {
+        arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
+      }
+    };
+
+    arToolkitContext.init(() => {
+      perspectiveCamera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+    });
+
+    arToolkitSource.init(() => {
+      setTimeout(() => {
+        onResize();
+      }, 1000);
+    });
+
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, [perspectiveCamera]);
 
   useEffect(() => {
     if (!mounted.current) return;
@@ -37,6 +78,7 @@ const User = () => {
       userPattern();
       return;
     }
+    if (typeof window === 'undefined') return;
     new THREEx.ArMarkerControls(arToolkitContext, group, {
       type: 'pattern',
       patternUrl,
@@ -76,7 +118,21 @@ const User = () => {
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
-  return <canvas id="canvas" ref={canvasRef} />;
+  return (
+    <>
+      <HEAD>
+        {/* <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r122/three.min.js"></script>
+        <script defer src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script> */}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
+        <script
+          defer
+          src="https://rawcdn.githack.com/AR-js-org/AR.js/a5619a021e6ff40427ff8f9c62169e99a390f56b/three.js/examples/marker-training/threex-arpatternfile.js"
+        ></script>
+      </HEAD>
+      <canvas id="canvas" ref={canvasRef} />
+    </>
+  );
 };
 
 export default User;

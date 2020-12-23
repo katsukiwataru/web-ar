@@ -1,9 +1,9 @@
+import HEAD from 'next/head';
 import { useRouter } from 'next/router';
 import type { Dispatch, FormEvent, KeyboardEvent, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import { getUser } from '../lib/api';
 import { useUserContext } from '../lib/context/userContext';
-
 export interface UserContext {
   user: Twitter | null;
   setUser: Dispatch<SetStateAction<Twitter | null>>;
@@ -45,22 +45,17 @@ const Top = () => {
   };
 
   return (
-    //   <head>
-    //     <meta charSet="UTF-8" />
-    //     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    //     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    //     <title>web ar</title>
-    //     {/* <style>
-    //   body {
-    //     margin: 0;
-    //     overflow: hidden;
-    //   }
-    //   body video {
-    //     overflow: hidden;
-    //   }
-    // </style> */}
-    //   </head>
     <>
+      <HEAD>
+        {/* <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r122/three.min.js"></script>
+        <script defer src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script> */}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/3.1.0/three.js/build/ar.js"></script>
+        <script
+          defer
+          src="https://rawcdn.githack.com/AR-js-org/AR.js/a5619a021e6ff40427ff8f9c62169e99a390f56b/three.js/examples/marker-training/threex-arpatternfile.js"
+        ></script>
+      </HEAD>
       <div
         style={{
           position: 'absolute',
@@ -116,12 +111,6 @@ const Top = () => {
           Camera
         </button>
       </div>
-      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r122/three.min.js"></script>
-      <script defer src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script>
-      <script
-        defer
-        src="https://rawcdn.githack.com/AR-js-org/AR.js/a5619a021e6ff40427ff8f9c62169e99a390f56b/three.js/examples/marker-training/threex-arpatternfile.js"
-      ></script>
     </>
   );
 };
