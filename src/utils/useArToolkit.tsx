@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from 'react';
-import dat from '../../data/camera_para.dat';
+// import dat from '/static/camera_para.dat';
 
 export const useArToolkitInit = (
   webGLRenderer: THREE.WebGLRenderer | null,
   perspectiveCamera: THREE.PerspectiveCamera,
 ) => {
   const arToolkitSource = useMemo(() => {
+    // if (typeof window === 'undefined') return null;
     return new THREEx.ArToolkitSource({
       sourceType: 'webcam',
       displayWidth: window.innerWidth,
@@ -15,12 +16,13 @@ export const useArToolkitInit = (
 
   const arToolkitContext = useMemo(() => {
     return new THREEx.ArToolkitContext({
-      cameraParametersUrl: dat,
+      cameraParametersUrl: '/camera_para.dat',
       detectionMode: 'mono',
     });
   }, []);
 
   useEffect(() => {
+    // if (!arToolkitSource) return;
     const onResize = () => {
       arToolkitSource.onResizeElement();
       if (!webGLRenderer) return;

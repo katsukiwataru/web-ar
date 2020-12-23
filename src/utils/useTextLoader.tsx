@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-// import typeface from '../../fonts/helvetiker_regular.typeface';
-import jpTypeface from '../../fonts/MotoyaLMaru_W3_mono.typeface';
+// import jpTypeface from '/static/MotoyaLMaru_W3_mono.typeface';
 
 export const useTextLoader = (group: THREE.Group, texts: string[]) => {
   useEffect(() => {
     const loader = new THREE.FontLoader();
     texts.map((text, index) => {
-      loader.load(jpTypeface, (font) => {
+      loader.load('/MotoyaLMaru_W3_mono.typeface', (font) => {
         const textGeom = new THREE.TextBufferGeometry(`${text}`, {
           font,
           size: 0.5,
