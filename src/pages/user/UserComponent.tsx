@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
+import { WrappedCanvas } from '../../components/CanvasRef';
 import { getUser } from '../../lib/api';
 import { useMarkerContext, useUserContext } from '../../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../../utils';
-import styles from './user.css';
 
 export const UserComponent = memo(() => {
   const { user, setUser } = useUserContext();
@@ -77,9 +77,5 @@ export const UserComponent = memo(() => {
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
-  return (
-    <div className={styles.container}>
-      <canvas id="canvas" ref={canvasRef} />
-    </div>
-  );
+  return <WrappedCanvas ref={canvasRef} />;
 });
