@@ -22,7 +22,6 @@ export const UserComponent = memo(() => {
   }, []);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const textCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const mounted = useRef(true);
   const [patternUrl, setPatternUrl] = useState<string | null>(null);
@@ -75,14 +74,12 @@ export const UserComponent = memo(() => {
   }, [user]);
 
   useTextLoader(group, textLoader);
-  // usePlaneMesh(group, textCanvasRef);
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
 
   return (
     <div className={styles.container}>
       <canvas id="canvas" ref={canvasRef} />
-      <canvas className={styles.text} ref={textCanvasRef} />
     </div>
   );
 });
