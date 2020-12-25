@@ -6,9 +6,11 @@ interface Props {
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  cameraClick: () => void;
+  markerClick: () => void;
 }
 
-export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlur }) => {
+export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlur, cameraClick, markerClick }) => {
   return (
     <div
       style={{
@@ -37,7 +39,7 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
           width: 30 + '%',
           height: 5 + 'vh',
         }}
-        // onClick={markerClick}
+        onClick={markerClick}
       >
         Marker
       </button>
@@ -48,7 +50,7 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
           width: 30 + '%',
           height: 5 + 'vh',
         }}
-        // onClick={cameraClick}
+        onClick={cameraClick}
       >
         Camera
       </button>

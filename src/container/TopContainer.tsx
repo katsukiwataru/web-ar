@@ -1,4 +1,5 @@
 import React, { Dispatch, memo, SetStateAction, useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { TopTemplate } from '../components/templates/top';
 import { useUserContext } from '../lib/context/';
 
@@ -9,9 +10,9 @@ export interface UserContext {
 
 export const TopContainer = memo(() => {
   const { screenNameContext, userContext } = useUserContext();
-  const { getUser } = userContext;
+  const { user, getUser } = userContext;
   const { screenName, setScreenName } = screenNameContext;
-  // const history = useHistory();
+  const history = useHistory();
 
   useEffect(() => {
     const videoEl = document.getElementsByTagName('video');
@@ -22,29 +23,42 @@ export const TopContainer = memo(() => {
     setScreenName(event.currentTarget.value);
   }, []);
 
-  const onKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    setScreenName(event.currentTarget.value);
-    if (event.key === 'Enter') {
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      setScreenName(event.currentTarget.value);
+      if (user?.screen_name === event.currentTarget.value) return;
+      if (event.key === 'Enter') {
+        getUser(event.currentTarget.value);
+      }
+    },
+    [user],
+  );
+
+  const onBlur = useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      setScreenName(event.target.value);
+      if (user?.screen_name === event.currentTarget.value) return;
       getUser(event.currentTarget.value);
-    }
-  }, []);
+    },
+    [user],
+  );
 
-  const onBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
-    setScreenName(event.target.value);
-    getUser(event.currentTarget.value);
-  }, []);
+  const cameraClick = useCallback(() => {
+    history.push(`/user/${screenName}`);
+  }, [screenName]);
 
-  // const cameraClick = useCallback(async () => {
-  //   const user = await fetchUser(screenName);
-  //   setUser(user);
-  //   history.push(`/user/${screenName}`);
-  // }, []);
+  const markerClick = useCallback(() => {
+    history.push(`/marker/${screenName}`);
+  }, [screenName]);
 
-  // const markerClick = useCallback(async () => {
-  //   const user = await fetchUser(screenName);
-  //   setUser(user);
-  //   history.push(`/marker/${screenName}`);
-  // }, []);
-
-  return <TopTemplate screenName={screenName} onChange={onChange} onKeyDown={onKeyDown} onBlur={onBlur} />;
+  return (
+    <TopTemplate
+      screenName={screenName}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      onBlur={onBlur}
+      cameraClick={cameraClick}
+      markerClick={markerClick}
+    />
+  );
 });

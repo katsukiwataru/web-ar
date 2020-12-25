@@ -4,7 +4,6 @@ import { fetchUser } from '../api';
 export interface UserContext {
   userContext: {
     user: Twitter | null;
-    setUser: Dispatch<SetStateAction<Twitter | null>>;
     getUser: (screenName: string) => void;
   };
   screenNameContext: {
@@ -16,7 +15,6 @@ export interface UserContext {
 const UserContext = createContext<UserContext>({
   userContext: {
     user: null,
-    setUser: () => {},
     getUser: () => {},
   },
   screenNameContext: {
@@ -33,14 +31,14 @@ export const UserContextProvider: FC = ({ children }) => {
 
   const getUser = useCallback(
     async (screenName: string) => {
-      const user = await fetchUser(screenName);
-      setUser(user);
+      const currentUser = await fetchUser(screenName);
+      setUser(currentUser);
     },
     [screenName],
   );
 
   const userContext = useMemo(() => {
-    return { user, setUser, getUser } as const;
+    return { user, getUser } as const;
   }, [user]);
 
   const screenNameContext = useMemo(() => {
