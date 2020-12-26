@@ -1,2 +1,2 @@
-export * from './useMarkerContext';
+export * from './markerContext';
 export * from './userContext';

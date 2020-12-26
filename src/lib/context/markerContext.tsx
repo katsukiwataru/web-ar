@@ -12,7 +12,7 @@ const Marker = createContext<Marker>({
 
 export const useMarkerContext = (): Marker => useContext(Marker);
 
-export const UserMarkerContextProvider: FC = ({ children }) => {
+export const MarkerContextProvider: FC = ({ children }) => {
   const [marker, setMarker] = useState<string | null>(null);
 
   const value = useMemo(() => {

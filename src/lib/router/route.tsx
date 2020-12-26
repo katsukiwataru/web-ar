@@ -16,13 +16,13 @@ const Top = loadable(
   { fallback: <Loading /> },
 );
 
-// const User = loadable(
-//   async () => {
-//     const { UserComponent } = await import(/* webpackChunkName: "user" */ '../../pages/user/');
-//     return () => <UserComponent />;
-//   },
-//   { fallback: <Loading /> },
-// );
+const User = loadable(
+  async () => {
+    const { UserComponent } = await import(/* webpackChunkName: "user" */ '../../pages/user/');
+    return () => <UserComponent />;
+  },
+  { fallback: <Loading /> },
+);
 
 // const Marker = loadable(
 //   async () => {
@@ -39,7 +39,7 @@ export const Router = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Top} />
-        {/* <Route exact path="/user/:screenName" component={User} /> */}
+        <Route exact path="/user/:screenName" component={User} />
         {/* <Route exact path="/user/marker/:screenName" component={Marker} /> */}
       </Switch>
     </BrowserRouter>

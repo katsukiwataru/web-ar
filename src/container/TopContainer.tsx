@@ -1,6 +1,6 @@
 import React, { Dispatch, memo, SetStateAction, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { TopTemplate } from '../components/templates/top';
+import { TopTemplate } from '../components/templates/';
 import { useUserContext } from '../lib/context/';
 
 export interface UserContext {
