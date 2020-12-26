@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-// import typeface from '../../fonts/helvetiker_regular.typeface';
 import jpTypeface from '../../fonts/MotoyaLMaru_W3_mono.typeface';
 
 export const useTextLoader = (group: THREE.Group, texts: string[] | null) => {

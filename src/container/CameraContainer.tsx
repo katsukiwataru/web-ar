@@ -22,8 +22,6 @@ export const CameraContainer = memo(() => {
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
 
-  // const patternURL = useMarkerGenerate();
-
   useEffect(() => {
     getUser(screenName);
     if (!patternURL) return;
