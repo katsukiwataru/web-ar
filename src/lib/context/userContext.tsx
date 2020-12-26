@@ -31,11 +31,12 @@ export const UserContextProvider: FC = ({ children }) => {
 
   const getUser = useCallback(
     async (screenName: string) => {
+      console.log(user?.screen_name, screenName);
       if (user?.screen_name === screenName) return;
       const currentUser = await fetchUser(screenName);
       setUser(currentUser);
     },
-    [screenName],
+    [user],
   );
 
   const userContext = useMemo(() => {
