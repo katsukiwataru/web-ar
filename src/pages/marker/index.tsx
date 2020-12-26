@@ -1,1 +1,1 @@
-// export * from './MarkerComponent';
+export * from './MarkerPage';

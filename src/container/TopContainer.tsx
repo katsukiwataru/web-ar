@@ -26,7 +26,6 @@ export const TopContainer = memo(() => {
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       setScreenName(event.currentTarget.value);
-      if (user?.screen_name === event.currentTarget.value) return;
       if (event.key === 'Enter') {
         getUser(event.currentTarget.value);
       }
@@ -37,14 +36,13 @@ export const TopContainer = memo(() => {
   const onBlur = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       setScreenName(event.target.value);
-      if (user?.screen_name === event.currentTarget.value) return;
       getUser(event.currentTarget.value);
     },
     [user],
   );
 
   const cameraClick = useCallback(() => {
-    history.push(`/user/${screenName}`);
+    history.push(`/camera/${screenName}`);
   }, [screenName]);
 
   const markerClick = useCallback(() => {

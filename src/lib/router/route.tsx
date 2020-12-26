@@ -18,29 +18,29 @@ const Top = loadable(
 
 const User = loadable(
   async () => {
-    const { UserComponent } = await import(/* webpackChunkName: "user" */ '../../pages/user/');
-    return () => <UserComponent />;
+    const { CameraPage } = await import(/* webpackChunkName: "user" */ '../../pages/camera/');
+    return () => <CameraPage />;
   },
   { fallback: <Loading /> },
 );
 
-// const Marker = loadable(
-//   async () => {
-//     const { MarkerComponent } = await import(/* webpackChunkName: "marker" */ '../../pages/marker/');
-//     return () => <MarkerComponent />;
-//   },
-//   {
-//     fallback: <Loading />,
-//   },
-// );
+const Marker = loadable(
+  async () => {
+    const { MarkerPage } = await import(/* webpackChunkName: "marker" */ '../../pages/marker/');
+    return () => <MarkerPage />;
+  },
+  {
+    fallback: <Loading />,
+  },
+);
 
 export const Router = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Top} />
-        <Route exact path="/user/:screenName" component={User} />
-        {/* <Route exact path="/user/marker/:screenName" component={Marker} /> */}
+        <Route exact path="/camera/:screenName" component={User} />
+        <Route exact path="/marker/:screenName" component={Marker} />
       </Switch>
     </BrowserRouter>
   );
