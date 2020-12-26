@@ -31,6 +31,7 @@ export const UserContextProvider: FC = ({ children }) => {
 
   const getUser = useCallback(
     async (screenName: string) => {
+      if (!screenName) return;
       if (user?.screen_name === screenName) return;
       const currentUser = await fetchUser(screenName);
       setUser(currentUser);
