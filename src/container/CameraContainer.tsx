@@ -13,7 +13,7 @@ scene.add(group);
 export const CameraContainer = memo(() => {
   const { userContext } = useUserContext();
   const { patternURL } = useMarkerContext();
-  const { getUser } = userContext;
+  const { user, getUser } = userContext;
   const {
     params: { screenName },
   } = useRouteMatch<{ screenName: string }>();
@@ -32,13 +32,14 @@ export const CameraContainer = memo(() => {
       patternUrl: patternURL,
       changeMatrixMode: 'modelViewMatrix',
     });
-  }, [patternURL]);
+  }, [screenName, patternURL]);
 
   const textLoader = useMemo(() => {
-    const twitterScreenName = ` @${screenName} あああ`;
+    if (!user) return null;
+    const twitterScreenName = ` @${user.screen_name} あああ`;
     // return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
     return [twitterScreenName, ''];
-  }, []);
+  }, [user]);
 
   useTextLoader(group, textLoader);
 
