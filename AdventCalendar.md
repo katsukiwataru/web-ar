@@ -121,7 +121,7 @@ const group = new THREE.Group();
 
 new THREEx.ArMarkerControls(arToolkitContext, group, {
   type: 'pattern',
-  patternUrl: 'data/patt.hiro',
+  patternURL: 'data/patt.hiro',
   changeMatrixMode: 'modelViewMatrix',
 });
 ```
@@ -242,7 +242,7 @@ RawGitを使用してCDNとして読み込むため、`html`に`threex-arpattern
   const useSampleUserPattern = () => {
   const { user, setUser } = useUserContext();
   const [marker, setMarker] = React.useState<string | null>(null);
-  const [patternUrl, setPatternUrl] = React.useState<string | null>(null);
+  const [patternURL, setPatternURL] = React.useState<string | null>(null);
 
   const {
     params: { screenName },
@@ -250,7 +250,7 @@ RawGitを使用してCDNとして読み込むため、`html`に`threex-arpattern
 
   const userPattern = () => {
     (async () => {
-      const currentUser = user ? user : await getUser(screenName);
+      const currentUser = user ? user : await fetchUser(screenName);
       const iconURL = currentUser.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
       const imgData = await imgDataRes.blob();
@@ -264,7 +264,7 @@ RawGitを使用してCDNとして読み込むため、`html`に`threex-arpattern
 
       THREEx.ArPatternFile.encodeImageURL(imgLocalURL, (pattern) => {
         const patternBlob = new Blob([pattern], { type: 'text/plain' });
-        setPatternUrl(URL.createObjectURL(patternBlob));
+        setPatternURL(URL.createObjectURL(patternBlob));
       });
     })();
   };
@@ -272,9 +272,9 @@ RawGitを使用してCDNとして読み込むため、`html`に`threex-arpattern
 }
 ```
 
-`getUser(screenName)` はTwitterのAPIを叩いており、user情報を取得しています。`iconURL`は画像の解像度を調節するために`replace()`してます。
+`fetchUser(screenName)` はTwitterのAPIを叩いており、user情報を取得しています。`iconURL`は画像の解像度を調節するために`replace()`してます。
 
-`patternUrl` を生成して `new THREEx.ArMarkerControls` の `patternUrl` へ渡せば大丈夫です。
+`patternURL` を生成して `new THREEx.ArMarkerControls` の `patternURL` へ渡せば大丈夫です。
 
 `marker` は
 
