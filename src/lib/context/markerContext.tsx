@@ -1,5 +1,5 @@
 import type { Dispatch, FC, SetStateAction } from 'react';
-import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useUserContext } from '.';
 
 export interface Marker {
@@ -20,15 +20,15 @@ export const useMarkerContext = (): Marker => useContext(Marker);
 
 export const MarkerContextProvider: FC = ({ children }) => {
   const { userContext } = useUserContext();
-  const mounted = useRef(true);
+  // const mounted = useRef(true);
   const { user } = userContext;
   const [patternURL, setPatternURL] = useState<string | null>(null);
   const [markerURL, setMarkerURL] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) return;
-    if (!mounted.current) return;
     (async () => {
+      console.log('MarkerContextProvider', user);
       const iconURL = user.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
       const imgData = await imgDataRes.blob();
@@ -44,7 +44,6 @@ export const MarkerContextProvider: FC = ({ children }) => {
         setPatternURL(URL.createObjectURL(patternBlob));
       });
     })();
-    mounted.current = false;
   }, [user]);
 
   const value = useMemo(() => {
