@@ -4,8 +4,8 @@ import { TopTemplate } from '../components/templates/';
 import { useUserContext } from '../lib/context/';
 
 export interface UserContext {
-  user: Twitter | null;
-  setUser: Dispatch<SetStateAction<Twitter | null>>;
+  user: TwitterUser | null;
+  setUser: Dispatch<SetStateAction<TwitterUser | null>>;
 }
 
 export const TopContainer = memo(() => {
