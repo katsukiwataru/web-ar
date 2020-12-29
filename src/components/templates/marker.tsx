@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 interface Props {
-  user: Twitter | null;
+  user: TwitterUser | null;
   markerURL: string | null;
 }
 

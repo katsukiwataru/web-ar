@@ -1,104 +1,44 @@
-export interface Status {
-  created_at: string;
+interface Id {
   id: number;
   id_str: string;
-  text: string;
-  truncated: boolean;
-  entities: StatusEntities;
-  source: string;
-  in_reply_to_status_id?: any;
-  in_reply_to_status_id_str?: any;
-  in_reply_to_user_id?: any;
-  in_reply_to_user_id_str?: any;
-  in_reply_to_screen_name?: any;
-  geo?: any;
-  coordinates?: any;
-  place?: any;
-  contributors?: any;
-  is_quote_status: boolean;
-  retweet_count: number;
-  favorite_count: number;
-  favorited: boolean;
-  retweeted: boolean;
-  possibly_sensitive: boolean;
-  lang: string;
+  created_at: string;
 }
 
-export interface Retweetedstatus extends Status {
-  retweeted_status: Status;
+interface Name {
+  screen_name: string;
+  name: string;
 }
 
-export interface StatusEntities {
-  hashtags: any[];
-  symbols: any[];
-  user_mentions: Usermention[];
+interface Description {
   urls: Url[];
 }
 
-export interface Url {
+interface Url {
   url: string;
   expanded_url: string;
   display_url: string;
   indices: number[];
 }
 
-export interface Usermention {
-  screen_name: string;
-  name: string;
-  id: number;
-  id_str: string;
-  indices: number[];
+declare interface TwitterUserFavorite extends Quotedstatus {
+  extended_entities: Extendedentities;
+  quoted_status_id: number;
+  quoted_status_id_str: string;
+  quoted_status: Quotedstatus;
 }
 
-export interface Entities {
-  description: Description;
-}
-
-export interface Description {
-  urls: Url[];
-}
-
-interface Quotedstatus {
-  created_at: string;
-  id: number;
-  id_str: string;
-  text: string;
-  truncated: boolean;
-  entities: StatusEntities;
-  source: string;
-  in_reply_to_status_id?: any;
-  in_reply_to_status_id_str?: any;
-  in_reply_to_user_id?: any;
-  in_reply_to_user_id_str?: any;
-  in_reply_to_screen_name?: any;
-  user: User;
-  geo?: any;
-  coordinates?: any;
-  place?: any;
-  contributors?: any;
-  is_quote_status: boolean;
-  retweet_count: number;
-  favorite_count: number;
-  favorited: boolean;
-  retweeted: boolean;
-  possibly_sensitive: boolean;
-  lang: string;
-}
-
-interface User {
-  id: number;
-  id_str: string;
+declare interface TwitterUser extends Id, Name {
   name: string;
   screen_name: string;
   location: string;
+  profile_location?: any;
   description: string;
-  url: string;
-  entities: UserEntities;
+  url?: any;
+  entities: Entities;
   protected: boolean;
   followers_count: number;
   friends_count: number;
   listed_count: number;
-  created_at: string;
   favourites_count: number;
   utc_offset?: any;
   time_zone?: any;
@@ -106,6 +46,7 @@ interface User {
   verified: boolean;
   statuses_count: number;
   lang?: any;
+  status: Retweetedstatus;
   contributors_enabled: boolean;
   is_translator: boolean;
   is_translation_enabled: boolean;
@@ -128,34 +69,69 @@ interface User {
   follow_request_sent: boolean;
   notifications: boolean;
   translator_type: string;
+  suspended: boolean;
+  needs_phone_verification: boolean;
 }
 
-interface UserEntities {
-  url: Description;
+interface Status extends Id {
+  text: string;
+  truncated: boolean;
+  entities: StatusEntities;
+  source: string;
+  in_reply_to_status_id?: any;
+  in_reply_to_status_id_str?: any;
+  in_reply_to_user_id?: any;
+  in_reply_to_user_id_str?: any;
+  in_reply_to_screen_name?: any;
+  geo?: any;
+  coordinates?: any;
+  place?: any;
+  contributors?: any;
+  is_quote_status: boolean;
+  retweet_count: number;
+  favorite_count: number;
+  favorited: boolean;
+  retweeted: boolean;
+  possibly_sensitive: boolean;
+  lang: string;
+}
+
+interface Retweetedstatus extends Status {
+  retweeted_status: Status;
+}
+
+interface StatusEntities extends Description {
+  hashtags: any[];
+  symbols: any[];
+  user_mentions: Usermention[];
+}
+
+interface Usermention extends Id, Name {
+  indices: number[];
+}
+
+interface Entities {
   description: Description;
+}
+
+interface Quotedstatus extends Status {
+  user: TwitterUser;
 }
 
 interface Extendedentities {
   media: Media[];
 }
 
-interface Entities {
+interface Entities extends Description {
   hashtags: any[];
   symbols: any[];
   user_mentions: any[];
-  urls: Url[];
   media: Media[];
 }
 
-interface Media {
-  id: number;
-  id_str: string;
-  indices: number[];
+interface Media extends Id, Url {
   media_url: string;
   media_url_https: string;
-  url: string;
-  display_url: string;
-  expanded_url: string;
   type: string;
   sizes: Sizes;
 }

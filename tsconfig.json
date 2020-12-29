@@ -13,7 +13,7 @@
       "dom",
     ],
     "jsx": "react",
-    "typeRoots": ["node_modules/@types" ,"types"],
+    "typeRoots": ["node_modules/@types" ,"src/types/"],
     "sourceMap": true,
     "strict": true,
     "noUnusedLocals": true,
