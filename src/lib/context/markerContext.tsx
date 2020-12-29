@@ -28,7 +28,6 @@ export const MarkerContextProvider: FC = ({ children }) => {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      console.log('MarkerContextProvider', user);
       const iconURL = user.profile_image_url_https;
       const imgDataRes = await fetch(iconURL.replace('_normal', ''));
       const imgData = await imgDataRes.blob();
