@@ -1,12 +1,13 @@
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { WrappedCanvas } from '../components/CanvasRef';
+import { fetchUserFavorites } from '../lib/api';
 import { useMarkerContext, useUserContext } from '../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../utils';
 
-const scene = new THREE.Scene();
-const group = new THREE.Group();
-const perspectiveCamera = new THREE.PerspectiveCamera();
+export const scene = new THREE.Scene();
+export const group = new THREE.Group();
+export const perspectiveCamera = new THREE.PerspectiveCamera();
 scene.add(perspectiveCamera);
 scene.add(group);
 
@@ -21,6 +22,7 @@ export const CameraContainer = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
+  const [res, retRes] = useState<TwitterUserFavorite[] | null>(null);
 
   useEffect(() => {
     getUser(screenName);
@@ -32,16 +34,24 @@ export const CameraContainer = memo(() => {
     });
   }, [screenName, patternURL]);
 
-  const textLoader = useMemo(() => {
-    if (!user) return null;
-    const twitterScreenName = ` @${user.screen_name} あああ`;
-    // return user ? [twitterScreenName, new Date(user.created_at).toLocaleString('ja-jp')] : [twitterScreenName, ''];
-    return [twitterScreenName, ''];
+  useEffect(() => {
+    if (!user) return;
+    const getUserFavorites = async () => {
+      const res = await fetchUserFavorites(user.screen_name);
+      if (!res) return;
+      retRes(res);
+    };
+    getUserFavorites();
   }, [user]);
 
-  useTextLoader(group, textLoader);
+  const mesh = useTextLoader(res);
 
-  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, scene, perspectiveCamera });
+  useEffect(() => {
+    if (!mesh) return;
+    group.add(mesh);
+  }, [mesh]);
+
+  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer });
 
   return <WrappedCanvas ref={canvasRef} />;
 });

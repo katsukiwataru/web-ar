@@ -2,17 +2,14 @@ import { apiBase } from './base';
 
 export const fetchUser = async (screenName: string) => {
   const query = screenName ? `screenName=${screenName}` : '';
-  const res: Twitter = await apiBase('users', query);
+  if (!query) return;
+  const res: TwitterUser = await apiBase('users', query);
   return res;
 };
 
-// const userURL = new URL('users', '/api');
-// userURL.searchParams.append('screenName', screenName);
-// const data = await apiBase(userURL);
-
-// export const getUserFavorites = async (screenName: string) => {
-//   const userURL = new URL('favorites', apiURL.href);
-//   userURL.searchParams.append('screenName', screenName);
-//   const data = await apiBase(userURL);
-//   return data;
-// };
+export const fetchUserFavorites = async (screenName: string) => {
+  const query = screenName ? `screenName=${screenName}` : '';
+  if (!query) return;
+  const res: TwitterUserFavorite[] = await apiBase('favorites', query);
+  return res;
+};

@@ -3,7 +3,7 @@ import { fetchUser } from '../api';
 
 export interface UserContext {
   userContext: {
-    user: Twitter | null;
+    user: TwitterUser | null;
     getUser: (screenName: string) => void;
   };
   screenNameContext: {
@@ -26,7 +26,7 @@ const UserContext = createContext<UserContext>({
 export const useUserContext = (): UserContext => useContext(UserContext);
 
 export const UserContextProvider: FC = ({ children }) => {
-  const [user, setUser] = useState<Twitter | null>(null);
+  const [user, setUser] = useState<TwitterUser | null>(null);
   const [screenName, setScreenName] = useState<string>('');
 
   const getUser = useCallback(
@@ -34,6 +34,7 @@ export const UserContextProvider: FC = ({ children }) => {
       if (!screenName) return;
       if (user?.screen_name === screenName) return;
       const currentUser = await fetchUser(screenName);
+      if (!currentUser) return;
       setUser(currentUser);
     },
     [user],

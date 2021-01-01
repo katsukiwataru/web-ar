@@ -1,21 +1,14 @@
 import { useEffect, useRef } from 'react';
+import { perspectiveCamera, scene } from '../container';
 import { ArToolkitContext, ArToolkitSource } from '../types/THREEx';
 
 interface Props {
   arToolkitSource: ArToolkitSource;
   arToolkitContext: ArToolkitContext;
   webGLRenderer: THREE.WebGLRenderer | null;
-  scene: THREE.Scene;
-  perspectiveCamera: THREE.PerspectiveCamera;
 }
 
-export const useAnimationFrame = ({
-  arToolkitSource,
-  arToolkitContext,
-  webGLRenderer,
-  scene,
-  perspectiveCamera,
-}: Props) => {
+export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRenderer }: Props) => {
   const requestRef = useRef(0);
 
   useEffect(() => {
@@ -30,5 +23,5 @@ export const useAnimationFrame = ({
     };
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, [webGLRenderer, scene, perspectiveCamera]);
+  }, [webGLRenderer]);
 };

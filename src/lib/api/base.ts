@@ -1,4 +1,4 @@
-const API_BASEURL = 'https://192.168.11.2:3001/api/v1';
+const API_BASEURL = 'https://192.168.11.18:3001/api/v1';
 
 export const apiBase = async (path: string, query?: string) => {
   const res = await fetch(`${API_BASEURL}/${path}?${query}`);
