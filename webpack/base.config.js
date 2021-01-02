@@ -4,18 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-// const CopyPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
-// const styledComponentsTransformer = createStyledComponentsTransformer();
 
 const ROOT_PATH = path.resolve(__dirname, '../');
 const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
-
-// const copyRules = [
-//   { from: path.resolve(ROOT_PATH, 'data'), to: path.resolve(ROOT_PATH, 'dist/data') },
-//   { from: path.resolve(ROOT_PATH, 'fonts'), to: path.resolve(ROOT_PATH, 'dist/fonts') },
-// ];
 
 module.exports = {
   entry: path.resolve(ROOT_PATH, 'src', 'index.tsx'),
@@ -86,7 +78,6 @@ module.exports = {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
-              // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
             },
           },
         ],
