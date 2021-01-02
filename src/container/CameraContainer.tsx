@@ -44,12 +44,12 @@ export const CameraContainer = memo(() => {
     getUserFavorites();
   }, [user]);
 
-  const mesh = useTextLoader(res);
+  const meshs = useTextLoader(res);
 
   useEffect(() => {
-    if (!mesh) return;
-    group.add(mesh);
-  }, [mesh]);
+    if (!meshs) return;
+    meshs.map((mesh) => group.add(mesh));
+  }, [meshs]);
 
   useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer });
 

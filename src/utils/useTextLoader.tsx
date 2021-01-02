@@ -1,37 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
-import jpTypeface from '../../fonts/MotoyaLMaru_W3_mono.typeface';
-
-const fontLoader = new THREE.FontLoader();
+import TextSprite from '@seregpie/three.text-sprite';
+import { useMemo } from 'react';
 
 export const useTextLoader = (res: TwitterUserFavorite[] | null) => {
-  const [mesh, setMesh] = useState<THREE.Mesh<THREE.TextGeometry, THREE.MeshBasicMaterial> | null>(null);
-
   const favolites = useMemo(() => {
     if (!res) return;
-    return res.slice(0, 2).map((r) => {
-      return {
-        name: r.user.name,
-        text: r.text,
-        profileImageUrl: r.user.profile_image_url_https,
-      };
-    });
-  }, [res]);
-
-  useEffect(() => {
-    if (!favolites) return;
-    favolites.map((favolite) => {
-      fontLoader.load(jpTypeface, (font) => {
-        const nameGeom = new THREE.TextGeometry(`${favolite.name}`, {
-          font,
-          size: 0.5,
-          height: 0,
-        });
-        nameGeom.center();
-        const nameMesh = new THREE.Mesh(nameGeom, new THREE.MeshBasicMaterial({ color: 0x000000 }));
-        nameMesh.position.set(0, 0, -3);
-        setMesh(nameMesh);
+    return res.slice(0, 1).map((r) => {
+      const userName = `@${r.user.name}`;
+      const httpsIndex = r.text.indexOf('https');
+      const text = r.text.slice(0, httpsIndex);
+      return new TextSprite({
+        alignment: 'left',
+        color: '#24ff00',
+        fontFamily: '"Times New Roman", Times, serif',
+        fontSize: 0.5,
+        fontStyle: 'italic',
+        text: [userName, text].join('\n'),
       });
     });
-  }, [favolites]);
-  return mesh;
+  }, [res]);
+  return favolites;
 };
