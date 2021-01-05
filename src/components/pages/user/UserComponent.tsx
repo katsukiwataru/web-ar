@@ -32,6 +32,23 @@ export const UserComponent = memo(() => {
     if (!mounted.current) return;
     scene.add(perspectiveCamera);
     scene.add(group);
+    // START TEST CODE PLEASE REMOVE ME 👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻
+    let instance = new THREE.TextSprite({
+      alignment: 'left',
+      color: '#24ff00',
+      fontFamily: '"Times New Roman", Times, serif',
+      fontSize: 8,
+      fontStyle: 'italic',
+      text: [
+        'Twinkle, twinkle, little star,',
+        'How I wonder what you are!',
+        'Up above the world so high,',
+        'Like a diamond in the sky.',
+      ].join('\n'),
+    });
+    scene.add(instance);
+    // END TEST CODE PLEASE REMOVE ME 👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻
+
     mounted.current = false;
   }, []);
 
