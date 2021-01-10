@@ -1,4 +1,3 @@
-import TextSprite from '@seregpie/three.text-sprite';
 import { useMemo } from 'react';
 
 export const useTextLoader = (res: TwitterUserFavorite[] | null) => {
@@ -8,7 +7,7 @@ export const useTextLoader = (res: TwitterUserFavorite[] | null) => {
       const userName = `@${r.user.name}`;
       const httpsIndex = r.text.indexOf('https');
       const text = r.text.slice(0, httpsIndex);
-      return new TextSprite({
+      return new THREE.TextSprite({
         alignment: 'left',
         color: '#24ff00',
         fontFamily: '"Times New Roman", Times, serif',
