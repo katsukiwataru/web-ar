@@ -11,6 +11,7 @@ export const Input = memo<Props>(({ screenName, onChange, onKeyDown, onBlur }) =
   return (
     <input
       style={{
+        fontSize: 16 + 'px',
         paddingInlineEnd: 40,
         paddingInlineStart: 40,
         width: '-webkit-fill-available',
