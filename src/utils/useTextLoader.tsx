@@ -11,7 +11,7 @@ export const useTextLoader = (res: TwitterUserFavorite[] | null) => {
         alignment: 'left',
         color: '#24ff00',
         fontFamily: '"Times New Roman", Times, serif',
-        fontSize: 0.5,
+        fontSize: 1,
         fontStyle: 'italic',
         text: resultText.join('\n'),
       });
