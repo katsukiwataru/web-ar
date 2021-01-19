@@ -18,7 +18,7 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
         top: 45 + '%',
         left: 50 + '%',
         transform: 'translate(-50%, -50%)',
-        width: 50 + '%',
+        // width: 50 + '%',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
@@ -26,32 +26,36 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
     >
       <p
         style={{
-          fontSize: 18 + 'px',
+          fontSize: 18,
         }}
       >
-        twitter id
+        WEBセレンディピティ
       </p>
       <Input screenName={screenName} onChange={onChange} onKeyDown={onKeyDown} onBlur={onBlur} />
-      <button
-        disabled={!screenName}
-        type="button"
-        style={{
-          padding: 10 + 'px',
-        }}
-        onClick={markerClick}
-      >
-        Marker
-      </button>
-      <button
-        disabled={!screenName}
-        type="button"
-        style={{
-          padding: 10 + 'px',
-        }}
-        onClick={cameraClick}
-      >
-        Camera
-      </button>
+      <div>
+        <button
+          disabled={!screenName}
+          type="button"
+          style={{
+            padding: 10,
+            margin: 10,
+          }}
+          onClick={markerClick}
+        >
+          Marker
+        </button>
+        <button
+          disabled={!screenName}
+          type="button"
+          style={{
+            padding: 10,
+            margin: 10,
+          }}
+          onClick={cameraClick}
+        >
+          Camera
+        </button>
+      </div>
     </div>
   );
 });

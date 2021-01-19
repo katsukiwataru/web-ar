@@ -11,16 +11,15 @@ export const Input = memo<Props>(({ screenName, onChange, onKeyDown, onBlur }) =
   return (
     <input
       style={{
-        fontSize: 16 + 'px',
-        paddingInlineEnd: 40,
-        paddingInlineStart: 40,
-        width: '-webkit-fill-available',
-        height: 5 + 'vh',
-        marginBottom: 30 + 'px',
+        width: 280,
+        fontSize: 16,
+        paddingInline: 10,
+        height: 30,
+        marginBottom: 30,
         textAlign: 'center',
       }}
       type="text"
-      placeholder="your twitter id"
+      placeholder="興味の知りたい人のtwitter idを入力してください"
       value={screenName}
       onChange={onChange}
       onKeyDown={onKeyDown}
