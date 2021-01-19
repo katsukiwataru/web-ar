@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const ip = require('ip');
 const { merge } = require('webpack-merge');
@@ -21,4 +22,11 @@ module.exports = merge(base, {
     minimize: true,
     minimizer: [],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        MODE: JSON.stringify('development'),
+      },
+    }),
+  ],
 });
