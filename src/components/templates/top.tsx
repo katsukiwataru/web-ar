@@ -18,10 +18,7 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
         top: 45 + '%',
         left: 50 + '%',
         transform: 'translate(-50%, -50%)',
-        // width: 50 + '%',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
+        textAlign: 'center',
       }}
     >
       <p
@@ -31,7 +28,9 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
       >
         WEBセレンディピティ
       </p>
-      <Input screenName={screenName} onChange={onChange} onKeyDown={onKeyDown} onBlur={onBlur} />
+      <div>
+        <Input screenName={screenName} onChange={onChange} onKeyDown={onKeyDown} onBlur={onBlur} />
+      </div>
       <div>
         <button
           disabled={!screenName}
