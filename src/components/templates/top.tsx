@@ -36,6 +36,7 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
           disabled={!screenName}
           type="button"
           style={{
+            width: 75,
             padding: 10,
             margin: 10,
           }}
@@ -47,6 +48,7 @@ export const TopTemplate = memo<Props>(({ screenName, onChange, onKeyDown, onBlu
           disabled={!screenName}
           type="button"
           style={{
+            width: 75,
             padding: 10,
             margin: 10,
           }}
