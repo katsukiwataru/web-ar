@@ -1,5 +1,8 @@
-const origin =
-  process.env.MODE === 'development' ? 'https://172.20.0.38:3001' : 'https://secure-ridge-14179.herokuapp.com';
+const DEV_ORIGIN = 'https://172.20.0.38:3001';
+
+const PRO_ORIGIN = 'https://secure-ridge-14179.herokuapp.com';
+
+const origin = process.env.MODE === 'development' ? DEV_ORIGIN : PRO_ORIGIN;
 
 const API_BASEURL = `${origin}/api/v1`;
 
