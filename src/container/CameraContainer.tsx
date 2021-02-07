@@ -8,6 +8,8 @@ import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } 
 export const scene = new THREE.Scene();
 export const group = new THREE.Group();
 export const perspectiveCamera = new THREE.PerspectiveCamera();
+export const mouse = new THREE.Vector3();
+
 scene.add(perspectiveCamera);
 scene.add(group);
 
@@ -44,14 +46,38 @@ export const CameraContainer = memo(() => {
     getUserFavorites();
   }, [user]);
 
-  const meshs = useTextLoader(res);
+  const mesh = useTextLoader(res);
 
   useEffect(() => {
-    if (!meshs) return;
-    meshs.map((mesh) => group.add(mesh));
-  }, [meshs]);
+    if (!mesh) return;
+    // mesh.map((mesh) => group.add(mesh));
+    group.add(mesh);
+  }, [mesh]);
 
-  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer });
+  useEffect(() => {
+    if (!mesh) return;
+    const handleClick = (event: MouseEvent) => {
+      const element = event.target;
+      if (!(element instanceof HTMLCanvasElement)) return;
+      const rect = element.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      const mouseX = (x / element.offsetWidth) * 2 - 1;
+      const mouseY = -(y / element.offsetHeight) * 2 + 1;
+
+      mouse.unproject(perspectiveCamera);
+      mouse.set(mouseX, mouseY, 0);
+    };
+
+    if (!webGLRenderer) return;
+    webGLRenderer.domElement.addEventListener('click', handleClick);
+    return () => {
+      webGLRenderer.domElement.removeEventListener('click', handleClick);
+    };
+  }, [mesh, webGLRenderer]);
+
+  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, mesh });
 
   return <WrappedCanvas ref={canvasRef} />;
 });
