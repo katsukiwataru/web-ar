@@ -23,7 +23,7 @@ export const CameraContainer = memo(() => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
-  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer, perspectiveCamera);
+  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer);
   const [res, retRes] = useState<TwitterUserFavorite[] | null>(null);
 
   useEffect(() => {

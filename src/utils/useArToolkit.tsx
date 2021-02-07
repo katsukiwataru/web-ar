@@ -1,10 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import dat from '../../data/camera_para.dat';
+import { perspectiveCamera } from '../container';
 
-export const useArToolkitInit = (
-  webGLRenderer: THREE.WebGLRenderer | null,
-  perspectiveCamera: THREE.PerspectiveCamera,
-) => {
+export const useArToolkitInit = (webGLRenderer: THREE.WebGLRenderer | null) => {
   const arToolkitSource = useMemo(() => {
     return new THREEx.ArToolkitSource({
       sourceType: 'webcam',
@@ -28,6 +26,17 @@ export const useArToolkitInit = (
       if (arToolkitContext.arController !== null) {
         arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas);
       }
+      // サイズを取得
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      // レンダラーのサイズを調整する
+      webGLRenderer.setPixelRatio(window.devicePixelRatio);
+      webGLRenderer.setSize(width, height);
+
+      // カメラのアスペクト比を正す
+      perspectiveCamera.aspect = width / height;
+      perspectiveCamera.updateProjectionMatrix();
     };
 
     arToolkitContext.init(() => {
