@@ -5,13 +5,17 @@ import { fetchUserFavorites } from '../lib/api';
 import { useMarkerContext, useUserContext } from '../lib/context';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../utils';
 
-export const scene = new THREE.Scene();
-export const group = new THREE.Group();
+export const sceneLeft = new THREE.Scene();
+export const sceneRight = new THREE.Scene();
+export const groupLeft = new THREE.Group();
+export const groupRight = new THREE.Group();
 export const perspectiveCamera = new THREE.PerspectiveCamera();
 export const mouse = new THREE.Vector3();
 
-scene.add(perspectiveCamera);
-scene.add(group);
+sceneLeft.add(perspectiveCamera);
+sceneRight.add(perspectiveCamera);
+sceneLeft.add(groupLeft);
+sceneRight.add(groupRight);
 
 export const CameraContainer = memo(() => {
   const { userContext } = useUserContext();
@@ -21,15 +25,38 @@ export const CameraContainer = memo(() => {
     params: { screenName },
   } = useRouteMatch<{ screenName: string }>();
 
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const webGLRenderer = useWebGLRenderer(canvasRef);
-  const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer);
+  const canvasLeftRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRightRef = useRef<HTMLCanvasElement | null>(null);
+
+  const webGLRendererLeft = useWebGLRenderer({
+    canvas: canvasLeftRef,
+    width: window.innerWidth / 4,
+    stylePosition: 'left',
+  });
+  const webGLRendererRight = useWebGLRenderer({
+    canvas: canvasRightRef,
+    width: window.innerWidth / 4,
+    stylePosition: 'right',
+  });
+  const { arToolkitContext: arToolkitContextLeft, arToolkitSource: arToolkitSourceLeft } = useArToolkitInit(
+    webGLRendererLeft,
+  );
+  const { arToolkitContext: arToolkitContextRight, arToolkitSource: arToolkitSourceRight } = useArToolkitInit(
+    webGLRendererRight,
+  );
   const [res, setRes] = useState<TwitterUserFavorite[] | null>(null);
+
+  console.log(res);
 
   useEffect(() => {
     getUser(screenName);
     if (!patternURL) return;
-    new THREEx.ArMarkerControls(arToolkitContext, group, {
+    new THREEx.ArMarkerControls(arToolkitContextRight, groupRight, {
+      type: 'pattern',
+      patternUrl: patternURL,
+      changeMatrixMode: 'modelViewMatrix',
+    });
+    new THREEx.ArMarkerControls(arToolkitContextLeft, groupLeft, {
       type: 'pattern',
       patternUrl: patternURL,
       changeMatrixMode: 'modelViewMatrix',
@@ -46,17 +73,12 @@ export const CameraContainer = memo(() => {
     getUserFavorites();
   }, [user]);
 
-  const mesh = useTextLoader(res);
+  const { textLoader: textLoaderLeft } = useTextLoader({ test: ['<'] });
+  const { textLoader: textLoaderRight } = useTextLoader({ test: ['>'] });
 
   useEffect(() => {
-    if (!mesh) return;
-    // mesh.map((mesh) => group.add(mesh));
-    group.add(mesh);
-  }, [mesh]);
-
-  useEffect(() => {
-    if (!mesh) return;
-    const handleClick = (event: MouseEvent) => {
+    const handleClick = (event: MouseEvent, string: string) => {
+      console.log(string);
       const element = event.target;
       if (!(element instanceof HTMLCanvasElement)) return;
       const rect = element.getBoundingClientRect();
@@ -70,14 +92,31 @@ export const CameraContainer = memo(() => {
       mouse.set(mouseX, mouseY, 0);
     };
 
-    if (!webGLRenderer) return;
-    webGLRenderer.domElement.addEventListener('click', handleClick);
+    if (!webGLRendererLeft) return;
+    if (!webGLRendererRight) return;
+    webGLRendererLeft.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
+    webGLRendererRight.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
     return () => {
-      webGLRenderer.domElement.removeEventListener('click', handleClick);
+      webGLRendererLeft.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
+      webGLRendererRight.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
     };
-  }, [mesh, webGLRenderer]);
+  }, [webGLRendererLeft, webGLRendererRight]);
 
-  useAnimationFrame({ arToolkitSource, arToolkitContext, webGLRenderer, mesh });
+  useEffect(() => {
+    groupLeft.add(textLoaderLeft);
+    groupRight.add(textLoaderRight);
+  }, [textLoaderLeft, textLoaderRight]);
 
-  return <WrappedCanvas ref={canvasRef} />;
+  useAnimationFrame({
+    arToolkitContext: [arToolkitContextLeft, arToolkitContextRight],
+    arToolkitSource: [arToolkitSourceLeft, arToolkitSourceRight],
+    webGLRenderer: [webGLRendererLeft, webGLRendererRight],
+  });
+
+  return (
+    <div>
+      <WrappedCanvas ref={canvasLeftRef} />
+      <WrappedCanvas ref={canvasRightRef} />
+    </div>
+  );
 });

@@ -1,41 +1,38 @@
 import { useEffect, useRef } from 'react';
-import { mouse, perspectiveCamera, scene } from '../container';
+import { mouse, perspectiveCamera, sceneRight, sceneLeft } from '../container';
 import { ArToolkitContext, ArToolkitSource } from '../types/THREEx';
 
-// const raycaster = new THREE.Raycaster();
-// const mouse = new THREE.Vector2();
 interface Props {
-  arToolkitSource: ArToolkitSource;
-  arToolkitContext: ArToolkitContext;
-  webGLRenderer: THREE.WebGLRenderer | null;
-  // intersection: THREE.Intersection[] | null;
-  mesh: THREE.TextSprite | null;
+  arToolkitSource: ArToolkitSource[];
+  arToolkitContext: ArToolkitContext[];
+  webGLRenderer: Array<THREE.WebGLRenderer | null>;
 }
 
-export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRenderer, mesh }: Props) => {
+export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRenderer }: Props) => {
   const requestRef = useRef(0);
   const raycaster = new THREE.Raycaster(perspectiveCamera.position);
 
   useEffect(() => {
-    // if (!intersection) return;
-    if (!mesh) return;
     const animate = () => {
-      if (arToolkitSource.ready) {
-        arToolkitContext.update(arToolkitSource.domElement);
-        scene.visible = perspectiveCamera.visible;
+      if (arToolkitSource[0].ready) {
+        arToolkitContext[0].update(arToolkitSource[0].domElement);
+        sceneLeft.visible = perspectiveCamera.visible;
       }
-      raycaster.setFromCamera(mouse, perspectiveCamera);
-      const intersection = raycaster.intersectObject(mesh);
-      if (intersection.length > 0 && mesh === intersection[0].object) {
-        mesh.material.color.setHex(0xff0000);
-      } else {
-        mesh.material.color.setHex(0xffffff);
+      if (arToolkitSource[1].ready) {
+        arToolkitContext[1].update(arToolkitSource[1].domElement);
+        sceneRight.visible = perspectiveCamera.visible;
       }
-      if (!webGLRenderer) return;
-      webGLRenderer.render(scene, perspectiveCamera);
+      if (!webGLRenderer[0]) return;
+      if (!webGLRenderer[1]) return;
+      webGLRenderer[0].render(sceneLeft, perspectiveCamera);
+      webGLRenderer[1].render(sceneRight, perspectiveCamera);
       requestRef.current = requestAnimationFrame(animate);
+
+      raycaster.setFromCamera(mouse, perspectiveCamera);
+      // const intersection = raycaster.intersectObject(circle);
+      // if (intersection.length > 0) {}
     };
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, [webGLRenderer, scene, perspectiveCamera, mouse, mesh]);
+  }, [webGLRenderer, sceneLeft, sceneRight, perspectiveCamera, mouse]);
 };
