@@ -24,7 +24,7 @@ export const CameraContainer = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const webGLRenderer = useWebGLRenderer(canvasRef);
   const { arToolkitContext, arToolkitSource } = useArToolkitInit(webGLRenderer);
-  const [res, retRes] = useState<TwitterUserFavorite[] | null>(null);
+  const [res, setRes] = useState<TwitterUserFavorite[] | null>(null);
 
   useEffect(() => {
     getUser(screenName);
@@ -41,7 +41,7 @@ export const CameraContainer = memo(() => {
     const getUserFavorites = async () => {
       const res = await fetchUserFavorites(user.screen_name);
       if (!res) return;
-      retRes(res);
+      setRes(res);
     };
     getUserFavorites();
   }, [user]);
