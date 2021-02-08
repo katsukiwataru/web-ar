@@ -16,7 +16,7 @@ const Top = loadable(
   { fallback: <Loading /> },
 );
 
-const User = loadable(
+const Camera = loadable(
   async () => {
     const { CameraPage } = await import(/* webpackChunkName: "user" */ '../../pages/camera/');
     return () => <CameraPage />;
@@ -39,7 +39,7 @@ export const Router = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Top} />
-        <Route exact path="/camera/:screenName" component={User} />
+        <Route exact path="/camera/:screenName" component={Camera} />
         <Route exact path="/marker/:screenName" component={Marker} />
       </Switch>
     </BrowserRouter>
