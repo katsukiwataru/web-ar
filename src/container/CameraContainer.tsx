@@ -68,6 +68,7 @@ export const CameraContainer = memo(() => {
   );
 
   const [res, setRes] = useState<TwitterUserFavorite[] | null>(null);
+  const [next, setNext] = useState(0);
 
   useEffect(() => {
     getUser(screenName);
@@ -101,11 +102,12 @@ export const CameraContainer = memo(() => {
 
   const contentsText = useMemo(() => {
     if (!res) return [''];
-    const httpsIndex = res[0].text.indexOf('https');
-    const text = res[0].text.slice(0, httpsIndex);
+    const httpsIndex = res[next].text.indexOf('https');
+    const text = res[next].text.slice(0, httpsIndex);
     const resultText = text.split(/(.{10})/).filter((e) => e);
+    console.log(resultText);
     return resultText;
-  }, [res]);
+  }, [res, next]);
 
   const { result: textLoaderCenter } = useTextLoader({ test: contentsText });
   const { result: textLoaderLeft } = useTextLoader({ test: REFT });
@@ -113,31 +115,35 @@ export const CameraContainer = memo(() => {
 
   // console.log(textLoaderLeft);
 
-  // useEffect(() => {
-  //   const handleClick = (event: MouseEvent, string: string) => {
-  //     console.log(string);
-  //     const element = event.target;
-  //     if (!(element instanceof HTMLCanvasElement)) return;
-  //     const rect = element.getBoundingClientRect();
-  //     const x = event.clientX - rect.left;
-  //     const y = event.clientY - rect.top;
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      const element = event.target;
+      if (!(element instanceof HTMLCanvasElement)) return;
+      const rect = element.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
 
-  //     const mouseX = (x / element.offsetWidth) * 2 - 1;
-  //     const mouseY = -(y / element.offsetHeight) * 2 + 1;
+      const mouseX = (x / element.offsetWidth) * 2 - 1;
+      const mouseY = -(y / element.offsetHeight) * 2 + 1;
 
-  //     mouse.unproject(perspectiveCamera);
-  //     mouse.set(mouseX, mouseY, 0);
-  //   };
+      mouse.unproject(perspectiveCamera);
+      mouse.set(mouseX, mouseY, 0);
+      // if (string === 'webGLRendererRight') {
+      //   setNext(1);
+      // }
+    };
 
-  //   if (!webGLRendererLeft) return;
-  //   if (!webGLRendererRight) return;
-  //   webGLRendererLeft.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
-  //   webGLRendererRight.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
-  //   return () => {
-  //     webGLRendererLeft.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
-  //     webGLRendererRight.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
-  //   };
-  // }, [webGLRendererLeft, webGLRendererRight]);
+    if (!webGLRendererCenter) return;
+    // if (!webGLRendererRight) return;
+    webGLRendererCenter.domElement.addEventListener('click', handleClick);
+    // webGLRendererLeft.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
+    // webGLRendererRight.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
+    return () => {
+      webGLRendererCenter.domElement.removeEventListener('click', handleClick);
+      // webGLRendererLeft.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
+      // webGLRendererRight.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
+    };
+  }, [webGLRendererCenter]);
 
   useEffect(() => {
     groupCenter.add(textLoaderRight);
@@ -155,6 +161,9 @@ export const CameraContainer = memo(() => {
     arToolkitContext: [arToolkitContextCenter],
     arToolkitSource: [arToolkitSourceCenter],
     webGLRenderer: [webGLRendererCenter],
+    // textLoader: [textLoaderCenter, textLoaderLeft, textLoaderRight],
+    textLoader: [textLoaderLeft, textLoaderRight],
+    setNext: setNext,
   });
 
   return (

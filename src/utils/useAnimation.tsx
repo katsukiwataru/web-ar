@@ -6,10 +6,14 @@ interface Props {
   arToolkitSource: ArToolkitSource[];
   arToolkitContext: ArToolkitContext[];
   webGLRenderer: Array<THREE.WebGLRenderer | null>;
+  textLoader: THREE.TextSprite[];
+  setNext: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRenderer }: Props) => {
-  const requestRef = useRef(0);
+export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRenderer, textLoader, setNext }: Props) => {
+  const requestAnimationRef = useRef(0);
+  const requestFetchRef = useRef(true);
+
   const raycaster = new THREE.Raycaster(perspectiveCamera.position);
 
   useEffect(() => {
@@ -32,13 +36,22 @@ export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRend
       webGLRenderer[0].render(sceneCenter, perspectiveCamera);
       // webGLRenderer[1].render(sceneRight, perspectiveCamera);
       // webGLRenderer[2].render(sceneCenter, perspectiveCamera);
-      requestRef.current = requestAnimationFrame(animate);
-
+      requestAnimationRef.current = requestAnimationFrame(animate);
       raycaster.setFromCamera(mouse, perspectiveCamera);
-      // const intersection = raycaster.intersectObject(circle);
-      // if (intersection.length > 0) {}
+      const intersectionRight = raycaster.intersectObject(textLoader[1]);
+      if (intersectionRight.length > 0 && requestFetchRef.current) {
+        console.log('right click');
+        setNext(1);
+        requestFetchRef.current = false;
+      }
+      const intersectionLeft = raycaster.intersectObject(textLoader[0]);
+      if (intersectionLeft.length > 0 && requestFetchRef.current) {
+        console.log('left click');
+        setNext(0);
+        requestFetchRef.current = false;
+      }
     };
-    requestRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(requestRef.current);
-  }, [webGLRenderer, sceneCenter, perspectiveCamera, mouse]);
+    requestAnimationRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestAnimationRef.current);
+  }, [requestFetchRef.current, webGLRenderer, sceneCenter, perspectiveCamera, mouse, textLoader]);
 };
