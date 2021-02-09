@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { mouse, perspectiveCamera, sceneRight, sceneLeft } from '../container';
+import { mouse, perspectiveCamera, sceneCenter } from '../container';
 import { ArToolkitContext, ArToolkitSource } from '../types/THREEx';
 
 interface Props {
@@ -16,16 +16,22 @@ export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRend
     const animate = () => {
       if (arToolkitSource[0].ready) {
         arToolkitContext[0].update(arToolkitSource[0].domElement);
-        sceneLeft.visible = perspectiveCamera.visible;
+        sceneCenter.visible = perspectiveCamera.visible;
       }
-      if (arToolkitSource[1].ready) {
-        arToolkitContext[1].update(arToolkitSource[1].domElement);
-        sceneRight.visible = perspectiveCamera.visible;
-      }
+      // if (arToolkitSource[1].ready) {
+      //   arToolkitContext[1].update(arToolkitSource[1].domElement);
+      //   sceneRight.visible = perspectiveCamera.visible;
+      // }
+      // if (arToolkitSource[2].ready) {
+      //   arToolkitContext[2].update(arToolkitSource[1].domElement);
+      //   sceneCenter.visible = perspectiveCamera.visible;
+      // }
       if (!webGLRenderer[0]) return;
-      if (!webGLRenderer[1]) return;
-      webGLRenderer[0].render(sceneLeft, perspectiveCamera);
-      webGLRenderer[1].render(sceneRight, perspectiveCamera);
+      // if (!webGLRenderer[1]) return;
+      // if (!webGLRenderer[2]) return;
+      webGLRenderer[0].render(sceneCenter, perspectiveCamera);
+      // webGLRenderer[1].render(sceneRight, perspectiveCamera);
+      // webGLRenderer[2].render(sceneCenter, perspectiveCamera);
       requestRef.current = requestAnimationFrame(animate);
 
       raycaster.setFromCamera(mouse, perspectiveCamera);
@@ -34,5 +40,5 @@ export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRend
     };
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, [webGLRenderer, sceneLeft, sceneRight, perspectiveCamera, mouse]);
+  }, [webGLRenderer, sceneCenter, perspectiveCamera, mouse]);
 };
