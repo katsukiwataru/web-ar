@@ -15,8 +15,13 @@ export const TopContainer = memo(() => {
   const history = useHistory();
 
   useEffect(() => {
-    const videoEl = document.getElementsByTagName('video');
-    if (videoEl.length) videoEl[0].remove();
+    const element = document.querySelectorAll('video');
+    if (element[1]) {
+      element[1].remove();
+    }
+    if (element[0]) {
+      element[0].remove();
+    }
   }, []);
 
   const onChange = useCallback((event: React.FormEvent<HTMLInputElement>): void => {
