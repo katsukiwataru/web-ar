@@ -13,11 +13,20 @@ export const MarkerTemplate = memo<Props>(({ user, markerURL }) => {
         justifyContent: 'center',
         alignItems: 'center',
         flexFlow: 'column',
-        margin: 70,
       }}
     >
       {user && <p>@{user.screen_name}</p>}
-      {markerURL && <img src={markerURL} alt="marker" />}
+      {markerURL && (
+        <img
+          src={markerURL}
+          alt="marker"
+          style={{
+            width: 100 + '%',
+            height: 100 + '%',
+            maxWidth: 580 + 'px',
+          }}
+        />
+      )}
     </div>
   );
 });

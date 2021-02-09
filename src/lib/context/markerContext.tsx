@@ -33,7 +33,7 @@ export const MarkerContextProvider: FC = ({ children }) => {
       const imgData = await imgDataRes.blob();
       const imgLocalURL = URL.createObjectURL(imgData);
       const markerUrl: string = await new Promise((resolve) => {
-        THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 512, 'black', (markerUrl) => {
+        THREEx.ArPatternFile.buildFullMarker(imgLocalURL, 0.5, 2500, 'black', (markerUrl) => {
           resolve(markerUrl);
         });
       });
