@@ -1,16 +1,12 @@
 import { useMemo } from 'react';
+import { REFT, RIGHT } from '../container';
 
 interface Props {
   test: string[];
 }
-// export const useTextLoader = (res: TwitterUserFavorite[] | null) => {
+
 export const useTextLoader = ({ test }: Props) => {
   const textLoader = useMemo(() => {
-    // if (!res) return null;
-    // return res.slice(0, 1).map((r) => {
-    // const httpsIndex = res[0].text.indexOf('https');
-    // const text = res[0].text.slice(0, httpsIndex);
-    // const resultText = text.split(/(.{10})/).filter((e) => e);
     return new THREE.TextSprite({
       alignment: 'center',
       color: '#000000',
@@ -24,7 +20,20 @@ export const useTextLoader = ({ test }: Props) => {
       // text: resultText.join('\n'),
     });
     // });
-  }, []);
+  }, [test]);
 
-  return { textLoader };
+  // console.log(textLoader, textLoader.position.set(10, 10, 10));
+
+  const result = useMemo(() => {
+    if (test === REFT) {
+      textLoader.position.set(-3, 1, 1);
+      return textLoader;
+    } else if (test === RIGHT) {
+      textLoader.position.set(3, 1, 1);
+      return textLoader;
+    }
+    return textLoader;
+  }, [textLoader]);
+
+  return { result };
 };
