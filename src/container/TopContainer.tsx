@@ -16,6 +16,9 @@ export const TopContainer = memo(() => {
 
   useEffect(() => {
     const element = document.querySelectorAll('video');
+    if (element[2]) {
+      element[2].remove();
+    }
     if (element[1]) {
       element[1].remove();
     }
