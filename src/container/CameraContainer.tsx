@@ -67,7 +67,6 @@ export const CameraContainer = memo(() => {
     const httpsIndex = res[next].text.indexOf('https');
     const text = res[next].text.slice(0, httpsIndex);
     const resultText = text.split(/(.{10})/).filter((e) => e);
-    console.log(resultText);
     return resultText;
   }, [res, next]);
 
@@ -128,7 +127,11 @@ export const CameraContainer = memo(() => {
   }, [textLoaderLeft]);
 
   useEffect(() => {
+    if (!textLoaderCenter.text) return;
     groupCenter.add(textLoaderCenter);
+    if (groupCenter.children.length === 4) {
+      groupCenter.remove(groupCenter.children[groupCenter.children.length - 2]);
+    }
   }, [textLoaderCenter]);
 
   useAnimationFrame({
