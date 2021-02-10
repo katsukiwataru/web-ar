@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { WrappedCanvas } from '../components/CanvasRef';
 import { fetchUserFavorites } from '../lib/api';
@@ -75,6 +75,14 @@ export const CameraContainer = memo(() => {
   const { result: textLoaderLeft } = useTextLoader({ test: REFT });
   const { result: textLoaderRight } = useTextLoader({ test: RIGHT });
 
+  const handleEventClick = useCallback((param: 'left' | 'right') => {
+    if (param === 'right') {
+      setNext(1);
+    } else {
+      setNext(0);
+    }
+  }, []);
+
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const element = event.target;
@@ -88,6 +96,20 @@ export const CameraContainer = memo(() => {
 
       mouse.unproject(perspectiveCamera);
       mouse.set(mouseX, mouseY, 0);
+
+      const raycaster = new THREE.Raycaster(perspectiveCamera.position);
+
+      raycaster.setFromCamera(mouse, perspectiveCamera);
+
+      const intersectionLeft = raycaster.intersectObject(textLoaderLeft);
+      if (intersectionLeft.length > 0) {
+        handleEventClick('left');
+      }
+
+      const intersectionRight = raycaster.intersectObject(textLoaderRight);
+      if (intersectionRight.length > 0) {
+        handleEventClick('right');
+      }
     };
 
     if (!webGLRendererCenter) return;
@@ -95,7 +117,7 @@ export const CameraContainer = memo(() => {
     return () => {
       webGLRendererCenter.domElement.removeEventListener('click', handleClick);
     };
-  }, [webGLRendererCenter]);
+  }, [mouse, webGLRendererCenter]);
 
   useEffect(() => {
     groupCenter.add(textLoaderRight);
@@ -113,8 +135,6 @@ export const CameraContainer = memo(() => {
     arToolkitContext: [arToolkitContextCenter],
     arToolkitSource: [arToolkitSourceCenter],
     webGLRenderer: [webGLRendererCenter],
-    textLoader: [textLoaderLeft, textLoaderRight],
-    setNext: setNext,
   });
 
   return (
