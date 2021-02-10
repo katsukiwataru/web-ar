@@ -26,10 +26,10 @@ export const useTextLoader = ({ test }: Props) => {
 
   const result = useMemo(() => {
     if (test === REFT) {
-      textLoader.position.set(-3, 1, 1);
+      textLoader.position.set(-6, 1, 1);
       return textLoader;
     } else if (test === RIGHT) {
-      textLoader.position.set(3, 1, 1);
+      textLoader.position.set(6, 1, 1);
       return textLoader;
     }
     return textLoader;
