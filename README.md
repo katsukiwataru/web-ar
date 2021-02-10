@@ -2,6 +2,11 @@
 
 Web AR app for graduation production
 
+## deploy
+- vercel
+- https://vercel.com/watarukatsuki/web-ar
+- https://web-ar-three.vercel.app/
+
 ## config SSL for development environment
 
 ### install mkcert
