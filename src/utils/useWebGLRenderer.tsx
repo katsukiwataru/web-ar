@@ -22,7 +22,6 @@ export const useWebGLRenderer = ({ canvas, width, stylePosition }: Props) => {
     });
     webGLRenderer.setPixelRatio(window.devicePixelRatio);
     webGLRenderer.setClearColor(new THREE.Color(), 0);
-    // webGLRenderer.setSize(640, 480);
     webGLRenderer.setSize(width, window.innerHeight);
     webGLRenderer.domElement.style.position = 'fixed';
     webGLRenderer.domElement.style.top = '0px';

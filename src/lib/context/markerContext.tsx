@@ -20,7 +20,6 @@ export const useMarkerContext = (): Marker => useContext(Marker);
 
 export const MarkerContextProvider: FC = ({ children }) => {
   const { userContext } = useUserContext();
-  // const mounted = useRef(true);
   const { user } = userContext;
   const [patternURL, setPatternURL] = useState<string | null>(null);
   const [markerURL, setMarkerURL] = useState<string | null>(null);
