@@ -22,20 +22,8 @@ export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRend
         arToolkitContext[0].update(arToolkitSource[0].domElement);
         sceneCenter.visible = perspectiveCamera.visible;
       }
-      // if (arToolkitSource[1].ready) {
-      //   arToolkitContext[1].update(arToolkitSource[1].domElement);
-      //   sceneRight.visible = perspectiveCamera.visible;
-      // }
-      // if (arToolkitSource[2].ready) {
-      //   arToolkitContext[2].update(arToolkitSource[1].domElement);
-      //   sceneCenter.visible = perspectiveCamera.visible;
-      // }
       if (!webGLRenderer[0]) return;
-      // if (!webGLRenderer[1]) return;
-      // if (!webGLRenderer[2]) return;
       webGLRenderer[0].render(sceneCenter, perspectiveCamera);
-      // webGLRenderer[1].render(sceneRight, perspectiveCamera);
-      // webGLRenderer[2].render(sceneCenter, perspectiveCamera);
       requestAnimationRef.current = requestAnimationFrame(animate);
       raycaster.setFromCamera(mouse, perspectiveCamera);
       const intersectionRight = raycaster.intersectObject(textLoader[1]);
