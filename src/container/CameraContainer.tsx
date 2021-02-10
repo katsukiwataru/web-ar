@@ -74,13 +74,19 @@ export const CameraContainer = memo(() => {
   const { result: textLoaderLeft } = useTextLoader({ test: REFT });
   const { result: textLoaderRight } = useTextLoader({ test: RIGHT });
 
-  const handleEventClick = useCallback((param: 'left' | 'right') => {
-    if (param === 'right') {
-      setNext(1);
-    } else {
-      setNext(0);
-    }
-  }, []);
+  const handleEventClick = useCallback(
+    (param: 'left' | 'right') => {
+      if (param === 'right') {
+        setNext((curr) => curr + 1);
+      } else {
+        setNext((curr) => {
+          if (next >= 1) return 0;
+          return curr - 1;
+        });
+      }
+    },
+    [next],
+  );
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
