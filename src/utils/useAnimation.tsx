@@ -42,13 +42,13 @@ export const useAnimationFrame = ({ arToolkitSource, arToolkitContext, webGLRend
       if (intersectionRight.length > 0 && requestFetchRef.current) {
         console.log('right click');
         setNext(1);
-        requestFetchRef.current = false;
+        // requestFetchRef.current = false;
       }
       const intersectionLeft = raycaster.intersectObject(textLoader[0]);
       if (intersectionLeft.length > 0 && requestFetchRef.current) {
         console.log('left click');
         setNext(0);
-        requestFetchRef.current = false;
+        // requestFetchRef.current = false;
       }
     };
     requestAnimationRef.current = requestAnimationFrame(animate);
