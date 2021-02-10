@@ -8,26 +8,16 @@ import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } 
 export const REFT = ['<'];
 export const RIGHT = ['>'];
 
-// export const sceneLeft = new THREE.Scene();
-// export const sceneRight = new THREE.Scene();
 export const sceneCenter = new THREE.Scene();
 
-// export const groupLeft = new THREE.Group();
-// export const groupRight = new THREE.Group();
 export const groupCenter = new THREE.Group();
 
 export const perspectiveCamera = new THREE.PerspectiveCamera();
 export const mouse = new THREE.Vector3();
 
-// sceneLeft.add(perspectiveCamera);
-// sceneRight.add(perspectiveCamera);
 sceneCenter.add(perspectiveCamera);
 
-// sceneLeft.add(groupLeft);
-// sceneRight.add(groupRight);
 sceneCenter.add(groupCenter);
-// sceneCenter.add(groupLeft);
-// sceneCenter.add(groupRight);
 
 export const CameraContainer = memo(() => {
   const { userContext } = useUserContext();
@@ -37,32 +27,14 @@ export const CameraContainer = memo(() => {
     params: { screenName },
   } = useRouteMatch<{ screenName: string }>();
 
-  // const canvasLeftRef = useRef<HTMLCanvasElement | null>(null);
-  // const canvasRightRef = useRef<HTMLCanvasElement | null>(null);
   const canvasCenterRef = useRef<HTMLCanvasElement | null>(null);
 
-  // const webGLRendererLeft = useWebGLRenderer({
-  //   canvas: canvasLeftRef,
-  //   width: window.innerWidth / 4,
-  //   stylePosition: 'left',
-  // });
-  // const webGLRendererRight = useWebGLRenderer({
-  //   canvas: canvasRightRef,
-  //   width: window.innerWidth / 4,
-  //   stylePosition: 'right',
-  // });
   const webGLRendererCenter = useWebGLRenderer({
     canvas: canvasCenterRef,
     width: window.innerWidth,
     stylePosition: 'left',
   });
 
-  // const { arToolkitContext: arToolkitContextLeft, arToolkitSource: arToolkitSourceLeft } = useArToolkitInit(
-  //   webGLRendererLeft,
-  // );
-  // const { arToolkitContext: arToolkitContextRight, arToolkitSource: arToolkitSourceRight } = useArToolkitInit(
-  //   webGLRendererRight,
-  // );
   const { arToolkitContext: arToolkitContextCenter, arToolkitSource: arToolkitSourceCenter } = useArToolkitInit(
     webGLRendererCenter,
   );
@@ -78,16 +50,6 @@ export const CameraContainer = memo(() => {
       patternUrl: patternURL,
       changeMatrixMode: 'modelViewMatrix',
     });
-    // new THREEx.ArMarkerControls(arToolkitContextRight, groupRight, {
-    //   type: 'pattern',
-    //   patternUrl: patternURL,
-    //   changeMatrixMode: 'modelViewMatrix',
-    // });
-    // new THREEx.ArMarkerControls(arToolkitContextLeft, groupLeft, {
-    //   type: 'pattern',
-    //   patternUrl: patternURL,
-    //   changeMatrixMode: 'modelViewMatrix',
-    // });
   }, [screenName, patternURL]);
 
   useEffect(() => {
@@ -113,8 +75,6 @@ export const CameraContainer = memo(() => {
   const { result: textLoaderLeft } = useTextLoader({ test: REFT });
   const { result: textLoaderRight } = useTextLoader({ test: RIGHT });
 
-  // console.log(textLoaderLeft);
-
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const element = event.target;
@@ -128,20 +88,12 @@ export const CameraContainer = memo(() => {
 
       mouse.unproject(perspectiveCamera);
       mouse.set(mouseX, mouseY, 0);
-      // if (string === 'webGLRendererRight') {
-      //   setNext(1);
-      // }
     };
 
     if (!webGLRendererCenter) return;
-    // if (!webGLRendererRight) return;
     webGLRendererCenter.domElement.addEventListener('click', handleClick);
-    // webGLRendererLeft.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
-    // webGLRendererRight.domElement.addEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
     return () => {
       webGLRendererCenter.domElement.removeEventListener('click', handleClick);
-      // webGLRendererLeft.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererLeft'));
-      // webGLRendererRight.domElement.removeEventListener('click', (e) => handleClick(e, 'webGLRendererRight'));
     };
   }, [webGLRendererCenter]);
 
@@ -161,7 +113,6 @@ export const CameraContainer = memo(() => {
     arToolkitContext: [arToolkitContextCenter],
     arToolkitSource: [arToolkitSourceCenter],
     webGLRenderer: [webGLRendererCenter],
-    // textLoader: [textLoaderCenter, textLoaderLeft, textLoaderRight],
     textLoader: [textLoaderLeft, textLoaderRight],
     setNext: setNext,
   });
@@ -169,8 +120,6 @@ export const CameraContainer = memo(() => {
   return (
     <div>
       <WrappedCanvas ref={canvasCenterRef} />
-      {/* <WrappedCanvas ref={canvasLeftRef} />
-      <WrappedCanvas ref={canvasRightRef} /> */}
     </div>
   );
 });
