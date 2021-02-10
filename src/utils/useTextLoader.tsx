@@ -17,12 +17,9 @@ export const useTextLoader = ({ test }: Props) => {
       backgroundColor: '#ffffff',
       fontStyle: 'normal',
       text: test.join('\n'),
-      // text: resultText.join('\n'),
     });
     // });
   }, [test]);
-
-  // console.log(textLoader, textLoader.position.set(10, 10, 10));
 
   const result = useMemo(() => {
     if (test === REFT) {
