@@ -1,8 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { WrappedCanvas } from '../components/CanvasRef';
 import { fetchUserFavorites } from '../lib/api';
 import { useMarkerContext, useUserContext } from '../lib/context';
+import { initialPage, reducer } from '../lib/reducer';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../utils';
 
 export const REFT = ['<'];
@@ -40,7 +41,8 @@ export const CameraContainer = memo(() => {
   );
 
   const [res, setRes] = useState<TwitterUserFavorite[] | null>(null);
-  const [next, setNext] = useState(0);
+  const [state, dispatch] = useReducer(reducer, initialPage);
+  const { pageNumber } = state;
 
   useEffect(() => {
     getUser(screenName);
@@ -64,29 +66,23 @@ export const CameraContainer = memo(() => {
 
   const contentsText = useMemo(() => {
     if (!res) return [''];
-    const httpsIndex = res[next].text.indexOf('https');
-    const text = res[next].text.slice(0, httpsIndex);
+    const httpsIndex = res[pageNumber].text.indexOf('https');
+    const text = res[pageNumber].text.slice(0, httpsIndex);
     const resultText = text.split(/(.{10})/).filter((e) => e);
     return resultText;
-  }, [res, next]);
+  }, [res, pageNumber]);
 
   const { result: textLoaderCenter } = useTextLoader({ test: contentsText });
   const { result: textLoaderLeft } = useTextLoader({ test: REFT });
   const { result: textLoaderRight } = useTextLoader({ test: RIGHT });
 
-  const handleEventClick = useCallback(
-    (param: 'left' | 'right') => {
-      if (param === 'right') {
-        setNext((curr) => curr + 1);
-      } else {
-        setNext((curr) => {
-          if (next >= 1) return 0;
-          return curr - 1;
-        });
-      }
-    },
-    [next],
-  );
+  const increment = useCallback(() => {
+    dispatch({ type: 'increment' });
+  }, []);
+
+  const decrement = useCallback(() => {
+    dispatch({ type: 'decrement' });
+  }, []);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -108,12 +104,12 @@ export const CameraContainer = memo(() => {
 
       const intersectionLeft = raycaster.intersectObject(textLoaderLeft);
       if (intersectionLeft.length > 0) {
-        handleEventClick('left');
+        decrement();
       }
 
       const intersectionRight = raycaster.intersectObject(textLoaderRight);
       if (intersectionRight.length > 0) {
-        handleEventClick('right');
+        increment();
       }
     };
 
