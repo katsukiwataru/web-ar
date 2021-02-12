@@ -12,13 +12,10 @@ export const useTextLoader = ({ test }: Props) => {
       color: '#000000',
       fontFamily: '"Times New Roman", Times, serif',
       fontSize: 1,
-      // lineGap: 0.5,
-      // padding: 1,
       backgroundColor: '#ffffff',
       fontStyle: 'normal',
       text: test.join('\n'),
     });
-    // });
   }, [test]);
 
   const result = useMemo(() => {
