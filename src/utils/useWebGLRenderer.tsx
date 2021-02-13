@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-type stylePosition = 'left' | 'right';
-
 interface Props {
   canvas: React.MutableRefObject<HTMLCanvasElement | null>;
-  width: number;
-  stylePosition: stylePosition;
 }
 
-export const useWebGLRenderer = ({ canvas, width, stylePosition }: Props) => {
+export const useWebGLRenderer = ({ canvas }: Props) => {
   const [webGLRenderer, setWebGLRenderer] = useState<THREE.WebGLRenderer | null>(null);
   const mounted = useRef(true);
 
@@ -22,14 +18,9 @@ export const useWebGLRenderer = ({ canvas, width, stylePosition }: Props) => {
     });
     webGLRenderer.setPixelRatio(window.devicePixelRatio);
     webGLRenderer.setClearColor(new THREE.Color(), 0);
-    webGLRenderer.setSize(width, window.innerHeight);
+    webGLRenderer.setSize(window.innerWidth, window.innerHeight);
     webGLRenderer.domElement.style.position = 'fixed';
     webGLRenderer.domElement.style.top = '0px';
-    if (stylePosition === 'left') {
-      webGLRenderer.domElement.style.left = '0px';
-    } else {
-      webGLRenderer.domElement.style.right = '0px';
-    }
     setWebGLRenderer(webGLRenderer);
     mounted.current = false;
   }, [canvas]);

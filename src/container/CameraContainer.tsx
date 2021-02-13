@@ -30,11 +30,7 @@ export const CameraContainer = memo(() => {
 
   const canvasCenterRef = useRef<HTMLCanvasElement | null>(null);
 
-  const webGLRendererCenter = useWebGLRenderer({
-    canvas: canvasCenterRef,
-    width: window.innerWidth,
-    stylePosition: 'left',
-  });
+  const webGLRendererCenter = useWebGLRenderer({ canvas: canvasCenterRef });
 
   const { arToolkitContext: arToolkitContextCenter, arToolkitSource: arToolkitSourceCenter } = useArToolkitInit(
     webGLRendererCenter,
