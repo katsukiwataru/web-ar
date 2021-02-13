@@ -7,6 +7,12 @@ Web AR app for graduation production
 - https://vercel.com/watarukatsuki/web-ar
 - https://web-ar-three.vercel.app/
 
+## usage
+- このアプリケーションは2つの画面が必要です。
+- 2つの画面に同じ ID を入れ、マーカーとカメラにしたい方を各々選択します。
+- カメラにマーカーかざすことで ID に紐付いているユーザーの「いいね」が見れます。
+- 左右のボタンとツイートをクリックすることができます。
+
 ## config SSL for development environment
 
 ### install mkcert
