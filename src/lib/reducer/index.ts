@@ -16,7 +16,10 @@ export const initialPage: State = {
 export const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case 'increment':
-      return { ...state, pageNumber: state.pageNumber + 1 };
+      if (state.pageNumber < 19) {
+        return { ...state, pageNumber: state.pageNumber + 1 };
+      }
+      return { ...state, pageNumber: state.pageNumber };
     case 'decrement':
       if (state.pageNumber > 1) {
         return { ...state, pageNumber: state.pageNumber - 1 };
