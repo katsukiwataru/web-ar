@@ -1,4 +1,6 @@
-const DEV_ORIGIN = 'https://192.168.11.101:3001';
+const DEV_IP = '192.168.11.101';
+
+const DEV_ORIGIN = `https://${DEV_IP}:3001`;
 
 const PRO_ORIGIN = 'https://secure-ridge-14179.herokuapp.com';
 
