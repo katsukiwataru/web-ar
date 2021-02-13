@@ -6,6 +6,13 @@ import { useMarkerContext, useUserContext } from '../lib/context';
 import { initialPage, reducer } from '../lib/reducer';
 import { useAnimationFrame, useArToolkitInit, useTextLoader, useWebGLRenderer } from '../utils';
 
+interface ResultContents {
+  resultText: string[];
+  link: string;
+}
+
+const TWITTER_FAVO_BASE_URL = 'https://twitter.com/hitoriblog/status';
+
 export const REFT = ['<'];
 export const RIGHT = ['>'];
 
@@ -60,17 +67,20 @@ export const CameraContainer = memo(() => {
     getUserFavorites();
   }, [user]);
 
-  const contentsText = useMemo(() => {
-    if (!res) return [''];
+  const resultContetns = useMemo<ResultContents>(() => {
+    if (!res) return { resultText: [''], link: '' };
     const httpsIndex = res[pageNumber].text.indexOf('https');
     const text = res[pageNumber].text.slice(0, httpsIndex);
-    const resultText = text.split(/(.{10})/).filter((e) => e);
-    return resultText;
+    const resultText = text.split(/(.{20})/).filter((e) => e);
+    const link = `${TWITTER_FAVO_BASE_URL}/${res[pageNumber].id_str}`;
+    return { resultText, link };
   }, [res, pageNumber]);
 
-  const { result: textLoaderCenter } = useTextLoader({ test: contentsText });
-  const { result: textLoaderLeft } = useTextLoader({ test: REFT });
-  const { result: textLoaderRight } = useTextLoader({ test: RIGHT });
+  const { resultText, link } = resultContetns;
+
+  const { textLoader: textLoaderCenter } = useTextLoader({ test: resultText });
+  const { textLoader: textLoaderLeft } = useTextLoader({ test: REFT });
+  const { textLoader: textLoaderRight } = useTextLoader({ test: RIGHT });
 
   const increment = useCallback(() => {
     dispatch({ type: 'increment' });
@@ -101,11 +111,19 @@ export const CameraContainer = memo(() => {
       const intersectionLeft = raycaster.intersectObject(textLoaderLeft);
       if (intersectionLeft.length > 0) {
         decrement();
+        return;
       }
 
       const intersectionRight = raycaster.intersectObject(textLoaderRight);
       if (intersectionRight.length > 0) {
         increment();
+        return;
+      }
+
+      const intersectionCenter = raycaster.intersectObject(textLoaderCenter);
+      if (intersectionCenter.length > 0) {
+        window.open(link, '_blank');
+        return;
       }
     };
 
@@ -114,7 +132,7 @@ export const CameraContainer = memo(() => {
     return () => {
       webGLRendererCenter.domElement.removeEventListener('click', handleClick);
     };
-  }, [mouse, webGLRendererCenter]);
+  }, [mouse, webGLRendererCenter, link]);
 
   useEffect(() => {
     groupCenter.add(textLoaderRight);
