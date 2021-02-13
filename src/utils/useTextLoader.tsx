@@ -7,7 +7,7 @@ interface Props {
 
 export const useTextLoader = ({ test }: Props) => {
   const textLoader = useMemo(() => {
-    return new THREE.TextSprite({
+    const textLoader = new THREE.TextSprite({
       alignment: 'center',
       color: '#000000',
       fontFamily: '"Times New Roman", Times, serif',
@@ -16,18 +16,17 @@ export const useTextLoader = ({ test }: Props) => {
       fontStyle: 'normal',
       text: test.join('\n'),
     });
-  }, [test]);
-
-  const result = useMemo(() => {
+    textLoader.material.opacity = 0.7;
     if (test === REFT) {
-      textLoader.position.set(-6, 1, 1);
+      textLoader.position.set(-3, -1, 1);
       return textLoader;
     } else if (test === RIGHT) {
-      textLoader.position.set(6, 1, 1);
+      textLoader.position.set(3, -1, 1);
       return textLoader;
     }
+    textLoader.position.set(0, 0, -1);
     return textLoader;
-  }, [textLoader]);
+  }, [test]);
 
-  return { result };
+  return { textLoader };
 };
